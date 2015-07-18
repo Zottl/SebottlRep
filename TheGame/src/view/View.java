@@ -12,9 +12,9 @@ public class View extends JFrame {
     public int frameWidth = 800;
     public int frameHeight = 600;
     
-    private GameScreen gs;
-    
     ImageIcon frameIcon = new ImageIcon("resources/FrameIcon.gif");
+    
+    private GameScreen gs;
 
     public View() {
     	
