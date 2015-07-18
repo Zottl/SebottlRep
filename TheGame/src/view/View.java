@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Graphics;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class View extends JFrame {
@@ -12,10 +13,14 @@ public class View extends JFrame {
     public int frameHeight = 600;
     
     private GameScreen gs;
+    
+    ImageIcon frameIcon = new ImageIcon("resources/FrameIcon.gif");
 
     public View() {
+    	
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setTitle("Japanizer");
+        this.setTitle("TheGame");
+        this.setIconImage(frameIcon.getImage());
         
         this.setResizable(false);
         this.setVisible(true);
