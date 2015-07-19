@@ -10,7 +10,8 @@ import javax.imageio.ImageIO;
  * Abstract class for map tiles in the game
  *
  */
-public abstract class Tile {
+public abstract class Tile
+{
 
     private int x;
     private int y;
@@ -19,30 +20,44 @@ public abstract class Tile {
 
     private Image texture;
 
-    public Tile(int x, int y, boolean solid, String texturePath) {
+    public Tile(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Tile(int x, int y, boolean solid, String texturePath)
+    {
         this.x = x;
         this.y = y;
         this.solid = solid;
-        try {
+        try
+        {
             this.texture = ImageIO.read(Tile.class.getResource(texturePath));
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    public int getX() {
+    public int getX()
+    {
         return x;
     }
 
-    public int getY() {
+    public int getY()
+    {
         return y;
     }
 
-    public boolean isSolid() {
+    public boolean isSolid()
+    {
         return solid;
     }
 
-    public Image getTexture() {
+    public Image getTexture()
+    {
         return texture;
     }
 }

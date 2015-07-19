@@ -8,23 +8,26 @@ import java.awt.Graphics;
 import model.game.GrassTile;
 import model.game.Tile;
 
-public class GameScreen extends Canvas {
+public class GameScreen extends Canvas
+{
 
     private static final long serialVersionUID = 1L;
 
     private View view;
 
     private Tile testtile;
-    
-    public GameScreen(View view) {
+
+    public GameScreen(View view)
+    {
         this.view = view;
         Dimension dim = new Dimension(view.frameWidth, view.frameHeight);
         setPreferredSize(dim);
-        
+
         testtile = new GrassTile(60, 30);
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
         super.paint(g);
 
         g.setColor(Color.RED);

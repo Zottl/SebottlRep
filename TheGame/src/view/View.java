@@ -5,26 +5,28 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class View extends JFrame {
+public class View extends JFrame
+{
 
     private static final long serialVersionUID = 1L;
 
     public int frameWidth = 800;
     public int frameHeight = 600;
-    
+
     ImageIcon frameIcon = new ImageIcon("resources/FrameIcon.gif");
-    
+
     private GameScreen gs;
 
-    public View() {
+    public View()
+    {
         // call every screen once to initialize them now
         gs = new GameScreen(this);
         /* ... more screens ... */
-    	
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("TheGame");
         this.setIconImage(frameIcon.getImage());
-        
+
         this.setResizable(false);
         this.setVisible(true);
         this.setFocusable(true);
@@ -36,29 +38,36 @@ public class View extends JFrame {
      * @param SNr
      *            0->GameScreen, ...
      */
-    public void changeScreen(int SNr) {
+    public void changeScreen(int SNr)
+    {
         gs.setVisible(false);
         this.remove(gs);
         /* ... more screens ... */
 
-        switch (SNr) {
-        case (0): {
-            gs.setVisible(true);
-            this.add(gs);
-            break;
-        }
-        /* ... more screens ... */
+        switch (SNr)
+        {
+            case (0):
+            {
+                gs.setVisible(true);
+                this.add(gs);
+                break;
+            }
+            /* ... more screens ... */
         }
         this.pack();
         this.repaint();
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
         super.paint(g);
-        try {
+        try
+        {
             gs.repaint();
             /* ... more screens ... */
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
