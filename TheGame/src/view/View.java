@@ -17,6 +17,9 @@ public class View extends JFrame {
     private GameScreen gs;
 
     public View() {
+        // call every screen once to initialize them now
+        gs = new GameScreen(this);
+        /* ... more screens ... */
     	
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("TheGame");
@@ -25,10 +28,6 @@ public class View extends JFrame {
         this.setResizable(false);
         this.setVisible(true);
         this.setFocusable(true);
-
-        // call every screen once to initialize them now
-        gs = new GameScreen(this);
-        /* ... more screens ... */
 
         changeScreen(0);
     }
@@ -46,7 +45,6 @@ public class View extends JFrame {
         case (0): {
             gs.setVisible(true);
             this.add(gs);
-            System.out.println("Was here");
             break;
         }
         /* ... more screens ... */
@@ -61,8 +59,7 @@ public class View extends JFrame {
             gs.repaint();
             /* ... more screens ... */
         } catch (Exception e) {
-            System.err.println("Something went wrong repainting!");
-            System.exit(ERROR);
+            e.printStackTrace();
         }
     }
 }
