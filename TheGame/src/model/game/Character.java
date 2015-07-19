@@ -16,6 +16,8 @@ public abstract class Character
     private int y;
 
     private int speed;
+    
+    private GrassTile tile;
 
     // Constructor
     public Character(int x, int y, int speed)
@@ -25,26 +27,21 @@ public abstract class Character
         this.speed = speed;
     }
 
-    public void move(int dir, int amount)
+    public void move(int xTravel, int yTravel)
     {
+        if (!collision(xTravel, yTravel))
+        {
+            x += xTravel;
+            y += yTravel;
+        }
+    }
 
-        if (dir == DIR_UP && dir != DIR_DOWN)
-        {
-            y += amount;
-        }
-        else if (dir == DIR_DOWN && dir != DIR_UP)
-        {
-            y -= amount;
-        }
-
-        if (dir == DIR_RIGHT && dir != DIR_LEFT)
-        {
-            x += amount;
-        }
-        else if (dir == DIR_LEFT && dir != DIR_RIGHT)
-        {
-            x -= amount;
-        }
+    // method for handling collision
+    private boolean collision(int xTravel, int yTravel)
+    {
+        tile = new GrassTile(x + xTravel, y + yTravel);
+        
+        return tile.isSolid();
     }
 
     // get x coordinate of the character
