@@ -20,12 +20,6 @@ public abstract class Tile
 
     private Image texture;
 
-    public Tile(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-
     public Tile(int x, int y, boolean solid, String texturePath)
     {
         this.x = x;
