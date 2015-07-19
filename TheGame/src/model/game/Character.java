@@ -1,5 +1,9 @@
 package model.game;
 
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+
 /**
  * Abstract Class for movable entities in the game.
  *
@@ -16,15 +20,25 @@ public abstract class Character
     private int y;
 
     private int speed;
-    
+
+    private Image texture;
+
     private GrassTile tile;
 
     // Constructor
-    public Character(int x, int y, int speed)
+    public Character(int x, int y, int speed, String texturePath)
     {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        try
+        {
+            this.texture = ImageIO.read(Tile.class.getResource(texturePath));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void move(int xTravel, int yTravel)
@@ -40,7 +54,7 @@ public abstract class Character
     private boolean collision(int xTravel, int yTravel)
     {
         tile = new GrassTile(x + xTravel, y + yTravel);
-        
+
         return tile.isSolid();
     }
 
@@ -66,5 +80,11 @@ public abstract class Character
     public void setSpeed(int speed)
     {
         this.speed = speed;
+    }
+
+    // set character sprite
+    public Image getTexture()
+    {
+        return texture;
     }
 }
