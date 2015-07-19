@@ -24,7 +24,6 @@ public class View extends JFrame
         /* ... more screens ... */
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setTitle("TheGame");
         this.setIconImage(frameIcon.getImage());
 
         this.setResizable(false);
