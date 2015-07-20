@@ -7,8 +7,8 @@ public class Main
 
     public static void main(String[] args)
     {
-        View view = new View();
-        GameData gd = new GameData();
+        GameData gd = new GameData(2);
+        View view = new View(gd);
         GameControl gc = new GameControl(gd, view);
 
         gc.start();

@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import model.GameData;
+
 public class View extends JFrame
 {
 
@@ -13,17 +15,19 @@ public class View extends JFrame
     public int frameWidth = 800;
     public int frameHeight = 600;
 
-    ImageIcon frameIcon = new ImageIcon("resources/FrameIcon.gif");
-
+    private GameData data;
     private GameScreen gs;
 
-    public View()
+    public View(GameData data)
     {
+        this.data = data;
+
         // call every screen once to initialize them now
-        gs = new GameScreen(this);
+        gs = new GameScreen(this, data);
         /* ... more screens ... */
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        ImageIcon frameIcon = new ImageIcon("resources/FrameIcon.gif");
         this.setIconImage(frameIcon.getImage());
 
         this.setResizable(false);

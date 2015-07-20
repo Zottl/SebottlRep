@@ -1,4 +1,4 @@
-package model.game;
+package model.game.tiles;
 
 import java.awt.Image;
 import java.io.IOException;

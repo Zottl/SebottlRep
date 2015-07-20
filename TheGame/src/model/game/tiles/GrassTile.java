@@ -1,4 +1,4 @@
-package model.game;
+package model.game.tiles;
 
 public class GrassTile extends Tile
 {

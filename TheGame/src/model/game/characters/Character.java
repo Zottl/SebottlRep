@@ -1,12 +1,16 @@
-package model.game;
+package model.game.characters;
 
 import java.awt.Image;
+
 import javax.imageio.ImageIO;
+
+import model.game.tiles.GrassTile;
+import model.game.tiles.Tile;
+
 import java.io.IOException;
 
 /**
  * Abstract Class for movable entities in the game.
- *
  */
 public abstract class Character
 {

@@ -1,4 +1,4 @@
-package model.game;
+package model.game.characters;
 
 public class Player extends Character
 {
