@@ -19,7 +19,6 @@ public class GameData
      */
     public GameData(int mapID)
     {
-        super();
         changeMap(mapID);
         this.player = new Player(35, 35);
     }

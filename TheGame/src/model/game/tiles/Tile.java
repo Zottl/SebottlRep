@@ -1,9 +1,11 @@
 package model.game.tiles;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import model.game.sprites.Sprite;
 
 /**
  * 
@@ -18,21 +20,14 @@ public abstract class Tile
 
     private boolean solid;
 
-    private Image texture;
+    private Sprite sprite;
 
-    public Tile(int x, int y, boolean solid, String texturePath)
+    public Tile(int x, int y, boolean solid, Sprite sprite)
     {
         this.x = x;
         this.y = y;
         this.solid = solid;
-        try
-        {
-            this.texture = ImageIO.read(Tile.class.getResource(texturePath));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        this.sprite = sprite;
     }
 
     public int getX()
@@ -50,8 +45,8 @@ public abstract class Tile
         return solid;
     }
 
-    public Image getTexture()
+    public Sprite getSprite()
     {
-        return texture;
+        return sprite;
     }
 }
