@@ -46,7 +46,7 @@ public class GameControl
                 delta--;
             }
 
-            view.repaint();
+            view.render();
             frames++;
 
             // gets called every second

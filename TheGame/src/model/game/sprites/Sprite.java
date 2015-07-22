@@ -6,7 +6,7 @@ public class Sprite
      * Width and Height of the sprite in pixels. Sprites have to be square in
      * this game.
      */
-    private final int SIZE;
+    public final int SIZE;
 
     private Spritesheet sheet;
     private int x;
@@ -29,6 +29,7 @@ public class Sprite
         this.x = x;
         this.y = y;
         this.SIZE = size;
+        pixels = new int[SIZE * SIZE];
         load();
     }
 

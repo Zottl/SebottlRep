@@ -8,8 +8,6 @@ import model.game.maps.GrassMap02;
 public class GameData
 {
 
-    public static final int TILE_SIZE = 30;
-
     private GameMap currentMap;
     private Player player;
 
