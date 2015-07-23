@@ -14,14 +14,10 @@ public class Sprite
 
     private int[] pixels;
 
-    public static final Sprite grass01 = new Sprite(
-            Spritesheet.floorSpritesheet, 0, 0, 16);
-    public static final Sprite dirt01 = new Sprite(
-            Spritesheet.floorSpritesheet, 1, 0, 16);
-    public static final Sprite wall01 = new Sprite(Spritesheet.wallSpritesheet,
-            0, 0, 16);
-    public static final Sprite player01 = new Sprite(
-            Spritesheet.characterSpritesheet, 0, 0, 16);
+    public static final Sprite grass01 = new Sprite(Spritesheet.floorSpritesheet, 0, 0, 16);
+    public static final Sprite dirt01 = new Sprite(Spritesheet.floorSpritesheet, 1, 0, 16);
+    public static final Sprite wall01 = new Sprite(Spritesheet.wallSpritesheet, 0, 0, 16);
+    public static final Sprite player01 = new Sprite(Spritesheet.characterSpritesheet, 0, 0, 16);
 
     public Sprite(Spritesheet sheet, int x, int y, int size)
     {
@@ -43,8 +39,7 @@ public class Sprite
         {
             for (int y = 0; y < SIZE; y++)
             {
-                pixels[x + y * SIZE] = sheet.getPixel((x + this.x * SIZE)
-                        + (y + this.y * SIZE) * sheet.SIZE);
+                pixels[x + y * SIZE] = sheet.getPixel((x + this.x * SIZE) + (y + this.y * SIZE) * sheet.SIZE);
             }
         }
     }

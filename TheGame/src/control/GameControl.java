@@ -23,7 +23,7 @@ public class GameControl
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
         // create quotient
-        final double ns = 1000000000.0 / 60.0;
+        final double ns = 1000000000.0 / 10.0;
         // difference between start time and current time
         double delta = 0;
         // counter for frames per second
@@ -55,7 +55,7 @@ public class GameControl
                 // "reset" timer variable
                 timer += 1000;
                 System.out.println(updates + " ups, " + frames + " fps");
-                view.setTitle("| " + updates + " ups, " + frames + " fps" + "|");
+                view.setTitle("| " + updates + " ups, " + frames + " fps" + " |");
                 // reset frames and updates variables to start counting from 0
                 // at the start of every second
                 frames = 0;

@@ -1,10 +1,5 @@
 package model.game.tiles;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import model.game.sprites.Sprite;
 
 /**
@@ -14,6 +9,10 @@ import model.game.sprites.Sprite;
  */
 public abstract class Tile
 {
+    /**
+     * The size of a map tile is always 16 pixels
+     */
+    public static final int TILESIZE = 16;
 
     private int x;
     private int y;

@@ -19,12 +19,9 @@ public class Spritesheet
     private String path;
     private int[] pixels;
 
-    public static final Spritesheet floorSpritesheet = new Spritesheet(
-            "/spritesheets/FloorSpritesheet.png", 256);
-    public static final Spritesheet wallSpritesheet = new Spritesheet(
-            "/spritesheets/WallSpritesheet.png", 256);
-    public static final Spritesheet characterSpritesheet = new Spritesheet(
-            "/spritesheets/CharacterSpritesheet.png", 256);
+    public static final Spritesheet floorSpritesheet = new Spritesheet("/spritesheets/FloorSpritesheet.png", 256);
+    public static final Spritesheet wallSpritesheet = new Spritesheet("/spritesheets/WallSpritesheet.png", 256);
+    public static final Spritesheet characterSpritesheet = new Spritesheet("/spritesheets/CharacterSpritesheet.png", 256);
 
     public Spritesheet(String path, int size)
     {

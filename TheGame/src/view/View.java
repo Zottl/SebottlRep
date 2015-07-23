@@ -9,32 +9,29 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import model.GameData;
-import model.game.sprites.Sprite;
 
 public class View extends JFrame
 {
 
     private static final long serialVersionUID = 1L;
 
-    // windows size variables
-    public static int width = 300;
-    public static int height = width / 16 * 9;
-    public static int scale = 3;
-    
-    public int xOffset = 0;
-    public int yOffset = 0;
+    // window size variables
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = (int) (WIDTH / 16.0 * 9.0);
+    public static final int SCALE = 3;
 
-    private GameData data;
+    public int xOffset;
+    public int yOffset;
+
     private GameScreen gs;
-    
+
     // creating image
-    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    // accessing image              // converting image object into an array of integers            
-    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+    private BufferedImage image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, BufferedImage.TYPE_INT_RGB);
+    // accessing image // converting image object into an array of integers
+    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     public View(GameData data)
     {
-        this.data = data;
 
         // call every screen once to initialize them now
         gs = new GameScreen(this, data);
@@ -74,34 +71,25 @@ public class View extends JFrame
         this.render();
         this.pack();
     }
-    
-    public void clear()
-    {
-        // loop over every pixel and set it to 0
-        for (int i = 0; i < pixels.length; i++)
-        {
-            pixels[i] = 0;
-        }
-    }
 
     public void render()
     {
-        BufferStrategy bs = getBufferStrategy();
-        
+        BufferStrategy bs = gs.getBufferStrategy();
+
         if (bs == null)
         {
-            createBufferStrategy(3);
+            gs.createBufferStrategy(3);
             return;
         }
-        
-        this.clear();
+
+        gs.clear();
         gs.render(xOffset, yOffset);
-        
+
         for (int i = 0; i < pixels.length; i++)
         {
             pixels[i] = gs.getPixel(i);
         }
-        
+
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         g.dispose();

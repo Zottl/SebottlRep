@@ -122,7 +122,7 @@ public abstract class GameMap
     }
 
     /**
-     * @return The width of this map
+     * @return The width of this map (in tiles)
      */
     public int getWidth()
     {
@@ -130,7 +130,7 @@ public abstract class GameMap
     }
 
     /**
-     * @return The height of this map
+     * @return The height of this map (in tiles)
      */
     public int getHeight()
     {
