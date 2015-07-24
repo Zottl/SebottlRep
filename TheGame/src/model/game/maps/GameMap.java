@@ -5,7 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import model.game.tiles.DirtTile;
-import model.game.tiles.GrassTile;
+import model.game.tiles.Grass01Tile;
+import model.game.tiles.Grass02Tile;
+import model.game.tiles.Grass03Tile;
+import model.game.tiles.Grass04Tile;
 import model.game.tiles.Tile;
 import model.game.tiles.WallTile;
 
@@ -59,11 +62,17 @@ public abstract class GameMap
         switch (id)
         {
             case 0:
-                return new GrassTile(x, y);
+                return new Grass01Tile(x, y);
             case 1:
                 return new DirtTile(x, y);
             case 2:
                 return new WallTile(x, y);
+            case 3:
+                return new Grass02Tile(x, y);
+            case 4:
+                return new Grass03Tile(x, y);
+            case 5:
+                return new Grass04Tile(x, y);
             default:
                 return null;
         }

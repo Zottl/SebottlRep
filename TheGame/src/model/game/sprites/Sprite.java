@@ -15,6 +15,9 @@ public class Sprite
     private int[] pixels;
 
     public static final Sprite grass01 = new Sprite(Spritesheet.floorSpritesheet, 0, 0, 16);
+    public static final Sprite grass02 = new Sprite(Spritesheet.floorSpritesheet, 2, 0, 16);
+    public static final Sprite grass03 = new Sprite(Spritesheet.floorSpritesheet, 3, 0, 16);
+    public static final Sprite grass04 = new Sprite(Spritesheet.floorSpritesheet, 4, 0, 16);
     public static final Sprite dirt01 = new Sprite(Spritesheet.floorSpritesheet, 1, 0, 16);
     public static final Sprite wall01 = new Sprite(Spritesheet.wallSpritesheet, 0, 0, 16);
     public static final Sprite player01 = new Sprite(Spritesheet.characterSpritesheet, 0, 0, 16);

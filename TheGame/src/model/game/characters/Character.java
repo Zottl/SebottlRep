@@ -1,7 +1,7 @@
 package model.game.characters;
 
 import model.game.sprites.Sprite;
-import model.game.tiles.GrassTile;
+import model.game.tiles.Grass01Tile;
 
 /**
  * Abstract Class for movable entities in the game.
@@ -21,7 +21,7 @@ public abstract class Character
 
     private Sprite sprite;
 
-    private GrassTile tile;
+    private Grass01Tile tile;
 
     // Constructor
     public Character(int x, int y, int speed, Sprite sprite)
@@ -44,7 +44,7 @@ public abstract class Character
     // method for handling collision
     private boolean collision(int xTravel, int yTravel)
     {
-        tile = new GrassTile(x + xTravel, y + yTravel);
+        tile = new Grass01Tile(x + xTravel, y + yTravel);
 
         return tile.isSolid();
     }
