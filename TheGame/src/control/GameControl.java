@@ -3,13 +3,14 @@ package control;
 import model.GameData;
 import view.View;
 
-public class GameControl
+public class GameControl implements Runnable
 {
 
     boolean running;
 
     GameData gd;
     View view;
+    Thread thread;
 
     public GameControl(GameData gd, View view)
     {
@@ -73,10 +74,24 @@ public class GameControl
     {
         running = true;
         run();
+        
+        // create and start thread called "Display"
+		thread = new Thread (this, "Display");
+		thread.start();
     }
 
     public void stop()
     {
         running = false;
+        
+     // close thread, if it fails print stack trace
+     		try 
+     		{
+     			thread.join();
+     		}
+     		catch (InterruptedException e)
+     		{
+     			e.printStackTrace();
+     		}
     }
 }
