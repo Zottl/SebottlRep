@@ -23,7 +23,7 @@ public class GameControl
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
         // create quotient
-        final double ns = 1000000000.0 / 10.0;
+        final double ns = 1000000000.0 / 60.0;
         // difference between start time and current time
         double delta = 0;
         // counter for frames per second
