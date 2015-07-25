@@ -1,15 +1,17 @@
 package model;
 
+import view.View;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.maps.GrassMap01;
 import model.game.maps.GrassMap02;
+import model.game.tiles.Tile;
 
 public class GameData
 {
 
     private GameMap currentMap;
-    private Player player;
+    public Player player;
 
     /**
      * @param mapID
@@ -18,7 +20,7 @@ public class GameData
     public GameData(int mapID)
     {
         changeMap(mapID);
-        this.player = new Player(35, 35);
+        this.player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, currentMap);
     }
 
     /**

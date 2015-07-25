@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -17,11 +18,8 @@ public class View extends JFrame
 
     // window size variables
     public static final int WIDTH = 300;
-    public static final int HEIGHT = (int) (WIDTH / 16.0 * 9.0);
+    public static final int HEIGHT = WIDTH / 16 * 9;
     public static final int SCALE = 3;
-
-    public int xOffset;
-    public int yOffset;
 
     private GameScreen gs;
 
@@ -32,7 +30,6 @@ public class View extends JFrame
 
     public View(GameData data)
     {
-
         // call every screen once to initialize them now
         gs = new GameScreen(this, data);
         /* ... more screens ... */
@@ -83,7 +80,7 @@ public class View extends JFrame
         }
 
         gs.clear();
-        gs.render(xOffset, yOffset);
+        gs.render();
 
         for (int i = 0; i < pixels.length; i++)
         {
@@ -95,4 +92,17 @@ public class View extends JFrame
         g.dispose();
         bs.show();
     }
+
+    public GameScreen getGameScreen()
+    {
+        return gs;
+    }
+
+    @Override
+    public synchronized void addKeyListener(KeyListener l)
+    {
+        super.addKeyListener(l);
+        gs.addKeyListener(l);
+    }
+    
 }

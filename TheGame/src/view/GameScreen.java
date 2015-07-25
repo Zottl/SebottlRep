@@ -15,8 +15,12 @@ public class GameScreen extends Canvas
     private static final long serialVersionUID = 1L;
 
     private GameData data;
+    private Player player;
 
     private int[] pixels;
+
+    public int xOffset;
+    public int yOffset;
 
     public GameScreen(View view, GameData data)
     {
@@ -30,39 +34,15 @@ public class GameScreen extends Canvas
 
     /**
      * Method responsible for rendering
-     * 
-     * @param xOffset
-     *            Current x offset of the view
-     * @param yOffset
-     *            Current y offset of the view
      */
-    public void render(int xOffset, int yOffset)
+    public void render()
     {
-        // Scaled parameters
-        int sTilesize = Tile.TILESIZE * View.SCALE;
-        int sWidth = View.WIDTH * View.SCALE;
-        int sHeight = View.HEIGHT * View.SCALE;
+        player = data.getPlayer();
 
-        // Limit Offset, so that the view never leaves the map
-        if (xOffset < 0)
-        {
-            xOffset = 0;
-        }
-        if (xOffset > data.getMap().getWidth() * sTilesize - sWidth)
-        {
-            xOffset = data.getMap().getWidth() * sTilesize - sWidth;
-        }
-        if (yOffset < 0)
-        {
-            yOffset = 0;
-        }
-        if (yOffset > data.getMap().getHeight() * sTilesize - sHeight)
-        {
-            yOffset = data.getMap().getHeight() * sTilesize - sHeight;
-        }
+        this.renderMap(data.getMap());
 
-        this.renderMap(data.getMap(), xOffset, yOffset);
-        this.renderSprite(new Player(10, 10).getSprite(), 10, 10, xOffset, yOffset);
+        // render player
+        this.renderSprite(player.getSprite(), player.getX(), player.getY());
     }
 
     /**
@@ -79,7 +59,7 @@ public class GameScreen extends Canvas
      * @param yOffset
      *            Current y offset of the view
      */
-    private void renderSprite(Sprite sprite, int x, int y, int xOffset, int yOffset)
+    private void renderSprite(Sprite sprite, int x, int y)
     {
         int size = sprite.SIZE;
 
@@ -108,22 +88,17 @@ public class GameScreen extends Canvas
                     // Only draw pixel if it is inside the view
                     if (xPos + ix < sWidth && yPos + iy < sHeight && xPos + ix >= 0 && yPos + iy >= 0)
                     {
-                        pixels[index + ix + iy * sWidth] = sprite.getPixel(px + py * size);
+                        int col = sprite.getPixel(px + py * size);
+                        int alph = col & 0xff000000;
+
+                        // do not render transparent
+                        if (alph != 0)
+                        {
+                            pixels[index + ix + iy * sWidth] = col;
+                        }
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Clear every pixel of the screen (set them to black)
-     */
-    public void clear()
-    {
-        // loop over every pixel and set it to 0
-        for (int i = 0; i < pixels.length; i++)
-        {
-            pixels[i] = 0;
         }
     }
 
@@ -137,7 +112,7 @@ public class GameScreen extends Canvas
      * @param yOffset
      *            Current y offset of the view
      */
-    private void renderMap(GameMap map, int xOffset, int yOffset)
+    private void renderMap(GameMap map)
     {
         // Scaled parameters
         int sTilesize = Tile.TILESIZE * View.SCALE;
@@ -147,14 +122,71 @@ public class GameScreen extends Canvas
         // Two loops running over the screen pixels.
         for (int px = 0; px < sWidth + sTilesize; px += sTilesize)
         {
+            if (px >= sWidth) px = sWidth - 1;
+
             for (int py = 0; py < sHeight + sTilesize; py += sTilesize)
             {
+                if (py >= sHeight) py = sHeight - 1;
+
                 int tileX = (px + xOffset) / sTilesize;
                 int tileY = (py + yOffset) / sTilesize;
                 Sprite sprite = map.getTile(tileX, tileY).getSprite();
 
-                renderSprite(sprite, tileX * Tile.TILESIZE, tileY * Tile.TILESIZE, xOffset, yOffset);
+                renderSprite(sprite, tileX * Tile.TILESIZE, tileY * Tile.TILESIZE);
+
+                if (py == sHeight - 1) break;
             }
+
+            if (px == sWidth - 1) break;
+        }
+    }
+
+    /**
+     * Center the screen at a certain coordinate
+     * 
+     * @param x
+     *            x coordinate to center
+     * 
+     * @param y
+     *            y coordinate to center
+     */
+    public void centerScreen(int x, int y)
+    {
+        int sWidth = View.WIDTH * View.SCALE;
+        int sHeight = View.HEIGHT * View.SCALE;
+        int sTilesize = Tile.TILESIZE * View.SCALE;
+
+        xOffset = x * View.SCALE - sWidth / 2;
+        yOffset = y * View.SCALE - sHeight / 2;
+
+        // Limit Offset, so that the view never leaves the map
+        if (xOffset < 0)
+        {
+            xOffset = 0;
+        }
+        if (xOffset > (data.getMap().getWidth()) * sTilesize - sWidth)
+        {
+            xOffset = (data.getMap().getWidth()) * sTilesize - sWidth;
+        }
+        if (yOffset < 0)
+        {
+            yOffset = 0;
+        }
+        if (yOffset > (data.getMap().getHeight()) * sTilesize - sHeight)
+        {
+            yOffset = (data.getMap().getHeight()) * sTilesize - sHeight;
+        }
+    }
+
+    /**
+     * Clear every pixel of the screen (set them to black)
+     */
+    public void clear()
+    {
+        // loop over every pixel and set it to 0
+        for (int i = 0; i < pixels.length; i++)
+        {
+            pixels[i] = 0;
         }
     }
 
