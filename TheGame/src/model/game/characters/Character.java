@@ -72,21 +72,21 @@ public abstract class Character
     public boolean collision(int xTravel, int yTravel)
     {
         int characterX1 = x + xTravel;
-        int characterX2 = x + xTravel + sprite.SIZE - 1;
+        int characterX2 = x + xTravel + sprite.WIDTH - 1;
         int characterY1 = y + yTravel;
-        int characterY2 = y + yTravel + sprite.SIZE - 1;
+        int characterY2 = y + yTravel + sprite.HEIGHT - 1;
 
         boolean solidCollision = false;
 
         // collision with map border
-        if (characterX1 < 0 || characterX2 >= map.getWidth() * Tile.TILESIZE) return true;
-        if (characterY1 < 0 || characterY2 >= map.getHeight() * Tile.TILESIZE) return true;
+        if (characterX1 < 0 || characterX2 >= map.getWidth()) return true;
+        if (characterY1 < 0 || characterY2 >= map.getHeight()) return true;
 
         // collision with solid tile
-        solidCollision |= map.getTile(characterX1 / Tile.TILESIZE, characterY1 / Tile.TILESIZE).isSolid();
-        solidCollision |= map.getTile(characterX1 / Tile.TILESIZE, characterY2 / Tile.TILESIZE).isSolid();
-        solidCollision |= map.getTile(characterX2 / Tile.TILESIZE, characterY1 / Tile.TILESIZE).isSolid();
-        solidCollision |= map.getTile(characterX2 / Tile.TILESIZE, characterY2 / Tile.TILESIZE).isSolid();
+        solidCollision |= map.getTile(characterX1, characterY1).isSolid();
+        solidCollision |= map.getTile(characterX1, characterY2).isSolid();
+        solidCollision |= map.getTile(characterX2, characterY1).isSolid();
+        solidCollision |= map.getTile(characterX2, characterY2).isSolid();
 
         return solidCollision;
     }
