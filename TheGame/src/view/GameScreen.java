@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import model.GameData;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
+import model.game.object.MapObject;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 
@@ -28,7 +29,8 @@ public class GameScreen extends Canvas
     /**
      * Class that handles the rendering of the game.
      * 
-     * @param data Game data that will be rendered.
+     * @param data
+     *            Game data that will be rendered.
      */
     public GameScreen(GameData data)
     {
@@ -151,6 +153,11 @@ public class GameScreen extends Canvas
 
                 renderSprite(tile.getSprite(), tile.getX(), tile.getY());
             }
+        }
+
+        for (MapObject mo : map.getObjects())
+        {
+            renderSprite(mo.getSprite(), mo.getX(), mo.getY());
         }
     }
 

@@ -6,7 +6,7 @@ public class Sprite
      * Width of the sprite in pixels
      */
     public final int WIDTH;
-    
+
     /**
      * Height of the sprite in pixels
      */
@@ -25,6 +25,7 @@ public class Sprite
     public static final Sprite dirt01 = new Sprite(Spritesheet.floorSpritesheet, 16, 0, 16, 16);
     public static final Sprite wall01 = new Sprite(Spritesheet.wallSpritesheet, 0, 0, 16, 16);
     public static final Sprite player01 = new Sprite(Spritesheet.characterSpritesheet, 0, 0, 16, 16);
+    public static final Sprite redChest = new Sprite(Spritesheet.objectSpritesheet, 0, 0, 32, 32);
 
     public Sprite(Spritesheet sheet, int xOffset, int yOffset, int width, int height)
     {
@@ -33,7 +34,7 @@ public class Sprite
         this.yOffset = yOffset;
         this.WIDTH = width;
         this.HEIGHT = height;
-        
+
         pixels = new int[WIDTH * HEIGHT];
 
         load();

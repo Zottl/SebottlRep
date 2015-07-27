@@ -23,10 +23,15 @@ public abstract class Tile
 
     /**
      * A Tile that may be part of a GameMap
-     * @param x The x coordinate of the Tile
-     * @param y The y coordinate of the Tile
-     * @param solid {@code true} if this tile is impassable
-     * @param sprite The Sprite object that is used to display this Tile
+     * 
+     * @param x
+     *            The x coordinate of the Tile
+     * @param y
+     *            The y coordinate of the Tile
+     * @param solid
+     *            {@code true} if this tile is impassable
+     * @param sprite
+     *            The Sprite object that is used to display this Tile
      */
     public Tile(int x, int y, boolean solid, Sprite sprite)
     {
@@ -43,7 +48,6 @@ public abstract class Tile
     {
         return x;
     }
-
 
     /**
      * @return The y coordinate of the Tile
