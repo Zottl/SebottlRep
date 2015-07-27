@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 
 import model.GameData;
+import model.game.characters.EnemyNpc;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.sprites.Sprite;
@@ -16,6 +17,7 @@ public class GameScreen extends Canvas
 
     private GameData data;
     private Player player;
+    private EnemyNpc enemy;
 
     private int[] pixels;
 
@@ -38,9 +40,13 @@ public class GameScreen extends Canvas
     public void render()
     {
         player = data.getPlayer();
+        enemy = data.getEnemy();
 
         this.renderMap(data.getMap());
 
+        // render first enemy
+        this.renderSprite(enemy.getSprite(), enemy.getX(), enemy.getY());
+        
         // render player
         this.renderSprite(player.getSprite(), player.getX(), player.getY());
     }

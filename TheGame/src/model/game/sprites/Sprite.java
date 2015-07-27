@@ -21,6 +21,7 @@ public class Sprite
     public static final Sprite dirt01 = new Sprite(Spritesheet.floorSpritesheet, 1, 0, 16);
     public static final Sprite wall01 = new Sprite(Spritesheet.wallSpritesheet, 0, 0, 16);
     public static final Sprite player01 = new Sprite(Spritesheet.characterSpritesheet, 0, 0, 16);
+    public static final Sprite enemy01 = new Sprite(Spritesheet.characterSpritesheet, 1, 0, 16);
 
     public Sprite(Spritesheet sheet, int x, int y, int size)
     {

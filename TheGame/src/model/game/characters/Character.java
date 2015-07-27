@@ -38,7 +38,7 @@ public abstract class Character
      */
     public void move(int xTravel, int yTravel)
     {
-        if (xTravel != 0 && yTravel != 0)
+        if (xTravel != 0 && yTravel != 0 && collision(xTravel, yTravel))
         {
             move(xTravel, 0);
             move(0, yTravel);
@@ -148,5 +148,15 @@ public abstract class Character
     public Sprite getSprite()
     {
         return sprite;
+    }
+
+    /**
+     * 
+     * @param sprite
+     *            sprite to be set for the character
+     */
+    public void setSprite(Sprite sprite)
+    {
+        this.sprite = sprite;
     }
 }

@@ -6,8 +6,8 @@ import model.game.sprites.Sprite;
 public class Player extends Character
 {
 
-    public Player(int x, int y, GameMap map)
+    public Player(int x, int y, Sprite sprite, GameMap map)
     {
-        super(x, y, 1.5, Sprite.player01, map);
+        super(x, y, 1.5, sprite, map);
     }
 }

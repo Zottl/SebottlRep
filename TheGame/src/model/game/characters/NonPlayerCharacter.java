@@ -5,8 +5,8 @@ import model.game.sprites.Sprite;
 
 public class NonPlayerCharacter extends Character
 {
-    public NonPlayerCharacter(int x, int y, GameMap map)
+    public NonPlayerCharacter(int x, int y, Sprite sprite, GameMap map)
     {
-        super(x, y, 10, Sprite.player01, map);
+        super(x, y, 10, sprite, map);
     }
 }

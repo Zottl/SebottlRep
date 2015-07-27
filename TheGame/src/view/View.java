@@ -88,7 +88,7 @@ public class View extends JFrame
         }
 
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(image, 0, 0, gs.getWidth(), gs.getHeight(), null);
         g.dispose();
         bs.show();
     }

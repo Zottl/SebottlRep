@@ -1,10 +1,12 @@
 package model;
 
 import view.View;
+import model.game.characters.EnemyNpc;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.maps.GrassMap01;
 import model.game.maps.GrassMap02;
+import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 
 public class GameData
@@ -12,6 +14,7 @@ public class GameData
 
     private GameMap currentMap;
     public Player player;
+    public EnemyNpc enemy;
 
     /**
      * @param mapID
@@ -20,7 +23,8 @@ public class GameData
     public GameData(int mapID)
     {
         changeMap(mapID);
-        this.player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, currentMap);
+        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, Sprite.player01, currentMap);
+        enemy = new EnemyNpc(80, 80, Sprite.enemy01, currentMap);
     }
 
     /**
@@ -56,5 +60,10 @@ public class GameData
     public Player getPlayer()
     {
         return player;
+    }
+    
+    public EnemyNpc getEnemy()
+    {
+        return enemy;
     }
 }
