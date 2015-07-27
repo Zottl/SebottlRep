@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -19,7 +20,7 @@ public class View extends JFrame
     // window size variables
     public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9;
-    public static final int SCALE = 3;
+    public static final int SCALE = 5;
 
     private GameScreen gs;
 
@@ -31,13 +32,12 @@ public class View extends JFrame
     public View(GameData data)
     {
         // call every screen once to initialize them now
-        gs = new GameScreen(this, data);
+        gs = new GameScreen(data);
         /* ... more screens ... */
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         ImageIcon frameIcon = new ImageIcon("resources/FrameIcon.gif");
         this.setIconImage(frameIcon.getImage());
-
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setVisible(true);
         this.setFocusable(true);
@@ -65,8 +65,8 @@ public class View extends JFrame
             }
             /* ... more screens ... */
         }
-        this.render();
         this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     public void render()
@@ -91,6 +91,7 @@ public class View extends JFrame
         g.drawImage(image, 0, 0, gs.getWidth(), gs.getHeight(), null);
         g.dispose();
         bs.show();
+        Toolkit.getDefaultToolkit().sync();
     }
 
     public GameScreen getGameScreen()
@@ -104,5 +105,5 @@ public class View extends JFrame
         super.addKeyListener(l);
         gs.addKeyListener(l);
     }
-    
+
 }

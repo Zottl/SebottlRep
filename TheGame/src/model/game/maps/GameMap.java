@@ -2,8 +2,11 @@ package model.game.maps;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import model.game.object.MapObject;
 import model.game.tiles.DirtTile;
 import model.game.tiles.Grass01Tile;
 import model.game.tiles.Grass02Tile;
@@ -18,43 +21,60 @@ import model.game.tiles.WallTile;
 public abstract class GameMap
 {
 
-    // Width of the map (in tiles)
+    // Width of the map (in pixels)
     private int width;
-    // Height of the map (in tiles)
+    // Height of the map (in pixels)
     private int height;
 
     // The Array of the tiles this map consists of
     private Tile[][] tiles;
 
+    // The list of MapObjects, that are present on this map
+    private List<MapObject> objects;
+
     /**
      * @param tileIDs
-     *            The array of TileIDs this map consists of
+     *            The array of TileIDs this GameMap consists of
      */
     public GameMap(int[][] tileIDs)
     {
-        width = tileIDs.length;
-        height = tileIDs[0].length;
+        int horTileCount = tileIDs.length;
+        int vertTileCount = tileIDs[0].length;
 
-        tiles = new Tile[width][height];
+        width = horTileCount * Tile.TILESIZE;
+        height = vertTileCount * Tile.TILESIZE;
 
-        for (int y = 0; y < height; y++)
+        tiles = new Tile[horTileCount][vertTileCount];
+
+        for (int x = 0; x < horTileCount; x++)
         {
-            for (int x = 0; x < width; x++)
+            for (int y = 0; y < vertTileCount; y++)
             {
-                tiles[x][y] = createTile(x, y, tileIDs[x][y]);
+                // The x and y coordinates are scaled, based on the Tile size
+                tiles[x][y] = createTile(x * Tile.TILESIZE, y * Tile.TILESIZE, tileIDs[x][y]);
             }
         }
+
+        objects = new ArrayList<MapObject>();
     }
 
     /**
      * Make a new Tile to build a map
      * 
      * @param x
-     *            x-position of the tile
+     *            X-position of the Tile
      * @param y
-     *            y-position of the tile
+     *            Y-position of the Tile
      * @param id
-     *            Type of the tile [01->Grass] [02->Dirt] [03->Wall]
+     *            Type of the Tile
+     *            <ul>
+     *            <li>[00->Grass01]</li>
+     *            <li>[01->Dirt]</li>
+     *            <li>[02->Wall]</li>
+     *            <li>[03->Grass02]</li>
+     *            <li>[04->Grass03]</li>
+     *            <li>[05->Grass04]</li>
+     *            </ul>
      * @return
      */
     private Tile createTile(int x, int y, int id)
@@ -83,7 +103,7 @@ public abstract class GameMap
      * 
      * @param filePath
      *            Path to the file that will be read
-     * @return An array with the tile data for the map, that has been extracted
+     * @return An array with the Tile data for the map, that has been extracted
      *         from the file
      */
     protected static int[][] loadMap(String filePath)
@@ -120,18 +140,22 @@ public abstract class GameMap
 
     /**
      * @param x
-     *            x-position of the tile
+     *            x-position of the Tile
      * @param y
-     *            y-position of the tile
-     * @return The tile at position (x,y) on this map
+     *            y-position of the Tile
+     * @return The Tile at position (x,y) on this GameMap
      */
     public Tile getTile(int x, int y)
     {
-        return tiles[x][y];
+        // Get the top left position of the Tile
+        x -= x % Tile.TILESIZE;
+        y -= y % Tile.TILESIZE;
+
+        return tiles[x / Tile.TILESIZE][y / Tile.TILESIZE];
     }
 
     /**
-     * @return The width of this map (in tiles)
+     * @return The width of this GameMap (in pixels)
      */
     public int getWidth()
     {
@@ -139,10 +163,36 @@ public abstract class GameMap
     }
 
     /**
-     * @return The height of this map (in tiles)
+     * @return The height of this GameMap (in pixels)
      */
     public int getHeight()
     {
         return height;
+    }
+
+    /**
+     * @param mo
+     *            The MapObject to place on this GameMap
+     */
+    public void addMapObject(MapObject mo)
+    {
+        objects.add(mo);
+    }
+
+    /**
+     * @param mo
+     *            The MapObject to remove from this GameMap
+     */
+    public void removeMapObject(MapObject mo)
+    {
+        objects.remove(mo);
+    }
+
+    /**
+     * @return The MapObjects that are placed on this GameMap.
+     */
+    public List<MapObject> getObjects()
+    {
+        return objects;
     }
 }
