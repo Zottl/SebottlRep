@@ -2,6 +2,7 @@ package model.game.sprites;
 
 public class Sprite
 {
+
     /**
      * Width of the sprite in pixels
      */
@@ -31,6 +32,14 @@ public class Sprite
     public static final Sprite redChest03 = new Sprite(Spritesheet.objectSpritesheet, 64, 0, 32, 32);
     public static final Sprite redChest04 = new Sprite(Spritesheet.objectSpritesheet, 96, 0, 32, 32);
     public static final Sprite redChest05 = new Sprite(Spritesheet.objectSpritesheet, 128, 0, 32, 32);
+    public static final Sprite coin01 = new Sprite(Spritesheet.lootSpritesheet, 0, 0, 16, 16);
+    public static final Sprite coin02 = new Sprite(Spritesheet.lootSpritesheet, 16, 0, 16, 16);
+    public static final Sprite coin03 = new Sprite(Spritesheet.lootSpritesheet, 32, 0, 16, 16);
+    public static final Sprite coin04 = new Sprite(Spritesheet.lootSpritesheet, 48, 0, 16, 16);
+    public static final Sprite coin05 = new Sprite(Spritesheet.lootSpritesheet, 64, 0, 16, 16);
+    public static final Sprite coin06 = new Sprite(Spritesheet.lootSpritesheet, 80, 0, 16, 16);
+    public static final Sprite coin07 = new Sprite(Spritesheet.lootSpritesheet, 96, 0, 16, 16);
+    public static final Sprite coin08 = new Sprite(Spritesheet.lootSpritesheet, 112, 0, 16, 16);
 
     public Sprite(Spritesheet sheet, int xOffset, int yOffset, int width, int height)
     {
