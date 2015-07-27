@@ -1,6 +1,7 @@
 package model.game.object;
 
 import model.game.sprites.Sprite;
+import model.game.characters.Character;
 
 /**
  * A Chest that can be placed on a GameMap (red)

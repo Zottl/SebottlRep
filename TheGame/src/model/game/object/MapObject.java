@@ -1,6 +1,7 @@
 package model.game.object;
 
 import model.game.sprites.Sprite;
+import model.game.characters.Character;
 
 /**
  * Abstract class for objects, that are placed on maps.

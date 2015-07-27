@@ -1,30 +1,25 @@
 package model.game.characters;
 
 import model.game.maps.GameMap;
+import model.game.object.MapObject;
 import model.game.sprites.Sprite;
-import model.game.tiles.Tile;
 
 /**
  * Abstract Class for movable entities in the game.
  */
-public abstract class Character
+public abstract class Character extends MapObject
 {
-    private int x;
-    private int y;
-
     private double speed;
     private double speedBuildup;
 
-    private Sprite sprite;
     private GameMap map;
 
     // Constructor
-    public Character(int x, int y, double speed, Sprite sprite, GameMap map)
+    public Character(int x, int y, double speed, double animationSpeed, Sprite sprite, GameMap map)
     {
-        this.x = x;
-        this.y = y;
+        super(x, y, animationSpeed, sprite);
+
         this.speed = speed;
-        this.sprite = sprite;
         this.map = map;
     }
 
@@ -38,12 +33,19 @@ public abstract class Character
      */
     public void move(int xTravel, int yTravel)
     {
-        if (xTravel != 0 && yTravel != 0 && collision(xTravel, yTravel))
+        double speed = this.speed;
+        
+        if (xTravel != 0 && yTravel != 0)
         {
-            move(xTravel, 0);
-            move(0, yTravel);
+            speed /= Math.sqrt(2);
+            
+            if (collision(xTravel, yTravel))
+            {
+                move(xTravel, 0);
+                move(0, yTravel);
 
-            return;
+                return;
+            }
         }
 
         if (speedBuildup < 1)
@@ -92,40 +94,6 @@ public abstract class Character
     }
 
     /**
-     * @return x coordinate of the character
-     */
-    public int getX()
-    {
-        return x;
-    }
-
-    /**
-     * @param x
-     *            x coordinate to be set for the character
-     */
-    public void setX(int x)
-    {
-        this.x = x;
-    }
-
-    /**
-     * @return y coordinate of the character
-     */
-    public int getY()
-    {
-        return y;
-    }
-
-    /**
-     * @param y
-     *            y coordinate to be set for the character
-     */
-    public void setY(int y)
-    {
-        this.y = y;
-    }
-
-    /**
      * @return speed of the character
      */
     public double getSpeed()
@@ -140,23 +108,5 @@ public abstract class Character
     public void setSpeed(double speed)
     {
         this.speed = speed;
-    }
-
-    /**
-     * @return sprite of the character
-     */
-    public Sprite getSprite()
-    {
-        return sprite;
-    }
-
-    /**
-     * 
-     * @param sprite
-     *            sprite to be set for the character
-     */
-    public void setSprite(Sprite sprite)
-    {
-        this.sprite = sprite;
     }
 }

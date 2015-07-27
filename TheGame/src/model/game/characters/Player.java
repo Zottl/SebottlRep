@@ -8,6 +8,18 @@ public class Player extends Character
 
     public Player(int x, int y, Sprite sprite, GameMap map)
     {
-        super(x, y, 1.5, sprite, map);
+        super(x, y, 1.5, 0.04, sprite, map);
+    }
+
+    @Override
+    public void interact(Character source)
+    {
+        
+    }
+
+    @Override
+    protected void advanceAnimation()
+    {
+        
     }
 }
