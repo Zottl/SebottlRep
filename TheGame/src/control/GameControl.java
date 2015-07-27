@@ -1,10 +1,11 @@
 package control;
 
-import control.input.Keyboard;
 import model.GameData;
 import model.game.characters.Player;
+import model.game.object.MapObject;
 import model.game.tiles.Tile;
 import view.View;
+import control.input.Keyboard;
 
 public class GameControl implements Runnable
 {
@@ -77,10 +78,16 @@ public class GameControl implements Runnable
 
     public void update()
     {
-        keyboard.update();
         
+        // Handle user input
+        keyboard.update();
         movePlayer();
         view.getGameScreen().centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
+        
+        // Animate the MapObjects
+        for (MapObject mo : gd.getMap().getObjects()) {
+            mo.animate();
+        }
     }
     
     /**

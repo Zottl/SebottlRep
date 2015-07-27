@@ -25,7 +25,11 @@ public class Sprite
     public static final Sprite dirt01 = new Sprite(Spritesheet.floorSpritesheet, 16, 0, 16, 16);
     public static final Sprite wall01 = new Sprite(Spritesheet.wallSpritesheet, 0, 0, 16, 16);
     public static final Sprite player01 = new Sprite(Spritesheet.characterSpritesheet, 0, 0, 16, 16);
-    public static final Sprite redChest = new Sprite(Spritesheet.objectSpritesheet, 0, 0, 32, 32);
+    public static final Sprite redChest01 = new Sprite(Spritesheet.objectSpritesheet, 0, 0, 32, 32);
+    public static final Sprite redChest02 = new Sprite(Spritesheet.objectSpritesheet, 32, 0, 32, 32);
+    public static final Sprite redChest03 = new Sprite(Spritesheet.objectSpritesheet, 64, 0, 32, 32);
+    public static final Sprite redChest04 = new Sprite(Spritesheet.objectSpritesheet, 96, 0, 32, 32);
+    public static final Sprite redChest05 = new Sprite(Spritesheet.objectSpritesheet, 128, 0, 32, 32);
 
     public Sprite(Spritesheet sheet, int xOffset, int yOffset, int width, int height)
     {
