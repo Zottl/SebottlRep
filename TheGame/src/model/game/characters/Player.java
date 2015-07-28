@@ -3,6 +3,7 @@ package model.game.characters;
 import model.game.maps.GameMap;
 import model.game.sprites.Sprite;
 
+// make abstract and let "mage" inherit
 public class Player extends Character
 {
 
@@ -14,12 +15,12 @@ public class Player extends Character
     @Override
     public void interact(Character source)
     {
-        
+
     }
 
     @Override
     protected void advanceAnimation()
     {
-        
+
     }
 }

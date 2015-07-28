@@ -6,6 +6,7 @@ import model.game.object.MapObject;
 import model.game.tiles.Tile;
 import view.View;
 import control.input.Keyboard;
+import control.input.Mouse;
 
 public class GameControl implements Runnable
 {
@@ -16,6 +17,7 @@ public class GameControl implements Runnable
     View view;
     Thread thread;
     Keyboard keyboard;
+    Mouse mouse;
     Player player;
 
     public GameControl(GameData gd, View view)
@@ -27,6 +29,10 @@ public class GameControl implements Runnable
 
         keyboard = new Keyboard();
         view.addKeyListener(keyboard);
+        
+        mouse = new Mouse();
+        view.addMouseListener(mouse);
+        view.addMouseMotionListener(mouse);
     }
 
     public void run()
@@ -81,6 +87,7 @@ public class GameControl implements Runnable
         
         // Handle user input
         keyboard.update();
+        
         movePlayer();
         view.getGameScreen().centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
         

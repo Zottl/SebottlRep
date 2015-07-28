@@ -3,6 +3,8 @@ package view;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -99,11 +101,22 @@ public class View extends JFrame
         return gs;
     }
 
-    @Override
     public synchronized void addKeyListener(KeyListener l)
     {
         super.addKeyListener(l);
         gs.addKeyListener(l);
+    }
+    
+    public synchronized void addMouseListener(MouseListener l)
+    {
+        super.addMouseListener(l);
+        gs.addMouseListener(l);
+    }
+    
+    public synchronized void addMouseMotionListener(MouseMotionListener l)
+    {
+        super.addMouseMotionListener(l);
+        gs.addMouseMotionListener(l);
     }
 
 }
