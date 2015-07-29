@@ -1,8 +1,5 @@
 package view;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-
 import model.GameData;
 import model.game.characters.EnemyNpc;
 import model.game.characters.Player;
@@ -14,11 +11,8 @@ import model.game.tiles.Tile;
 /**
  * Class that handles the rendering of the game.
  */
-public class GameScreen extends Canvas
+public class GameScreen
 {
-
-    private static final long serialVersionUID = 1L;
-
     private GameData data;
     private Player player;
     private EnemyNpc enemy;
@@ -39,10 +33,6 @@ public class GameScreen extends Canvas
         pixels = new int[View.WIDTH * View.SCALE * View.HEIGHT * View.SCALE];
 
         this.data = data;
-
-        Dimension dim = new Dimension(View.WIDTH * View.SCALE, View.HEIGHT * View.SCALE);
-        this.setPreferredSize(dim);
-        this.setIgnoreRepaint(true);
     }
 
     /**
@@ -57,7 +47,7 @@ public class GameScreen extends Canvas
 
         // render first enemy
         this.renderSprite(enemy.getSprite(), enemy.getX(), enemy.getY());
-        
+
         // render player
         this.renderSprite(player.getSprite(), player.getX(), player.getY());
     }
