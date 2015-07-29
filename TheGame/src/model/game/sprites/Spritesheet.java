@@ -24,6 +24,7 @@ public class Spritesheet
     public static final Spritesheet characterSpritesheet = new Spritesheet("/spritesheets/CharacterSpritesheet.png", 256);
     public static final Spritesheet objectSpritesheet = new Spritesheet("/spritesheets/ObjectSpritesheet.png", 256);
     public static final Spritesheet lootSpritesheet = new Spritesheet("/spritesheets/LootSpritesheet.png", 256);
+    public static final Spritesheet spellSpritesheet = new Spritesheet("/spritesheets/SpellSpritesheet.png", 256);
 
     public Spritesheet(String path, int size)
     {

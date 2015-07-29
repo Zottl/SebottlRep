@@ -6,6 +6,7 @@ import model.game.object.MapObject;
 import model.game.tiles.Tile;
 import view.View;
 import controller.input.Keyboard;
+import controller.input.Mouse;
 
 public class GameController implements Runnable
 {
@@ -16,6 +17,7 @@ public class GameController implements Runnable
     View view;
     Thread thread;
     Keyboard keyboard;
+    Mouse mouse;
     Player player;
 
     public GameController(GameData gameData, View view)
@@ -27,6 +29,10 @@ public class GameController implements Runnable
 
         keyboard = new Keyboard();
         view.addKeyListener(keyboard);
+
+        mouse = new Mouse();
+        view.addMouseListener(mouse);
+        view.addMouseMotionListener(mouse);
     }
 
     public void run()

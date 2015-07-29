@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -106,6 +108,18 @@ public class View
     {
         frame.addKeyListener(l);
         canvas.addKeyListener(l);
+    }
+
+    public synchronized void addMouseListener(MouseListener l)
+    {
+        frame.addMouseListener(l);
+        canvas.addMouseListener(l);
+    }
+
+    public synchronized void addMouseMotionListener(MouseMotionListener l)
+    {
+        frame.addMouseMotionListener(l);
+        canvas.addMouseMotionListener(l);
     }
 
     public void setTitle(String title)
