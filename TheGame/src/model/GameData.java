@@ -24,7 +24,7 @@ public class GameData
     {
         changeMap(mapID);
         player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, Sprite.player01, currentMap);
-        enemy = new EnemyNpc(80, 80, Sprite.enemy01, currentMap);
+        enemy = new EnemyNpc(100, 100, Sprite.enemy01, currentMap);
     }
 
     /**
