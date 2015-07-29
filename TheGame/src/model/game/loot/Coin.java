@@ -5,6 +5,7 @@ import model.game.sprites.Sprite;
 
 public class Coin extends Loot
 {
+    private int sparkleDelay;
 
     public Coin(int x, int y)
     {
@@ -21,46 +22,79 @@ public class Coin extends Loot
     @Override
     protected void advanceAnimation()
     {
+        boolean sparkling = false;
         switch (animationState)
         {
             case 0:
-                sprite = Sprite.coin02;
-                animationState++;
+                if (sparkling)
+                {
+                    sprite = Sprite.coinSparkle1;
+                    animationState++;
+                }
+                else
+                {
+                    sprite = Sprite.coinSpin1;
+                    animationState = 8;
+
+                }
                 return;
             case 1:
-                sprite = Sprite.coin03;
+                sprite = Sprite.coinSparkle2;
                 animationState++;
                 return;
             case 2:
-                sprite = Sprite.coin04;
+                sprite = Sprite.coinSparkle3;
                 animationState++;
                 return;
             case 3:
-                sprite = Sprite.coin05;
+                sprite = Sprite.coinSparkle4;
                 animationState++;
                 return;
             case 4:
-                sprite = Sprite.coin06;
+                sprite = Sprite.coinSparkle5;
                 animationState++;
                 return;
             case 5:
-                sprite = Sprite.coin07;
+                sprite = Sprite.coinSparkle6;
                 animationState++;
                 return;
             case 6:
-                sprite = Sprite.coin08;
+                sprite = Sprite.coinSparkle7;
                 animationState++;
                 return;
             case 7:
                 sprite = Sprite.coin01;
-                animationState++;
+                animationState = 13;
+                sparkleDelay = (int) (Math.random() * 40);
                 return;
             case 8:
-                if (Math.random() > 0.95) animationState = 0;
+                sprite = Sprite.coinSpin2;
+                animationState++;
+                return;
+            case 9:
+                sprite = Sprite.coinSpin3;
+                animationState++;
+                return;
+            case 10:
+                sprite = Sprite.coinSpin2;
+                animationState++;
+                return;
+            case 11:
+                sprite = Sprite.coinSpin1;
+                animationState++;
+                return;
+            case 12:
+                sprite = Sprite.coin01;
+                animationState = 0;
+                return;
+            case 13:
+                if (sparkleDelay == 0)
+                    animationState = 0;
+                else
+                    sparkleDelay--;
                 return;
             default:
                 return;
         }
     }
-
 }

@@ -1,35 +1,35 @@
-package control;
+package controller;
 
 import model.GameData;
 import model.game.characters.Player;
 import model.game.object.MapObject;
 import model.game.tiles.Tile;
 import view.View;
-import control.input.Keyboard;
-import control.input.Mouse;
+import controller.input.Keyboard;
+import controller.input.Mouse;
 
-public class GameControl implements Runnable
+public class GameController implements Runnable
 {
 
     boolean running;
 
-    GameData gd;
+    GameData gameData;
     View view;
     Thread thread;
     Keyboard keyboard;
     Mouse mouse;
     Player player;
 
-    public GameControl(GameData gd, View view)
+    public GameController(GameData gameData, View view)
     {
-        this.gd = gd;
+        this.gameData = gameData;
         this.view = view;
 
-        player = gd.player;
+        player = gameData.player;
 
         keyboard = new Keyboard();
         view.addKeyListener(keyboard);
-        
+
         mouse = new Mouse();
         view.addMouseListener(mouse);
         view.addMouseMotionListener(mouse);
@@ -84,19 +84,18 @@ public class GameControl implements Runnable
 
     public void update()
     {
-        
         // Handle user input
         keyboard.update();
-        
         movePlayer();
         view.getGameScreen().centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
-        
+
         // Animate the MapObjects
-        for (MapObject mo : gd.getMap().getObjects()) {
+        for (MapObject mo : gameData.getMap().getObjects())
+        {
             mo.animate();
         }
     }
-    
+
     /**
      * Handles the player movement
      */
@@ -104,22 +103,21 @@ public class GameControl implements Runnable
     {
         int xMove = 0;
         int yMove = 0;
-        
+
         if (keyboard.up) yMove--;
         if (keyboard.right) xMove++;
         if (keyboard.down) yMove++;
         if (keyboard.left) xMove--;
-                
+
         player.move(xMove, yMove);
     }
 
     public void start()
     {
         running = true;
-        run();
 
-        // create and start thread called "Display"
-        thread = new Thread(this, "Display");
+        // create and start the Controller-Thread
+        thread = new Thread(this, "Controller-Thread");
         thread.start();
     }
 
