@@ -19,9 +19,6 @@ public class GameScreen
 
     private int[] pixels;
 
-    public int xOffset;
-    public int yOffset;
-
     /**
      * Class that handles the rendering of the game.
      * 
@@ -38,18 +35,18 @@ public class GameScreen
     /**
      * Method responsible for rendering
      */
-    public void render()
+    public void render(int xOffset, int yOffset)
     {
         player = data.getPlayer();
         enemy = data.getEnemy();
 
-        this.renderMap(data.getMap());
+        this.renderMap(data.getMap(), xOffset, yOffset);
 
         // render first enemy
-        this.renderSprite(enemy.getSprite(), enemy.getX(), enemy.getY());
+        this.renderSprite(enemy.getSprite(), enemy.getX(), enemy.getY(), xOffset, yOffset);
 
         // render player
-        this.renderSprite(player.getSprite(), player.getX(), player.getY());
+        this.renderSprite(player.getSprite(), player.getX(), player.getY(), xOffset, yOffset);
     }
 
     /**
@@ -66,7 +63,7 @@ public class GameScreen
      * @param yOffset
      *            Current y offset of the view
      */
-    private void renderSprite(Sprite sprite, int x, int y)
+    private void renderSprite(Sprite sprite, int x, int y, int xOffset, int yOffset)
     {
         int spriteWidth = sprite.WIDTH;
         int spriteHeight = sprite.HEIGHT;
@@ -117,7 +114,7 @@ public class GameScreen
      * @param yOffset
      *            Current y offset of the view
      */
-    private void renderMap(GameMap map)
+    private void renderMap(GameMap map, int xOffset, int yOffset)
     {
         int tilesize = Tile.TILESIZE;
         int width = View.WIDTH;
@@ -147,52 +144,13 @@ public class GameScreen
 
                 Tile tile = map.getTile(xPos, yPos);
 
-                renderSprite(tile.getSprite(), tile.getX(), tile.getY());
+                renderSprite(tile.getSprite(), tile.getX(), tile.getY(), xOffset, yOffset);
             }
         }
 
         for (MapObject mo : map.getObjects())
         {
-            renderSprite(mo.getSprite(), mo.getX(), mo.getY());
-        }
-    }
-
-    /**
-     * Center the screen at a certain coordinate
-     * 
-     * @param x
-     *            x coordinate to center
-     * 
-     * @param y
-     *            y coordinate to center
-     */
-    public void centerScreen(int x, int y)
-    {
-        // Scaled parameters
-        int width = View.WIDTH;
-        int height = View.HEIGHT;
-        int mapWidth = data.getMap().getWidth();
-        int mapHeight = data.getMap().getHeight();
-
-        xOffset = x - width / 2;
-        yOffset = y - height / 2;
-
-        // Limit Offset, so that the view never leaves the map
-        if (xOffset < 0)
-        {
-            xOffset = 0;
-        }
-        if (xOffset > mapWidth - width)
-        {
-            xOffset = mapWidth - width;
-        }
-        if (yOffset < 0)
-        {
-            yOffset = 0;
-        }
-        if (yOffset > mapHeight - height)
-        {
-            yOffset = mapHeight - height;
+            renderSprite(mo.getSprite(), mo.getX(), mo.getY(), xOffset, yOffset);
         }
     }
 

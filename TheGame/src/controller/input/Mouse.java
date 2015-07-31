@@ -3,20 +3,32 @@ package controller.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import controller.GameController;
 
 /**
  * Class for mouse inputs
  */
 public class Mouse implements MouseListener, MouseMotionListener
 {
+    GameController gc;
+
+    private int xOffset;
+    private int yOffset;
+
     private static int mouseX = -1;
     private static int mouseY = -1;
     private static int mouseB = -1;
 
+    public void update(int xOffset, int yOffset)
+    {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+    }
+
     public void mousePressed(MouseEvent e)
     {
         mouseB = e.getButton();
-        System.out.println("x: " + mouseX + " y: " + mouseY);
+        System.out.println("x: " + mouseX + " y: " + mouseY + " mapX: " + this.getMouseMapX() + " mapY: " + this.getMouseMapY());
     }
 
     public void mouseReleased(MouseEvent e)
@@ -30,6 +42,22 @@ public class Mouse implements MouseListener, MouseMotionListener
         // update mouse Position
         mouseX = e.getX();
         mouseY = e.getY();
+    }
+
+    /**
+     * @return the x coordinate of the mouse on the map
+     */
+    public int getMouseMapX()
+    {
+        return mouseX + xOffset;
+    }
+
+    /**
+     * @return the y coordinate of the mouse on the map
+     */
+    public int getMouseMapY()
+    {
+        return mouseY + yOffset;
     }
 
     /**
@@ -70,9 +98,9 @@ public class Mouse implements MouseListener, MouseMotionListener
     {
 
     }
-    
+
     public void mouseClicked(MouseEvent e)
     {
-        
+
     }
 }

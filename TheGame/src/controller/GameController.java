@@ -19,6 +19,9 @@ public class GameController implements Runnable
     Keyboard keyboard;
     Mouse mouse;
     Player player;
+    
+    public int xOffset;
+    public int yOffset;
 
     public GameController(GameData gameData, View view)
     {
@@ -64,7 +67,7 @@ public class GameController implements Runnable
                 delta--;
             }
 
-            view.render();
+            view.render(xOffset, yOffset);
             frames++;
 
             // gets called every second
@@ -86,9 +89,11 @@ public class GameController implements Runnable
     {
         // Handle user input
         keyboard.update();
+        mouse.update(xOffset, yOffset);
+        
         movePlayer();
-        view.getGameScreen().centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
-
+        this.centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
+        
         // Animate the MapObjects
         for (MapObject mo : gameData.getMap().getObjects())
         {
@@ -133,6 +138,45 @@ public class GameController implements Runnable
         catch (InterruptedException e)
         {
             e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Center the screen at a certain coordinate
+     * 
+     * @param x
+     *            x coordinate to center
+     * 
+     * @param y
+     *            y coordinate to center
+     */
+    public void centerScreen(int x, int y)
+    {
+        // Scaled parameters
+        int width = View.WIDTH;
+        int height = View.HEIGHT;
+        int mapWidth = gameData.getMap().getWidth();
+        int mapHeight = gameData.getMap().getHeight();
+
+        xOffset = x - width / 2;
+        yOffset = y - height / 2;
+
+        // Limit Offset, so that the view never leaves the map
+        if (xOffset < 0)
+        {
+            xOffset = 0;
+        }
+        if (xOffset > mapWidth - width)
+        {
+            xOffset = mapWidth - width;
+        }
+        if (yOffset < 0)
+        {
+            yOffset = 0;
+        }
+        if (yOffset > mapHeight - height)
+        {
+            yOffset = mapHeight - height;
         }
     }
 }

@@ -24,7 +24,7 @@ public class View
     public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9;
     public static final int SCALE = 3;
-
+    
     private JFrame frame;
     private Canvas canvas;
 
@@ -59,7 +59,7 @@ public class View
         frame.setLocationRelativeTo(null);
     }
 
-    public void render()
+    public void render(int xOffset, int yOffset)
     {
         try
         {
@@ -74,7 +74,7 @@ public class View
                 }
 
                 gs.clear();
-                gs.render();
+                gs.render(xOffset, yOffset);
 
                 for (int i = 0; i < pixels.length; i++)
                 {
