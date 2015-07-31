@@ -43,6 +43,9 @@ public class Sprite
     public static final Sprite coinSpin1 = new Sprite(Spritesheet.lootSpritesheet, 128, 0, 16, 16);
     public static final Sprite coinSpin2 = new Sprite(Spritesheet.lootSpritesheet, 144, 0, 16, 16);
     public static final Sprite coinSpin3 = new Sprite(Spritesheet.lootSpritesheet, 160, 0, 16, 16);
+    public static final Sprite testSpell01 = new Sprite(Spritesheet.spellSpritesheet, 0, 0, 16, 16);
+    public static final Sprite testSpell02 = new Sprite(Spritesheet.spellSpritesheet, 32, 0, 16, 16);
+    public static final Sprite testSpell03 = new Sprite(Spritesheet.spellSpritesheet, 48, 0, 16, 16);
 
     public Sprite(Spritesheet sheet, int xOffset, int yOffset, int width, int height)
     {

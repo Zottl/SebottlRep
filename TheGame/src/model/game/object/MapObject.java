@@ -1,7 +1,7 @@
 package model.game.object;
 
 import model.game.sprites.Sprite;
-import model.game.characters.Character;
+import model.game.characters.GameCharacter;
 
 /**
  * Abstract class for objects, that are placed on maps.
@@ -64,7 +64,7 @@ public abstract class MapObject
      * @param source
      *            Character that started the interaction
      */
-    public abstract void interact(Character source);
+    public abstract void interact(GameCharacter source);
 
     /**
      * Go to the next Sprite in the animation of this MapObject

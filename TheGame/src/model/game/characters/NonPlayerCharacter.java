@@ -1,17 +1,20 @@
 package model.game.characters;
 
+import java.util.List;
+
 import model.game.maps.GameMap;
+import model.game.spell.Spell;
 import model.game.sprites.Sprite;
 
-public abstract class NonPlayerCharacter extends Character
+public abstract class NonPlayerCharacter extends GameCharacter
 {
-    public NonPlayerCharacter(int x, int y, Sprite sprite, GameMap map)
+    public NonPlayerCharacter(int x, int y, List<Spell> spells, Sprite sprite, GameMap map)
     {
-        super(x, y, 10, 0.04, sprite, map);
+        super(x, y, 1.5, spells, 0.04, sprite, map);
     }
 
     @Override
-    public void interact(Character source)
+    public void interact(GameCharacter source)
     {
         
     }

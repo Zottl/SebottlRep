@@ -1,19 +1,22 @@
 package model.game.characters;
 
+import java.util.List;
+
 import model.game.maps.GameMap;
+import model.game.spell.Spell;
 import model.game.sprites.Sprite;
 
 // make abstract and let "mage" inherit
-public class Player extends Character
+public class Player extends GameCharacter
 {
 
-    public Player(int x, int y, Sprite sprite, GameMap map)
+    public Player(int x, int y, List<Spell> spells, Sprite sprite, GameMap map)
     {
-        super(x, y, 1.5, 0.04, sprite, map);
+        super(x, y, 1.5, spells, 0.04, sprite, map);
     }
 
     @Override
-    public void interact(Character source)
+    public void interact(GameCharacter source)
     {
 
     }
@@ -24,3 +27,4 @@ public class Player extends Character
 
     }
 }
+

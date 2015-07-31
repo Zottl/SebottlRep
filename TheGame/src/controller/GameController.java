@@ -1,8 +1,11 @@
 package controller;
 
+import java.util.List;
+
 import model.GameData;
 import model.game.characters.Player;
 import model.game.object.MapObject;
+import model.game.object.Projectile;
 import model.game.tiles.Tile;
 import view.View;
 import controller.input.Keyboard;
@@ -93,6 +96,17 @@ public class GameController implements Runnable
         
         movePlayer();
         this.centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
+        
+        if (Mouse.getButton() == 1)
+        {
+            player.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
+            System.out.println("clicked");
+        }
+        
+        for (Projectile projectile : gameData.getActiveProjectiles())
+        {
+            projectile.move();
+        }
         
         // Animate the MapObjects
         for (MapObject mo : gameData.getMap().getObjects())

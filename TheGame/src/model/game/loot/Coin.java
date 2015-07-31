@@ -1,6 +1,6 @@
 package model.game.loot;
 
-import model.game.characters.Character;
+import model.game.characters.GameCharacter;
 import model.game.sprites.Sprite;
 
 public class Coin extends Loot
@@ -13,7 +13,7 @@ public class Coin extends Loot
     }
 
     @Override
-    public void interact(Character source)
+    public void interact(GameCharacter source)
     {
         // TODO Auto-generated method stub
 

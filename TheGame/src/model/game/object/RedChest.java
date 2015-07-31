@@ -1,7 +1,7 @@
 package model.game.object;
 
 import model.game.sprites.Sprite;
-import model.game.characters.Character;
+import model.game.characters.GameCharacter;
 
 /**
  * A Chest that can be placed on a GameMap (red)
@@ -26,7 +26,7 @@ public class RedChest extends MapObject
     }
 
     @Override
-    public void interact(Character source)
+    public void interact(GameCharacter source)
     {
         if (!open)
         {

@@ -1,11 +1,16 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import view.View;
 import model.game.characters.EnemyNpc;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.maps.GrassMap01;
 import model.game.maps.GrassMap02;
+import model.game.object.Projectile;
+import model.game.spell.Spell;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 
@@ -16,6 +21,11 @@ public class GameData
     public Player player;
     public EnemyNpc enemy;
 
+    public Spell spell;
+    public Projectile projectile;
+
+    private List<Projectile> activeProjectiles;
+
     /**
      * @param mapID
      *            MapID the game starts with
@@ -23,8 +33,15 @@ public class GameData
     public GameData(int mapID)
     {
         changeMap(mapID);
-        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, Sprite.player01, currentMap);
-        enemy = new EnemyNpc(100, 100, Sprite.enemy01, currentMap);
+
+        activeProjectiles = new ArrayList<Projectile>();
+        
+        spell = new Spell(activeProjectiles);
+        List<Spell> spelllist = new ArrayList<Spell>();
+        spelllist.add(spell);
+
+        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, currentMap);
+        enemy = new EnemyNpc(100, 100, spelllist, Sprite.enemy01, currentMap);
     }
 
     /**
@@ -46,6 +63,11 @@ public class GameData
         }
     }
 
+    public List<Projectile> getActiveProjectiles()
+    {
+        return activeProjectiles;
+    }
+
     /**
      * @return The map that is currently loaded
      */
@@ -61,7 +83,7 @@ public class GameData
     {
         return player;
     }
-    
+
     public EnemyNpc getEnemy()
     {
         return enemy;

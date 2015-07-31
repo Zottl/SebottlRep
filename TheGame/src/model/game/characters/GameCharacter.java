@@ -1,25 +1,32 @@
 package model.game.characters;
 
+import java.util.List;
+
 import model.game.maps.GameMap;
 import model.game.object.MapObject;
+import model.game.spell.Spell;
 import model.game.sprites.Sprite;
 
 /**
  * Abstract Class for movable entities in the game.
  */
-public abstract class Character extends MapObject
+public abstract class GameCharacter extends MapObject
 {
     private double speed;
     private double speedBuildup;
 
     private GameMap map;
+    
+    // list of Spells for this character
+    private List<Spell> spells;
 
     // Constructor
-    public Character(int x, int y, double speed, double animationSpeed, Sprite sprite, GameMap map)
+    public GameCharacter(int x, int y, double speed, List<Spell> spells, double animationSpeed, Sprite sprite, GameMap map)
     {
         super(x, y, animationSpeed, sprite);
 
         this.speed = speed;
+        this.spells = spells;
         this.map = map;
     }
 
@@ -34,11 +41,11 @@ public abstract class Character extends MapObject
     public void move(int xTravel, int yTravel)
     {
         double speed = this.speed;
-        
+
         if (xTravel != 0 && yTravel != 0)
         {
             speed /= Math.sqrt(2);
-            
+
             if (collision(xTravel, yTravel))
             {
                 move(xTravel, 0);
@@ -91,6 +98,13 @@ public abstract class Character extends MapObject
         solidCollision |= map.getTile(characterX2, characterY2).isSolid();
 
         return solidCollision;
+    }
+
+    public void shoot(int xTarget, int yTarget)
+    {
+        Spell spell = spells.get(0);
+        
+        spell.cast(xTarget, yTarget, this);
     }
 
     /**

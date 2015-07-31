@@ -5,6 +5,7 @@ import model.game.characters.EnemyNpc;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.object.MapObject;
+import model.game.object.Projectile;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 
@@ -47,6 +48,11 @@ public class GameScreen
 
         // render player
         this.renderSprite(player.getSprite(), player.getX(), player.getY(), xOffset, yOffset);
+        
+        for (Projectile projectile : data.getActiveProjectiles())
+        {
+            this.renderSprite(projectile.getSprite(), projectile.getX(), projectile.getY(), xOffset, yOffset);
+        }
     }
 
     /**
