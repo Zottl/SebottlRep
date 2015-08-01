@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.List;
-
 import model.GameData;
 import model.game.characters.Player;
 import model.game.object.MapObject;
@@ -22,9 +20,11 @@ public class GameController implements Runnable
     Keyboard keyboard;
     Mouse mouse;
     Player player;
-    
+
     public int xOffset;
     public int yOffset;
+    
+    boolean mouseClicked;
 
     public GameController(GameData gameData, View view)
     {
@@ -93,21 +93,17 @@ public class GameController implements Runnable
         // Handle user input
         keyboard.update();
         mouse.update(xOffset, yOffset);
+        this.userMouseInput();
         
         movePlayer();
         this.centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
         
-        if (Mouse.getButton() == 1)
-        {
-            player.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
-            System.out.println("clicked");
-        }
-        
+        // handle active projectiles
         for (Projectile projectile : gameData.getActiveProjectiles())
         {
             projectile.move();
         }
-        
+
         // Animate the MapObjects
         for (MapObject mo : gameData.getMap().getObjects())
         {
@@ -129,6 +125,24 @@ public class GameController implements Runnable
         if (keyboard.left) xMove--;
 
         player.move(xMove, yMove);
+    }
+
+    /**
+     * Handles user mouse input
+     */
+    private void userMouseInput()
+    {
+        if (Mouse.getButton() == 1 && !mouseClicked)
+        {
+            mouseClicked = true;
+            
+            player.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
+        }
+        
+        if (Mouse.getButton() == -1)
+        {
+            mouseClicked = false;
+        }
     }
 
     public void start()
@@ -154,7 +168,7 @@ public class GameController implements Runnable
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Center the screen at a certain coordinate
      * 

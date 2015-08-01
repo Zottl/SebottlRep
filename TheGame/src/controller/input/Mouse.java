@@ -3,6 +3,8 @@ package controller.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import view.View;
 import controller.GameController;
 
 /**
@@ -49,7 +51,7 @@ public class Mouse implements MouseListener, MouseMotionListener
      */
     public int getMouseMapX()
     {
-        return mouseX + xOffset;
+        return (mouseX + xOffset) / View.SCALE;
     }
 
     /**
@@ -57,7 +59,7 @@ public class Mouse implements MouseListener, MouseMotionListener
      */
     public int getMouseMapY()
     {
-        return mouseY + yOffset;
+        return (mouseY + yOffset) / View.SCALE;
     }
 
     /**
@@ -86,7 +88,9 @@ public class Mouse implements MouseListener, MouseMotionListener
 
     public void mouseDragged(MouseEvent e)
     {
-
+        // update mouse Position
+        mouseX = e.getX();
+        mouseY = e.getY();
     }
 
     public void mouseEntered(MouseEvent e)

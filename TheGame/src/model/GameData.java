@@ -11,6 +11,7 @@ import model.game.maps.GrassMap01;
 import model.game.maps.GrassMap02;
 import model.game.object.Projectile;
 import model.game.spell.Spell;
+import model.game.spell.TestSpell;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 
@@ -36,7 +37,7 @@ public class GameData
 
         activeProjectiles = new ArrayList<Projectile>();
         
-        spell = new Spell(activeProjectiles);
+        spell = new TestSpell(activeProjectiles);
         List<Spell> spelllist = new ArrayList<Spell>();
         spelllist.add(spell);
 

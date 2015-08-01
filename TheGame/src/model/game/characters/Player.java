@@ -6,7 +6,6 @@ import model.game.maps.GameMap;
 import model.game.spell.Spell;
 import model.game.sprites.Sprite;
 
-// make abstract and let "mage" inherit
 public class Player extends GameCharacter
 {
 
