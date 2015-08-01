@@ -20,16 +20,16 @@ public class Projectile extends MapObject
     }
 
     public void move ()
-    {
-        double dirX = xTarget - xOrigin;
-        double dirY = yTarget - yOrigin;
+    {  
+        double dirX = xTarget - xOrigin - sprite.WIDTH / 2;
+        double dirY = yTarget - yOrigin - sprite.HEIGHT / 2;
         
         double angle = Math.atan2(dirY, dirX);
         
         int xTravel = (int) (Math.ceil(Math.cos(angle) * moveSpeed));
         int yTravel = (int) (Math.ceil(Math.sin(angle) * moveSpeed));
         
-        System.out.println(" xtarget: " + xTarget + " x: " + x + " dirX: " + dirX);
+        //System.out.println(" ytarget: " + yTarget + " y: " + yOrigin + " diry: " + dirY);
         
         x += xTravel;
         y += yTravel;
@@ -44,7 +44,31 @@ public class Projectile extends MapObject
     @Override
     protected void advanceAnimation()
     {
-        
+        switch (animationState)
+        {
+            case 0:
+                sprite = Sprite.testSpell01;
+                animationState++;
+                return;
+            case 1:
+                sprite = Sprite.testSpell02;
+                animationState++;
+                return;
+            case 2:
+                sprite = Sprite.testSpell03;
+                animationState++;
+                return;
+            case 3:
+                sprite = Sprite.testSpell02;
+                animationState++;
+                return;
+            case 4: 
+                sprite = Sprite.testSpell03;
+                animationState = 0;
+                return;
+            default:
+                return;
+        }
     }
 
 }

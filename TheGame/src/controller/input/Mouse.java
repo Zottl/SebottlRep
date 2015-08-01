@@ -51,7 +51,7 @@ public class Mouse implements MouseListener, MouseMotionListener
      */
     public int getMouseMapX()
     {
-        return (mouseX + xOffset) / View.SCALE;
+        return mouseX / View.SCALE + xOffset;
     }
 
     /**
@@ -59,7 +59,7 @@ public class Mouse implements MouseListener, MouseMotionListener
      */
     public int getMouseMapY()
     {
-        return (mouseY + yOffset) / View.SCALE;
+        return mouseY / View.SCALE + yOffset;
     }
 
     /**

@@ -55,8 +55,8 @@ public class Sprite
     
     // spell sprites
     public static final Sprite testSpell01 = new Sprite(Spritesheet.spellSpritesheet, 0, 0, 16, 16);
-    public static final Sprite testSpell02 = new Sprite(Spritesheet.spellSpritesheet, 32, 0, 16, 16);
-    public static final Sprite testSpell03 = new Sprite(Spritesheet.spellSpritesheet, 48, 0, 16, 16);
+    public static final Sprite testSpell02 = new Sprite(Spritesheet.spellSpritesheet, 16, 0, 16, 16);
+    public static final Sprite testSpell03 = new Sprite(Spritesheet.spellSpritesheet, 32, 0, 16, 16);
 
     public Sprite(Spritesheet sheet, int xOffset, int yOffset, int width, int height)
     {

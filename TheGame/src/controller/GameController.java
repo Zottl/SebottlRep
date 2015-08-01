@@ -109,6 +109,12 @@ public class GameController implements Runnable
         {
             mo.animate();
         }
+        
+        // Animate the Projectiles
+        for (Projectile proj : gameData.getActiveProjectiles())
+        {
+            proj.animate();
+        }
     }
 
     /**
