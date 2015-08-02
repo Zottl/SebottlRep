@@ -5,7 +5,6 @@ import model.game.characters.EnemyNpc;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.object.MapObject;
-import model.game.object.Projectile;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 
@@ -44,15 +43,7 @@ public class GameScreen
         this.renderMap(data.getMap(), xOffset, yOffset);
 
         // render first enemy
-        this.renderSprite(enemy.getSprite(), enemy.getX(), enemy.getY(), xOffset, yOffset);
-
-        // render player
-        this.renderSprite(player.getSprite(), player.getX(), player.getY(), xOffset, yOffset);
-        
-        for (Projectile projectile : data.getActiveProjectiles())
-        {
-            this.renderSprite(projectile.getSprite(), projectile.getX(), projectile.getY(), xOffset, yOffset);
-        }
+        this.renderSprite(enemy.getSprite(), (int) enemy.getX(), (int) enemy.getY(), xOffset, yOffset);
     }
 
     /**
@@ -150,13 +141,13 @@ public class GameScreen
 
                 Tile tile = map.getTile(xPos, yPos);
 
-                renderSprite(tile.getSprite(), tile.getX(), tile.getY(), xOffset, yOffset);
+                renderSprite(tile.getSprite(), (int) tile.getX(), (int) tile.getY(), xOffset, yOffset);
             }
         }
 
         for (MapObject mo : map.getObjects())
         {
-            renderSprite(mo.getSprite(), mo.getX(), mo.getY(), xOffset, yOffset);
+            renderSprite(mo.getSprite(), (int) mo.getX(), (int) mo.getY(), xOffset, yOffset);
         }
     }
 

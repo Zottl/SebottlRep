@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 import model.game.object.MapObject;
@@ -203,11 +202,12 @@ public abstract class GameMap extends Observable
     {
         return new ArrayList<MapObject>(objects);
     }
-    
-    public class MapChangedEvent {
+
+    public class MapChangedEvent
+    {
         public MapObject mapObject;
         public boolean removed;
-        
+
         public MapChangedEvent(MapObject mapObject, boolean removed)
         {
             this.mapObject = mapObject;

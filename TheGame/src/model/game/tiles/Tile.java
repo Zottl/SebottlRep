@@ -17,12 +17,7 @@ public abstract class Tile extends MapObject
      */
     public static final int TILESIZE = 16;
 
-    private int x;
-    private int y;
-
     private boolean solid;
-
-    private Sprite sprite;
 
     /**
      * A Tile that may be part of a GameMap
@@ -38,55 +33,34 @@ public abstract class Tile extends MapObject
      */
     public Tile(int x, int y, boolean solid, Sprite sprite)
     {
-        super(x, y, 0, sprite);
+        super(x, y, 0, 0, sprite);
         this.x = x;
         this.y = y;
         this.solid = solid;
         this.sprite = sprite;
     }
 
-    /**
-     * @return The x coordinate of the Tile
-     */
-    public int getX()
+    @Override
+    public void advanceAnimation()
     {
-        return x;
-    }
-
-    /**
-     * @return The y coordinate of the Tile
-     */
-    public int getY()
-    {
-        return y;
-    }
-
-    /**
-     * @return {@code true} if this tile is impassable
-     */
-    public boolean isSolid()
-    {
-        return solid;
-    }
-
-    /**
-     * @return The Sprite object that is used to display this Tile
-     */
-    public Sprite getSprite()
-    {
-        return sprite;
     }
 
     @Override
     public void interact(GameCharacter source)
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Tiles should not interact with anything.");
     }
 
     @Override
-    protected void advanceAnimation()
+    public void collideWith(MapObject mo)
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Tiles should not collide with anything.");
+    }
+
+    @Override
+    public boolean canCollide()
+    {
+        return false;
     }
 
     @Override
@@ -97,5 +71,4 @@ public abstract class Tile extends MapObject
         else
             return super.getCollisionStatus();
     }
-
 }

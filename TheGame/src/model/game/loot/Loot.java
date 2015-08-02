@@ -11,7 +11,6 @@ public abstract class Loot extends MapObject
 
     public Loot(int x, int y, double animationSpeed, Sprite sprite)
     {
-        super(x, y, animationSpeed, sprite);
+        super(x, y, 0.2, animationSpeed, sprite);
     }
-
 }

@@ -25,8 +25,6 @@ public class GameData
     public Spell spell;
     public Projectile projectile;
 
-    private List<Projectile> activeProjectiles;
-
     /**
      * @param mapID
      *            MapID the game starts with
@@ -35,14 +33,12 @@ public class GameData
     {
         changeMap(mapID);
 
-        activeProjectiles = new ArrayList<Projectile>();
-        
-        spell = new TestSpell(activeProjectiles);
+        spell = new TestSpell(currentMap);
         List<Spell> spelllist = new ArrayList<Spell>();
         spelllist.add(spell);
 
-        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, currentMap);
-        enemy = new EnemyNpc(100, 100, spelllist, Sprite.enemy01, currentMap);
+        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01);
+        enemy = new EnemyNpc(100, 100, spelllist, Sprite.enemy01);
     }
 
     /**
@@ -62,11 +58,6 @@ public class GameData
             default:
                 break;
         }
-    }
-
-    public List<Projectile> getActiveProjectiles()
-    {
-        return activeProjectiles;
     }
 
     /**

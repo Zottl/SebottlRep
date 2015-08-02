@@ -1,22 +1,21 @@
 package model.game.spell;
 
-import java.util.List;
-
-import model.game.object.Projectile;
 import model.game.characters.GameCharacter;
+import model.game.maps.GameMap;
+import model.game.object.Projectile;
 
 public abstract class Spell
 {
     Projectile projectile;
-    List<Projectile> activeProjectiles;
-    
-    public Spell(List<Projectile> activeProjectiles)
+    GameMap map;
+
+    public Spell(GameMap map)
     {
-        this.activeProjectiles = activeProjectiles;
+        this.map = map;
     }
 
     public void cast(int xTarget, int yTarget, GameCharacter character)
     {
-        
+
     }
 }

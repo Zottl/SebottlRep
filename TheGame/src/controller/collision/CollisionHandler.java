@@ -17,13 +17,18 @@ import model.game.object.MapObject;
 public class CollisionHandler implements Observer
 {
 
+    /**
+     * Values that represent different types of collision (e.g. solid, hurtful)
+     */
     public enum CollisionStatus
     {
-        EMPTY, SOLID, HURT_PLAYER, HURT_ENEMY, HEAL_PLAYER, HEAL_ENEMY
+        EMPTY, SOLID, HURT_PLAYER, HURT_ENEMY, HEAL_PLAYER, HEAL_ENEMY, OOB
     };
 
     private CollisionStatus[][] tileLayer;
     private ListOfMapObjects[][] objectLayer;
+    private int width;
+    private int height;
 
     /**
      * Class to manage the collision detection in the game. A map needs to be
@@ -40,13 +45,18 @@ public class CollisionHandler implements Observer
      * @param status
      *            Status to check for (e.g. {@code CollisionStatus.SOLID})
      * @param x
-     *            X coordinate of the pixel
+     *            X coordinate of the position
      * @param y
-     *            Y coordinate of the pixel
-     * @return {@code true} if the pixel is affected the given status.
+     *            Y coordinate of the position
+     * @return {@code true} if the position is affected by the given status.
      */
     public boolean checkCollision(CollisionStatus status, int x, int y)
     {
+        if (x < 0 || y < 0 || x >= width || y >= height)
+        {
+            // Here the position is out of bounds
+            return status == CollisionStatus.OOB;
+        }
         boolean hasStatus = tileLayer[x][y] == status;
         for (ObjectLayerEntry ole : objectLayer[x][y])
         {
@@ -54,35 +64,36 @@ public class CollisionHandler implements Observer
         }
         return hasStatus;
     }
-    
+
     /**
-     * Check if the position at the given coordinate has a specific collision
-     * status
+     * Check if the position at the given coordinate has a one of multiple
+     * collision statuses
      * 
-     * @param stati
-     *            Stati to check for (e.g. {@code CollisionStatus.SOLID})
+     * @param statuses
+     *            Statuses to check for (e.g. {@code CollisionStatus.SOLID})
      * @param x
-     *            X coordinate of the pixel
+     *            X coordinate of the position
      * @param y
-     *            Y coordinate of the pixel
-     * @return {@code true} if the pixel is affected the given status.
+     *            Y coordinate of the position
+     * @return {@code true} if the position is affected by one of the given
+     *         statuses.
      */
-    public boolean checkCollision(CollisionStatus[] stati, int x, int y)
+    public boolean checkCollision(CollisionStatus[] statuses, int x, int y)
     {
-        for (CollisionStatus status : stati)
+        for (CollisionStatus status : statuses)
         {
             if (checkCollision(status, x, y))
             {
                 return true;
-            }            
+            }
         }
-        
+
         return false;
     }
 
     /**
-     * Check if the rectangle with the given coordinate and size lies on a pixel
-     * with a specific collision status
+     * Check if the rectangle with the given coordinate and size lies on a
+     * position with a specific collision status
      * 
      * @param status
      *            Status to check for (e.g. {@code CollisionStatus.SOLID})
@@ -94,7 +105,8 @@ public class CollisionHandler implements Observer
      *            Width of the rectangle
      * @param height
      *            Height of the rectangle
-     * @return {@code true} if the pixel is affected the given status.
+     * @return {@code true} if one of the positions inside the rectangle are
+     *         affected by the given status.
      */
     public boolean checkCollisionRectangle(CollisionStatus status, int x, int y, int width, int height)
     {
@@ -108,13 +120,13 @@ public class CollisionHandler implements Observer
         }
         return hasStatus;
     }
-    
+
     /**
      * Check if the rectangle with the given coordinate and size lies on a pixel
-     * with a specific collision status
+     * with one of multiple collision statuses
      * 
-     * @param stati
-     *            Stati to check for (e.g. {@code CollisionStatus.SOLID})
+     * @param statuses
+     *            Statuses to check for (e.g. {@code CollisionStatus.SOLID})
      * @param x
      *            X coordinate of the upper left corner of the rectangle
      * @param y
@@ -123,23 +135,24 @@ public class CollisionHandler implements Observer
      *            Width of the rectangle
      * @param height
      *            Height of the rectangle
-     * @return {@code true} if the pixel is affected the given status.
+     * @return {@code true} if the one positions inside the rectangle are
+     *         affected by one of the given statuses.
      */
-    public boolean checkCollisionRectangle(CollisionStatus[] stati, int x, int y, int width, int height)
+    public boolean checkCollisionRectangle(CollisionStatus[] statuses, int x, int y, int width, int height)
     {
-        for (CollisionStatus status : stati)
+        for (CollisionStatus status : statuses)
         {
             if (checkCollisionRectangle(status, x, y, width, height))
             {
                 return true;
-            }            
+            }
         }
-        
+
         return false;
     }
 
     /**
-     * Check if position with the given coordinate has a specific collision
+     * Check if the position with the given coordinate has a specific collision
      * status and return the Set of MapObjects that are responsible for that.
      * 
      * @param status
@@ -162,9 +175,9 @@ public class CollisionHandler implements Observer
     }
 
     /**
-     * Check if the rectangle with the given coordinate and size lies on a pixel
-     * with a specific collision status and return the Set of MapObjects that
-     * are responsible for that.
+     * Check if the rectangle with the given coordinate and size lies on a
+     * position with a specific collision status and return the Set of
+     * MapObjects that are responsible for that.
      * 
      * @param status
      *            Status to check for (e.g. {@code CollisionStatus.SOLID})
@@ -196,12 +209,12 @@ public class CollisionHandler implements Observer
      * Prepare the collision status data according to the given map
      * 
      * @param map
-     *            GameMap to load
+     *            {@link GameMap} to load
      */
     public void loadMapCollision(GameMap map)
     {
-        int width = map.getWidth();
-        int height = map.getHeight();
+        width = map.getWidth();
+        height = map.getHeight();
 
         map.addObserver(this);
 
@@ -212,7 +225,7 @@ public class CollisionHandler implements Observer
         {
             for (int y = 0; y < height; y++)
             {
-                tileLayer[x][y] = map.getTile(x, y).isSolid() ? CollisionStatus.SOLID : CollisionStatus.EMPTY;
+                tileLayer[x][y] = map.getTile(x, y).getCollisionStatus();
                 objectLayer[x][y] = new ListOfMapObjects();
             }
         }
@@ -278,12 +291,12 @@ public class CollisionHandler implements Observer
      * Insert pointers to a MapObject into the objectLayer
      * 
      * @param mo
-     *            MapObject that will be added
+     *            {@link MapObject} that will be added
      */
     private void addObject(MapObject mo)
     {
-        int moX = mo.getX();
-        int moY = mo.getY();
+        int moX = (int) mo.getX();
+        int moY = (int) mo.getY();
         int moWidth = mo.getSprite().WIDTH;
         int moHeight = mo.getSprite().HEIGHT;
 
@@ -302,12 +315,12 @@ public class CollisionHandler implements Observer
      * Remove every pointer to a MapObject inside the objectLayer
      * 
      * @param mo
-     *            MapObject that will be removed
+     *            {@link MapObject} that will be removed
      */
     private void removeObject(MapObject mo)
     {
-        int moX = mo.getX();
-        int moY = mo.getY();
+        int moX = (int) mo.getX();
+        int moY = (int) mo.getY();
         int moWidth = mo.getSprite().WIDTH;
         int moHeight = mo.getSprite().HEIGHT;
         mo.deleteObserver(this);

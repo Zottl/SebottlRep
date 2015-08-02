@@ -11,17 +11,18 @@ import model.game.characters.GameCharacter;
  */
 public abstract class MapObject extends Observable
 {
-    protected int x; // X-coordinate of the MapObject
-    protected int y; // Y-coordinate of the MapObject
+    protected double x; // X-coordinate of the MapObject
+    protected double y; // Y-coordinate of the MapObject
+
+    protected double speed; // Movement speed of the MapObject
+    protected int direction; // Movement direction of the MapObject in degrees
+                             // (or -1 if unmoving)
 
     // How many steps does the animation advance per update
     protected double animationSpeed;
 
-    // Helper variable for the animation
-    protected double animationBuildup;
-
     // Shows which part of the animation is shown right now
-    protected int animationState;
+    protected double animationState;
 
     protected Sprite sprite; // Sprite of the MapObject
 
@@ -35,30 +36,16 @@ public abstract class MapObject extends Observable
      * @param sprite
      *            Sprite of the MapObject
      */
-    public MapObject(int x, int y, double animationSpeed, Sprite sprite)
+    public MapObject(int x, int y, double speed, double animationSpeed, Sprite sprite)
     {
-        this.x = x;
-        this.y = y;
+        // Let the object be at the center of the pixel it is standing on
+        this.x = x + 0.5;
+        this.y = y + 0.5;
+        this.speed = speed;
+        this.direction = -1;
         this.animationSpeed = animationSpeed;
-        this.animationBuildup = 0;
         this.animationState = 0;
         this.sprite = sprite;
-    }
-
-    /**
-     * Animate this MapObject.
-     */
-    public void animate()
-    {
-        if (animationBuildup < 1)
-        {
-            animationBuildup += animationSpeed;
-        }
-        else
-        {
-            advanceAnimation();
-            animationBuildup--;
-        }
     }
 
     /**
@@ -72,12 +59,42 @@ public abstract class MapObject extends Observable
     /**
      * Go to the next Sprite in the animation of this MapObject
      */
-    protected abstract void advanceAnimation();
+    public abstract void advanceAnimation();
+
+    /**
+     * @return {@code true} if the object can not be inside solid objects
+     */
+    public abstract boolean canCollide();
+
+    /**
+     * Starts the collision routine for the collision of this MapObject with
+     * another
+     * 
+     * @param mo
+     *            The MapObject to collide with.
+     */
+    public abstract void collideWith(MapObject mo);
+
+    /**
+     * Move the MapObject to the given position
+     * 
+     * @param xPos
+     *            X coordinate of the position
+     * @param yPos
+     *            Y coordinate of the position
+     */
+    public void moveTo(double xPos, double yPos)
+    {
+        notifyObservers(false);
+        x = xPos;
+        y = yPos;
+        notifyObservers(true);
+    }
 
     /**
      * @return X-coordinate of the MapObject
      */
-    public int getX()
+    public double getX()
     {
         return x;
     }
@@ -85,7 +102,7 @@ public abstract class MapObject extends Observable
     /**
      * @return Y-coordinate of the MapObject
      */
-    public int getY()
+    public double getY()
     {
         return y;
     }
@@ -98,8 +115,26 @@ public abstract class MapObject extends Observable
         return sprite;
     }
 
+    /**
+     * @return The {@link CollisionStatus} associated with this MapObject
+     */
     public CollisionStatus getCollisionStatus()
     {
         return CollisionStatus.EMPTY;
+    }
+
+    public double getSpeed()
+    {
+        return speed;
+    }
+
+    public int getDirection()
+    {
+        return direction;
+    }
+
+    public void setDirection(int direction)
+    {
+        this.direction = direction;
     }
 }

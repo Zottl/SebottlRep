@@ -3,9 +3,9 @@ package controller;
 import model.GameData;
 import model.game.characters.Player;
 import model.game.object.MapObject;
-import model.game.object.Projectile;
 import model.game.tiles.Tile;
 import view.View;
+import controller.collision.CollisionHandler;
 import controller.input.Keyboard;
 import controller.input.Mouse;
 
@@ -14,16 +14,17 @@ public class GameController implements Runnable
 
     boolean running;
 
-    GameData gameData;
-    View view;
-    Thread thread;
-    Keyboard keyboard;
-    Mouse mouse;
-    Player player;
+    private GameData gameData;
+    private View view;
+    private Thread thread;
+    private Keyboard keyboard;
+    private Mouse mouse;
+    private MovementHandler movHandler;
+    private Player player;
 
     public int xOffset;
     public int yOffset;
-    
+
     boolean mouseClicked;
 
     public GameController(GameData gameData, View view)
@@ -32,13 +33,19 @@ public class GameController implements Runnable
         this.view = view;
 
         player = gameData.player;
-
+        gameData.getMap().addMapObject(player);
+        
         keyboard = new Keyboard();
         view.addKeyListener(keyboard);
 
         mouse = new Mouse();
         view.addMouseListener(mouse);
         view.addMouseMotionListener(mouse);
+
+        CollisionHandler colHandler = new CollisionHandler();
+        colHandler.loadMapCollision(gameData.getMap());
+
+        movHandler = new MovementHandler(gameData, colHandler, keyboard);
     }
 
     public void run()
@@ -94,43 +101,16 @@ public class GameController implements Runnable
         keyboard.update();
         mouse.update(xOffset, yOffset);
         this.userMouseInput();
-        
-        movePlayer();
-        this.centerScreen(player.getX() + Tile.TILESIZE / 2, player.getY() + Tile.TILESIZE / 2);
-        
-        // handle active projectiles
-        for (Projectile projectile : gameData.getActiveProjectiles())
-        {
-            projectile.move();
-        }
+
+        movHandler.moveObjects();
+
+        this.centerScreen((int) player.getX() + Tile.TILESIZE / 2, (int) player.getY() + Tile.TILESIZE / 2);
 
         // Animate the MapObjects
         for (MapObject mo : gameData.getMap().getObjects())
         {
-            mo.animate();
+            mo.advanceAnimation();
         }
-        
-        // Animate the Projectiles
-        for (Projectile proj : gameData.getActiveProjectiles())
-        {
-            proj.animate();
-        }
-    }
-
-    /**
-     * Handles the player movement
-     */
-    private void movePlayer()
-    {
-        int xMove = 0;
-        int yMove = 0;
-
-        if (keyboard.up) yMove--;
-        if (keyboard.right) xMove++;
-        if (keyboard.down) yMove++;
-        if (keyboard.left) xMove--;
-
-        player.move(xMove, yMove);
     }
 
     /**
@@ -141,10 +121,10 @@ public class GameController implements Runnable
         if (Mouse.getButton() == 1 && !mouseClicked)
         {
             mouseClicked = true;
-            
+
             player.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
         }
-        
+
         if (Mouse.getButton() == -1)
         {
             mouseClicked = false;
