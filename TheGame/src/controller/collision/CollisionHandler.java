@@ -54,6 +54,31 @@ public class CollisionHandler implements Observer
         }
         return hasStatus;
     }
+    
+    /**
+     * Check if the position at the given coordinate has a specific collision
+     * status
+     * 
+     * @param stati
+     *            Stati to check for (e.g. {@code CollisionStatus.SOLID})
+     * @param x
+     *            X coordinate of the pixel
+     * @param y
+     *            Y coordinate of the pixel
+     * @return {@code true} if the pixel is affected the given status.
+     */
+    public boolean checkCollision(CollisionStatus[] stati, int x, int y)
+    {
+        for (CollisionStatus status : stati)
+        {
+            if (checkCollision(status, x, y))
+            {
+                return true;
+            }            
+        }
+        
+        return false;
+    }
 
     /**
      * Check if the rectangle with the given coordinate and size lies on a pixel
@@ -83,9 +108,38 @@ public class CollisionHandler implements Observer
         }
         return hasStatus;
     }
+    
+    /**
+     * Check if the rectangle with the given coordinate and size lies on a pixel
+     * with a specific collision status
+     * 
+     * @param stati
+     *            Stati to check for (e.g. {@code CollisionStatus.SOLID})
+     * @param x
+     *            X coordinate of the upper left corner of the rectangle
+     * @param y
+     *            Y coordinate of the upper left corner of the rectangle
+     * @param width
+     *            Width of the rectangle
+     * @param height
+     *            Height of the rectangle
+     * @return {@code true} if the pixel is affected the given status.
+     */
+    public boolean checkCollisionRectangle(CollisionStatus[] stati, int x, int y, int width, int height)
+    {
+        for (CollisionStatus status : stati)
+        {
+            if (checkCollisionRectangle(status, x, y, width, height))
+            {
+                return true;
+            }            
+        }
+        
+        return false;
+    }
 
     /**
-     * Check if position with the given coordinate ha a specific collision
+     * Check if position with the given coordinate has a specific collision
      * status and return the Set of MapObjects that are responsible for that.
      * 
      * @param status
