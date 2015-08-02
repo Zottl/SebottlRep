@@ -1,5 +1,8 @@
 package model.game.tiles;
 
+import controller.collision.CollisionHandler.CollisionStatus;
+import model.game.characters.GameCharacter;
+import model.game.object.MapObject;
 import model.game.sprites.Sprite;
 
 /**
@@ -7,7 +10,7 @@ import model.game.sprites.Sprite;
  * Abstract class for map tiles in the game
  *
  */
-public abstract class Tile
+public abstract class Tile extends MapObject
 {
     /**
      * The size of a map tile (both width and height)
@@ -35,6 +38,7 @@ public abstract class Tile
      */
     public Tile(int x, int y, boolean solid, Sprite sprite)
     {
+        super(x, y, 0, sprite);
         this.x = x;
         this.y = y;
         this.solid = solid;
@@ -72,4 +76,26 @@ public abstract class Tile
     {
         return sprite;
     }
+
+    @Override
+    public void interact(GameCharacter source)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected void advanceAnimation()
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CollisionStatus getCollisionStatus()
+    {
+        if (solid)
+            return CollisionStatus.SOLID;
+        else
+            return super.getCollisionStatus();
+    }
+
 }

@@ -1,5 +1,6 @@
 package model.game.object;
 
+import controller.collision.CollisionHandler.CollisionStatus;
 import model.game.sprites.Sprite;
 import model.game.characters.GameCharacter;
 
@@ -38,8 +39,8 @@ public class RedChest extends MapObject
     @Override
     protected void advanceAnimation()
     {
-//        if (!open)
-//            return;
+        // if (!open)
+        // return;
         switch (animationState)
         {
             case 0:
@@ -74,5 +75,11 @@ public class RedChest extends MapObject
             default:
                 return;
         }
+    }
+
+    @Override
+    public CollisionStatus getCollisionStatus()
+    {
+        return CollisionStatus.SOLID;
     }
 }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 import model.game.object.MapObject;
@@ -18,7 +20,7 @@ import model.game.tiles.WallTile;
 /**
  * Abstract Class for a map in the game.
  */
-public abstract class GameMap
+public abstract class GameMap extends Observable
 {
 
     // Width of the map (in pixels)
@@ -177,6 +179,8 @@ public abstract class GameMap
     public void addMapObject(MapObject mo)
     {
         objects.add(mo);
+        setChanged();
+        notifyObservers(new MapChangedEvent(mo, false));
     }
 
     /**
@@ -185,14 +189,29 @@ public abstract class GameMap
      */
     public void removeMapObject(MapObject mo)
     {
-        objects.remove(mo);
+        if (objects.remove(mo))
+        {
+            setChanged();
+            notifyObservers(new MapChangedEvent(mo, true));
+        }
     }
 
     /**
-     * @return The MapObjects that are placed on this GameMap.
+     * @return A list of the MapObjects that are placed on this GameMap.
      */
     public List<MapObject> getObjects()
     {
-        return objects;
+        return new ArrayList<MapObject>(objects);
+    }
+    
+    public class MapChangedEvent {
+        public MapObject mapObject;
+        public boolean removed;
+        
+        public MapChangedEvent(MapObject mapObject, boolean removed)
+        {
+            this.mapObject = mapObject;
+            this.removed = removed;
+        }
     }
 }

@@ -1,12 +1,15 @@
 package model.game.object;
 
+import java.util.Observable;
+
+import controller.collision.CollisionHandler.CollisionStatus;
 import model.game.sprites.Sprite;
 import model.game.characters.GameCharacter;
 
 /**
  * Abstract class for objects, that are placed on maps.
  */
-public abstract class MapObject
+public abstract class MapObject extends Observable
 {
     protected int x; // X-coordinate of the MapObject
     protected int y; // Y-coordinate of the MapObject
@@ -93,5 +96,10 @@ public abstract class MapObject
     public Sprite getSprite()
     {
         return sprite;
+    }
+
+    public CollisionStatus getCollisionStatus()
+    {
+        return CollisionStatus.EMPTY;
     }
 }

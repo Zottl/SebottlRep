@@ -10,7 +10,7 @@ public class Main
     public static void main(String[] args)
     {
         setOpenGL(true);
-        enableTraceOutput(true);
+        enableTraceOutput(false);
 
         GameData gameData = new GameData(1);
         
