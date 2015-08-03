@@ -30,17 +30,17 @@ public abstract class GameCharacter extends MapObject
     }
 
     @Override
-    public boolean canCollide()
+    public boolean isGhost()
     {
-        return true;
+        return false;
     }
 
     /**
      * @return speed of the character
      */
-    public double getSpeed()
+    public double getMovementSpeed()
     {
-        return speed;
+        return movementSpeed;
     }
 
     /**
@@ -49,6 +49,6 @@ public abstract class GameCharacter extends MapObject
      */
     public void setSpeed(double speed)
     {
-        this.speed = speed;
+        this.movementSpeed = speed;
     }
 }

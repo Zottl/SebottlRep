@@ -57,12 +57,20 @@ public class CollisionHandler implements Observer
             // Here the position is out of bounds
             return status == CollisionStatus.OOB;
         }
-        boolean hasStatus = tileLayer[x][y] == status;
+
+        if (tileLayer[x][y] == status)
+        {
+            return true;
+        }
+
         for (ObjectLayerEntry ole : objectLayer[x][y])
         {
-            hasStatus |= ole.cs == status;
+            if (ole.cs == status)
+            {
+                return true;
+            }
         }
-        return hasStatus;
+        return false;
     }
 
     /**
@@ -110,15 +118,18 @@ public class CollisionHandler implements Observer
      */
     public boolean checkCollisionRectangle(CollisionStatus status, int x, int y, int width, int height)
     {
-        boolean hasStatus = false;
-        for (int rx = x; rx < width; rx++)
+        for (int rx = x; rx < x + width; rx++)
         {
-            for (int ry = y; ry < height; ry++)
+            for (int ry = y; ry < y + height; ry++)
             {
-                hasStatus |= checkCollision(status, rx, ry);
+                if (checkCollision(status, rx, ry))
+                {
+                    return true;
+                }
             }
         }
-        return hasStatus;
+
+        return false;
     }
 
     /**
@@ -164,13 +175,14 @@ public class CollisionHandler implements Observer
      * @return A Set of MapObjects that are responsible for the status of this
      *         position.
      */
-    public Set<MapObject> getCollidingObject(CollisionStatus status, int x, int y)
+    public Set<MapObject> getCollidingObjects(CollisionStatus status, int x, int y)
     {
         Set<MapObject> moSet = new HashSet<MapObject>();
         for (ObjectLayerEntry ole : objectLayer[x][y])
         {
             if (ole.cs == status) moSet.add(ole.mo);
         }
+
         return moSet;
     }
 
@@ -192,17 +204,23 @@ public class CollisionHandler implements Observer
      * @return A Set of MapObjects that are responsible for the status of the
      *         positions inside the rectangle.
      */
-    public Set<MapObject> getCollidingObjectRectangle(CollisionStatus status, int x, int y, int width, int height)
+    public Set<MapObject> getCollidingObjectsRectangle(CollisionStatus status, int x, int y, int width, int height)
     {
         Set<MapObject> moSet = new HashSet<MapObject>();
-        for (int rx = x; rx < width; rx++)
+        for (int rx = x; rx < x + width; rx++)
         {
-            for (int ry = y; ry < height; ry++)
+            for (int ry = y; ry < y + height; ry++)
             {
-                moSet.addAll(getCollidingObject(status, rx, ry));
+                moSet.addAll(getCollidingObjects(status, rx, ry));
             }
         }
+
         return moSet;
+    }
+
+    public void handleColisions()
+    {
+
     }
 
     /**

@@ -1,7 +1,5 @@
 package model.game.loot;
 
-import model.game.characters.GameCharacter;
-import model.game.object.MapObject;
 import model.game.sprites.Sprite;
 
 public class Coin extends Loot
@@ -11,12 +9,6 @@ public class Coin extends Loot
     public Coin(int x, int y)
     {
         super(x, y, 0.2, Sprite.coin01);
-    }
-
-    @Override
-    public void interact(GameCharacter source)
-    {
-        // TODO
     }
 
     @Override
@@ -37,18 +29,25 @@ public class Coin extends Loot
                     sparkleDelay--;
                     animationState--;
                 }
+                break;
             case 2:
                 sprite = Sprite.coinSparkle2;
+                break;
             case 3:
                 sprite = Sprite.coinSparkle3;
+                break;
             case 4:
                 sprite = Sprite.coinSparkle4;
+                break;
             case 5:
                 sprite = Sprite.coinSparkle5;
+                break;
             case 6:
                 sprite = Sprite.coinSparkle6;
+                break;
             case 7:
                 sprite = Sprite.coinSparkle7;
+                break;
             case 8:
                 sprite = Sprite.coin01;
                 animationState = 0;
@@ -57,14 +56,8 @@ public class Coin extends Loot
     }
 
     @Override
-    public boolean canCollide()
+    public boolean isGhost()
     {
-        return true;
-    }
-
-    @Override
-    public void collideWith(MapObject mo)
-    {
-        // TODO
+        return false;
     }
 }

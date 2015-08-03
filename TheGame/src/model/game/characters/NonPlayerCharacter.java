@@ -2,7 +2,6 @@ package model.game.characters;
 
 import java.util.List;
 
-import model.game.object.MapObject;
 import model.game.spell.Spell;
 import model.game.sprites.Sprite;
 
@@ -14,20 +13,8 @@ public abstract class NonPlayerCharacter extends GameCharacter
     }
 
     @Override
-    public void interact(GameCharacter source)
-    {
-
-    }
-
-    @Override
     public void advanceAnimation()
     {
 
-    }
-
-    @Override
-    public void collideWith(MapObject mo)
-    {
-        // TODO
     }
 }

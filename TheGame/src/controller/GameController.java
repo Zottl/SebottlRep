@@ -22,8 +22,8 @@ public class GameController implements Runnable
     private MovementHandler movHandler;
     private Player player;
 
-    public int xOffset;
-    public int yOffset;
+    public int xScreenOffset;
+    public int yScreenOffset;
 
     boolean mouseClicked;
 
@@ -34,7 +34,7 @@ public class GameController implements Runnable
 
         player = gameData.player;
         gameData.getMap().addMapObject(player);
-        
+
         keyboard = new Keyboard();
         view.addKeyListener(keyboard);
 
@@ -77,7 +77,7 @@ public class GameController implements Runnable
                 delta--;
             }
 
-            view.render(xOffset, yOffset);
+            view.render(xScreenOffset, yScreenOffset);
             frames++;
 
             // gets called every second
@@ -99,7 +99,7 @@ public class GameController implements Runnable
     {
         // Handle user input
         keyboard.update();
-        mouse.update(xOffset, yOffset);
+        mouse.update(xScreenOffset, yScreenOffset);
         this.userMouseInput();
 
         movHandler.moveObjects();
@@ -118,14 +118,14 @@ public class GameController implements Runnable
      */
     private void userMouseInput()
     {
-        if (Mouse.getButton() == 1 && !mouseClicked)
+        if (mouse.getButton() == 1 && !mouseClicked)
         {
             mouseClicked = true;
 
             player.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
         }
 
-        if (Mouse.getButton() == -1)
+        if (mouse.getButton() == -1)
         {
             mouseClicked = false;
         }
@@ -172,25 +172,25 @@ public class GameController implements Runnable
         int mapWidth = gameData.getMap().getWidth();
         int mapHeight = gameData.getMap().getHeight();
 
-        xOffset = x - width / 2;
-        yOffset = y - height / 2;
+        xScreenOffset = x - width / 2;
+        yScreenOffset = y - height / 2;
 
         // Limit Offset, so that the view never leaves the map
-        if (xOffset < 0)
+        if (xScreenOffset < 0)
         {
-            xOffset = 0;
+            xScreenOffset = 0;
         }
-        if (xOffset > mapWidth - width)
+        if (xScreenOffset > mapWidth - width)
         {
-            xOffset = mapWidth - width;
+            xScreenOffset = mapWidth - width;
         }
-        if (yOffset < 0)
+        if (yScreenOffset < 0)
         {
-            yOffset = 0;
+            yScreenOffset = 0;
         }
-        if (yOffset > mapHeight - height)
+        if (yScreenOffset > mapHeight - height)
         {
-            yOffset = mapHeight - height;
+            yScreenOffset = mapHeight - height;
         }
     }
 }

@@ -1,9 +1,8 @@
 package model.game.tiles;
 
-import controller.collision.CollisionHandler.CollisionStatus;
-import model.game.characters.GameCharacter;
 import model.game.object.MapObject;
 import model.game.sprites.Sprite;
+import controller.collision.CollisionHandler.CollisionStatus;
 
 /**
  * 
@@ -43,22 +42,12 @@ public abstract class Tile extends MapObject
     @Override
     public void advanceAnimation()
     {
+        // Tiles usually don't have an animation
+        return;
     }
 
     @Override
-    public void interact(GameCharacter source)
-    {
-        throw new UnsupportedOperationException("Tiles should not interact with anything.");
-    }
-
-    @Override
-    public void collideWith(MapObject mo)
-    {
-        throw new UnsupportedOperationException("Tiles should not collide with anything.");
-    }
-
-    @Override
-    public boolean canCollide()
+    public boolean isGhost()
     {
         return false;
     }

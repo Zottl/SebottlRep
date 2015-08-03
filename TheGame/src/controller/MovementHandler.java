@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.List;
-
 import model.GameData;
 import model.game.object.MapObject;
 import model.game.sprites.Sprite;
@@ -9,13 +7,30 @@ import controller.collision.CollisionHandler;
 import controller.collision.CollisionHandler.CollisionStatus;
 import controller.input.Keyboard;
 
+/**
+ * Handles the movement of all MapObjects
+ */
 public class MovementHandler
 {
-
     private GameData data;
     private CollisionHandler ch;
     private Keyboard keyboad;
 
+    /**
+     * The set of collision statuses that are impassable for non-ghost objects
+     */
+    private CollisionStatus[] impassable = { CollisionStatus.SOLID, CollisionStatus.OOB };
+
+    /**
+     * Handles the movement of all MapObjects
+     * 
+     * @param data
+     *            The game data
+     * @param ch
+     *            The collision handler
+     * @param keyboard
+     *            The keyboard
+     */
     public MovementHandler(GameData data, CollisionHandler ch, Keyboard keyboard)
     {
         this.data = data;
@@ -23,17 +38,18 @@ public class MovementHandler
         this.keyboad = keyboard;
     }
 
+    /**
+     * Move every MapObject one step forward
+     */
     public void moveObjects()
     {
         // Adjust the direction according to AI and User-Inputs
         setPlayerDirection();
 
         // Move the objects
-        List<MapObject> objects = data.getMap().getObjects();
-        for (MapObject mo : objects)
+        for (MapObject mo : data.getMap().getObjects())
         {
-            int dir = mo.getDirection();
-            if (dir == -1)
+            if (mo.getDirection() == -1)
             {
                 // If the object is currently not moving, then move it towards
                 // the center of the pixel it currently is positioned on
@@ -52,27 +68,27 @@ public class MovementHandler
         if (keyboad.up && !keyboad.down)
         {
             if (keyboad.right && !keyboad.left)
-                dir = 315;
-            else if (!keyboad.right && keyboad.left)
                 dir = 45;
+            else if (!keyboad.right && keyboad.left)
+                dir = 135;
             else
-                dir = 0;
+                dir = 90;
         }
         else if (!keyboad.up && keyboad.down)
         {
             if (keyboad.right && !keyboad.left)
-                dir = 225;
+                dir = 315;
             else if (!keyboad.right && keyboad.left)
-                dir = 135;
+                dir = 225;
             else
-                dir = 180;
+                dir = 270;
         }
         else
         {
             if (keyboad.right && !keyboad.left)
-                dir = 270;
+                dir = 0;
             else if (!keyboad.right && keyboad.left)
-                dir = 90;
+                dir = 180;
             else
                 dir = -1;
         }
@@ -88,7 +104,7 @@ public class MovementHandler
     private void adjustSubpixelPosition(MapObject mo)
     {
         // Get the data of the MapObject
-        double speed = mo.getSpeed();
+        double speed = mo.getMovementSpeed();
         double x = mo.getX();
         double y = mo.getY();
 
@@ -106,6 +122,7 @@ public class MovementHandler
         double ySub = y % 1;
 
         // Slowly adjust the subpixel ratio to the center of the pixel
+        // (at the speed of the object)
         if (xSub > 0.5)
         {
             newX = Math.max(xPix + 0.5, xPix + (xSub - speed));
@@ -135,61 +152,72 @@ public class MovementHandler
      * Moves a single MapObject according to its direction and speed values
      * 
      * @param mo
-     * @param direction
-     * @param distance
+     *            MapObject to move
      */
     private void moveObject(MapObject mo)
     {
         double x = mo.getX();
         double y = mo.getY();
         int direction = mo.getDirection();
-        double distance = mo.getSpeed();
+        double distance = mo.getMovementSpeed();
 
-        double xDist = calcXTravel(direction, distance);
-        double yDist = calcYTravel(direction, distance);
+        double xTravel = calcXTravel(direction, distance);
+        double yTravel = calcYTravel(direction, distance);
 
         Sprite sprite = mo.getSprite();
-        
-        CollisionStatus[] coll = {CollisionStatus.SOLID, CollisionStatus.OOB};
-        
-        if (mo.canCollide() && ch.checkCollisionRectangle(coll, (int) (x + xDist), (int) (y + yDist), sprite.WIDTH, sprite.HEIGHT))
+        int width = sprite.WIDTH;
+        int height = sprite.HEIGHT;
+
+        if (!mo.isGhost() && ch.checkCollisionRectangle(impassable, (int) (x + xTravel), (int) (y + yTravel), width, height))
         {
             /*
              * A collision occurred! Try to go as far horizontally/vertically as
              * possible (whichever happens to be the cause for the collision)
              * and then go the remaining distance along the other direction.
              */
-            if (ch.checkCollisionRectangle(coll, (int) (x + distance), (int) y, sprite.WIDTH, sprite.HEIGHT))
+
+            int xDir = calcXDir(direction);
+            int yDir = calcYDir(direction);
+
+            if (ch.checkCollisionRectangle(impassable, (int) (x + distance * xDir), (int) y, width, height))
             {
                 /*
                  * The horizontal movement was the problem! Go horizontally as
                  * far as possible, then move the remaining distance vertically.
                  */
-                xDist = horizontalDistance((int) x, (int) y, sprite.WIDTH, sprite.HEIGHT, distance);
-                yDist = verticalDistance((int) (x + xDist), (int) y, sprite.WIDTH, sprite.HEIGHT, pythagorasCH(xDist, distance));
+                xTravel = calcMaxHorDist(x, y, width, height, distance, xDir);
+                if (yDir != 0)
+                {
+                    double restDistance = pythagorasCH(Math.abs(xTravel), distance);
+                    yTravel = calcMaxVerDist((x + xTravel), y, width, height, restDistance, yDir);
+                }
 
-                mo.moveTo(x + xDist, y + yDist);
+                mo.moveTo(x + xTravel, y + yTravel);
             }
-            else if (ch.checkCollisionRectangle(coll, (int) x, (int) (y + distance), sprite.WIDTH, sprite.HEIGHT))
+            else
             {
                 /*
                  * The vertical movement was the problem! Go vertically as far
                  * as possible, then move the remaining distance horizontally.
                  */
-                yDist = verticalDistance((int) x, (int) y, sprite.WIDTH, sprite.HEIGHT, distance);
-                xDist = horizontalDistance((int) x, (int) (y + yDist), sprite.WIDTH, sprite.HEIGHT, pythagorasCH(yDist, distance));
+                yTravel = calcMaxVerDist(x, y, width, height, distance, yDir);
+                if (xDir != 0)
+                {
+                    double restDistance = pythagorasCH(Math.abs(yTravel), distance);
+                    xTravel = calcMaxHorDist(x, (y + yTravel), width, height, restDistance, xDir);
+                }
 
-                mo.moveTo(x + xDist, y + yDist);
+                mo.moveTo(x + xTravel, y + yTravel);
             }
         }
         else
         {
-            mo.moveTo(x + xDist, y + yDist);
+            mo.moveTo(x + xTravel, y + yTravel);
         }
     }
 
     /**
-     * Calculate the maximal possible horizontal distance, the given rectangle
+     * Calculate the maximal possible horizontal distance the given rectangle
      * may travel before colliding
      * 
      * @param x
@@ -200,25 +228,29 @@ public class MovementHandler
      *            Width of the rectangle
      * @param height
      *            Height of the rectangle
-     * @param distance
+     * @param maxDist
      *            Maximum travel distance
+     * @param dir
+     *            Direction of the horizontal movement (should be -1, 0 or 1)
      * @return The amount of pixels the rectangle may move horizontally
      */
-    private double horizontalDistance(double x, double y, int width, int height, double distance)
+    private double calcMaxHorDist(double x, double y, int width, int height, double maxDist, int dir)
     {
-        CollisionStatus[] coll = {CollisionStatus.SOLID, CollisionStatus.OOB};
-        for (double newX = x + distance - 1; newX > (x + 1); newX--)
+        if (dir == 0) return 0;
+
+        for (int d = 0; d < maxDist; d++)
         {
-            if (!ch.checkCollisionRectangle(coll, (int) newX, (int) y, width, height))
+            double xTravel = (maxDist - d) * dir;
+            if (!ch.checkCollisionRectangle(impassable, (int) (x + xTravel), (int) y, width, height))
             {
-                return ((int) newX) + 0.5 - x;
+                return xTravel;
             }
         }
         return 0;
     }
 
     /**
-     * Calculate the maximal possible vertical distance, the given rectangle may
+     * Calculate the maximal possible vertical distance the given rectangle may
      * travel before colliding
      * 
      * @param x
@@ -229,31 +261,55 @@ public class MovementHandler
      *            Width of the rectangle
      * @param height
      *            Height of the rectangle
-     * @param distance
+     * @param maxDist
      *            Maximum travel distance
+     * @param dir
+     *            Direction of the vertical movement (should be -1, 0 or 1)
      * @return The amount of pixels the rectangle may move vertically
      */
-    private double verticalDistance(double x, double y, int width, int height, double distance)
+    private double calcMaxVerDist(double x, double y, int width, int height, double maxDist, int dir)
     {
-        CollisionStatus[] coll = {CollisionStatus.SOLID, CollisionStatus.OOB};
-        for (double newY = y + distance - 1; newY > (y + 1); newY--)
+        if (dir == 0) return 0;
+
+        for (int d = 0; d < maxDist; d++)
         {
-            if (!ch.checkCollisionRectangle(coll, (int) x, (int) newY, width, height))
+            double yTravel = (maxDist - d) * dir;
+            if (!ch.checkCollisionRectangle(impassable, (int) x, (int) (y + yTravel), width, height))
             {
-                return ((int) newY) + 0.5 - y;
+                return yTravel;
             }
         }
         return 0;
     }
 
+    /**
+     * Calculate the distance on the x-axis for the given movement.
+     * 
+     * @param direction
+     *            Direction of the movement in degrees
+     * @param distance
+     *            Distance of the movement
+     * @return The distance to move in x-direction (rounded to the 5. decimal
+     *         point)
+     */
     private double calcXTravel(int direction, double distance)
     {
-        return Math.sin(Math.toRadians(direction)) * distance;
+        return Math.round(Math.cos(Math.toRadians(direction)) * distance * 10000) / 10000.0;
     }
 
+    /**
+     * Calculate the distance on the y-axis for the given movement.
+     * 
+     * @param direction
+     *            Direction of the movement in degrees
+     * @param distance
+     *            Distance of the movement
+     * @return The distance to move in y-direction (rounded to the 5. decimal
+     *         point)
+     */
     private double calcYTravel(int direction, double distance)
     {
-        return Math.cos(Math.toRadians(direction)) * distance;
+        return Math.round(-Math.sin(Math.toRadians(direction)) * distance * 10000) / 10000.0;
     }
 
     /**
@@ -268,5 +324,39 @@ public class MovementHandler
     private double pythagorasCH(double cathetus, double hypothenuse)
     {
         return Math.sqrt(hypothenuse * hypothenuse - cathetus * cathetus);
+    }
+
+    /**
+     * Transform a direction in degrees into a travel direction on the x-axis
+     * 
+     * @param dir
+     *            Direction in degrees
+     * @return The x-axis direction (-1, 0 or 1)
+     */
+    private int calcXDir(int dir)
+    {
+        if (dir < 90 || dir > 270)
+            return 1;
+        else if (dir > 90 && dir < 270)
+            return -1;
+        else
+            return 0;
+    }
+
+    /**
+     * Transform a direction in degrees into a travel direction on the y-axis
+     * 
+     * @param dir
+     *            Direction in degrees
+     * @return The y-axis direction (-1, 0 or 1)
+     */
+    private int calcYDir(int dir)
+    {
+        if (dir > 180 && dir < 360)
+            return 1;
+        else if (dir < 180 && dir > 0)
+            return -1;
+        else
+            return 0;
     }
 }

@@ -1,8 +1,7 @@
 package model.game.object;
 
-import controller.collision.CollisionHandler.CollisionStatus;
 import model.game.sprites.Sprite;
-import model.game.characters.GameCharacter;
+import controller.collision.CollisionHandler.CollisionStatus;
 
 /**
  * A Chest that can be placed on a GameMap (red)
@@ -10,7 +9,6 @@ import model.game.characters.GameCharacter;
 public class RedChest extends MapObject
 {
     // private Item content;
-    private boolean open;
 
     /**
      * A Chest that can be placed on a GameMap (red)
@@ -23,17 +21,6 @@ public class RedChest extends MapObject
     public RedChest(int x, int y)
     {
         super(x, y, 0, 0.04, Sprite.redChest01);
-        open = false;
-    }
-
-    @Override
-    public void interact(GameCharacter source)
-    {
-        if (!open)
-        {
-            // source.giveItem(content);
-            open = true;
-        }
     }
 
     @Override
@@ -46,12 +33,16 @@ public class RedChest extends MapObject
         {
             case 1:
                 sprite = Sprite.redChest02;
+                break;
             case 2:
                 sprite = Sprite.redChest03;
+                break;
             case 3:
                 sprite = Sprite.redChest04;
+                break;
             case 4:
                 sprite = Sprite.redChest05;
+                break;
             case 8:
                 sprite = Sprite.redChest01;
                 animationState = 0;
@@ -65,15 +56,8 @@ public class RedChest extends MapObject
     }
 
     @Override
-    public boolean canCollide()
+    public boolean isGhost()
     {
-        // TODO Auto-generated method stub
         return false;
-    }
-
-    @Override
-    public void collideWith(MapObject mo)
-    {
-        throw new UnsupportedOperationException("RedChest can not collide with anything.");
     }
 }

@@ -1,6 +1,5 @@
 package model.game.object;
 
-import model.game.characters.GameCharacter;
 import model.game.sprites.Sprite;
 
 public class Projectile extends MapObject
@@ -9,16 +8,14 @@ public class Projectile extends MapObject
     {
         super((int) xOrigin, (int) yOrigin, moveSpeed, animationSpeed, sprite);
 
-        double dirX = xTarget - xOrigin - sprite.WIDTH / 2;
-        double dirY = yTarget - yOrigin - sprite.HEIGHT / 2;
+        // Calculate the vector from the center of this projectile to the target
+        // position
+        int dirX = (int) (xTarget - getCenterX());
+        int dirY = (int) (yTarget - getCenterY());
 
-        super.direction = (int) Math.toDegrees(Math.atan2(dirY, dirX));
-    }
-
-    @Override
-    public void interact(GameCharacter source)
-    {
-
+        // Transform that vector into an angle in degrees (0° is right,
+        // counter-clockwise)
+        super.direction = ((int) Math.toDegrees(-Math.atan2(dirY, dirX)) + 360) % 360;
     }
 
     @Override
@@ -30,10 +27,13 @@ public class Projectile extends MapObject
         {
             case 1:
                 sprite = Sprite.testSpell02;
+                break;
             case 2:
                 sprite = Sprite.testSpell03;
+                break;
             case 3:
                 sprite = Sprite.testSpell02;
+                break;
             case 4:
                 sprite = Sprite.testSpell01;
                 animationState = 0;
@@ -41,18 +41,11 @@ public class Projectile extends MapObject
     }
 
     @Override
-    public boolean canCollide()
+    public boolean isGhost()
     {
         // Projectiles explode or pass through solid objects, rather than
         // collide with them (exploding is handled separately in the
-        // collideWith() method)
-        return false;
+        // CollisionHandler)
+        return true;
     }
-
-    @Override
-    public void collideWith(MapObject mo)
-    {
-        // TODO explode!
-    }
-
 }

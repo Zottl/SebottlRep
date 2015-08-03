@@ -17,9 +17,9 @@ public class Mouse implements MouseListener, MouseMotionListener
     private int xOffset;
     private int yOffset;
 
-    private static int mouseX = -1;
-    private static int mouseY = -1;
-    private static int mouseB = -1;
+    private int mouseX = -1;
+    private int mouseY = -1;
+    private int mouseB = -1;
 
     public void update(int xOffset, int yOffset)
     {
@@ -30,7 +30,6 @@ public class Mouse implements MouseListener, MouseMotionListener
     public void mousePressed(MouseEvent e)
     {
         mouseB = e.getButton();
-        System.out.println("x: " + mouseX + " y: " + mouseY + " mapX: " + this.getMouseMapX() + " mapY: " + this.getMouseMapY());
     }
 
     public void mouseReleased(MouseEvent e)
@@ -65,7 +64,7 @@ public class Mouse implements MouseListener, MouseMotionListener
     /**
      * @return x coordinate of the mouse
      */
-    public static int getX()
+    public int getX()
     {
         return mouseX;
     }
@@ -73,7 +72,7 @@ public class Mouse implements MouseListener, MouseMotionListener
     /**
      * @return y coordinate of the mouse
      */
-    public static int getY()
+    public int getY()
     {
         return mouseY;
     }
@@ -81,7 +80,7 @@ public class Mouse implements MouseListener, MouseMotionListener
     /**
      * @return pressed mouse button
      */
-    public static int getButton()
+    public int getButton()
     {
         return mouseB;
     }
