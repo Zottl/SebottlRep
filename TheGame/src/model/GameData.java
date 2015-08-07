@@ -9,6 +9,7 @@ import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.maps.GrassMap01;
 import model.game.maps.GrassMap02;
+import model.game.object.Hitbox;
 import model.game.object.Projectile;
 import model.game.spell.Spell;
 import model.game.spell.TestSpell;
@@ -37,8 +38,8 @@ public class GameData
         List<Spell> spelllist = new ArrayList<Spell>();
         spelllist.add(spell);
 
-        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01);
-        enemy = new EnemyNpc(100, 100, spelllist, Sprite.enemy01);
+        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, new Hitbox(0, 0, 16, 16));
+        enemy = new EnemyNpc(100, 100, spelllist, Sprite.enemy01, new Hitbox(0, 0, 16, 16));
     }
 
     /**

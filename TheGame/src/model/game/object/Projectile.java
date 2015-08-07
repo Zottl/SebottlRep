@@ -6,7 +6,7 @@ public class Projectile extends MapObject
 {
     public Projectile(double xOrigin, double yOrigin, int xTarget, int yTarget, double moveSpeed, double animationSpeed, Sprite sprite)
     {
-        super((int) xOrigin, (int) yOrigin, moveSpeed, animationSpeed, sprite);
+        super((int) xOrigin, (int) yOrigin, moveSpeed, animationSpeed, sprite, new Hitbox(0, 0, 16, 16));
 
         // Calculate the vector from the center of this projectile to the target
         // position

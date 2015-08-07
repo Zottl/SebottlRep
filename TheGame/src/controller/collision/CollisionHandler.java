@@ -9,6 +9,7 @@ import java.util.Set;
 import model.game.maps.GameMap;
 import model.game.maps.GameMap.MapChangedEvent;
 import model.game.object.MapObject;
+import model.game.tiles.Tile;
 
 /**
  * Class to manage the collision detection in the game. A map needs to be loaded
@@ -243,7 +244,8 @@ public class CollisionHandler implements Observer
         {
             for (int y = 0; y < height; y++)
             {
-                tileLayer[x][y] = map.getTile(x, y).getCollisionStatus();
+                Tile currentTile = map.getTile(x, y);
+                tileLayer[x][y] = currentTile.containedInHitbox(x, y) ? currentTile.getCollisionStatus() : CollisionStatus.EMPTY;
                 objectLayer[x][y] = new ListOfMapObjects();
             }
         }
@@ -313,10 +315,10 @@ public class CollisionHandler implements Observer
      */
     private void addObject(MapObject mo)
     {
-        int moX = (int) mo.getX();
-        int moY = (int) mo.getY();
-        int moWidth = mo.getSprite().WIDTH;
-        int moHeight = mo.getSprite().HEIGHT;
+        int moX = mo.getHitboxX();
+        int moY = mo.getHitboxY();
+        int moWidth = mo.getHitboxWidth();
+        int moHeight = mo.getHitboxHeight();
 
         mo.addObserver(this);
 
@@ -337,10 +339,11 @@ public class CollisionHandler implements Observer
      */
     private void removeObject(MapObject mo)
     {
-        int moX = (int) mo.getX();
-        int moY = (int) mo.getY();
-        int moWidth = mo.getSprite().WIDTH;
-        int moHeight = mo.getSprite().HEIGHT;
+        int moX = mo.getHitboxX();
+        int moY = mo.getHitboxY();
+        int moWidth = mo.getHitboxWidth();
+        int moHeight = mo.getHitboxHeight();
+
         mo.deleteObserver(this);
 
         for (int x = 0; x < moWidth; x++)

@@ -24,6 +24,7 @@ public abstract class MapObject extends Observable
     protected double animationState;
 
     protected Sprite sprite; // Sprite of the MapObject
+    protected Hitbox hitbox; // Hitbox of the MapObject
 
     /**
      * Abstract class for objects, that are placed on maps.
@@ -38,8 +39,10 @@ public abstract class MapObject extends Observable
      *            Animation speed of the MapObject
      * @param sprite
      *            Sprite of the MapObject
+     * @param hitbox
+     *            Hitbox of the MapObject
      */
-    public MapObject(int x, int y, double movementSpeed, double animationSpeed, Sprite sprite)
+    public MapObject(int x, int y, double movementSpeed, double animationSpeed, Sprite sprite, Hitbox hitbox)
     {
         // Let the object be at the center of the pixel it is standing on
         this.x = x + 0.5;
@@ -49,6 +52,7 @@ public abstract class MapObject extends Observable
         this.animationSpeed = animationSpeed;
         this.animationState = 0;
         this.sprite = sprite;
+        this.hitbox = hitbox;
     }
 
     /**
@@ -75,6 +79,21 @@ public abstract class MapObject extends Observable
         x = xPos;
         y = yPos;
         notifyObservers(true);
+    }
+
+    /**
+     * Checks if the position is inside the hitbox of this MapObject
+     * 
+     * @param x
+     *            X coordinate of the position
+     * @param y
+     *            Y coordinate of the position
+     * @return {@code true} if the position is contained in the hitbox of this
+     *         MapObject
+     */
+    public boolean containedInHitbox(int x, int y)
+    {
+        return hitbox.contains(x - this.x, y - this.y);
     }
 
     /**
@@ -149,5 +168,37 @@ public abstract class MapObject extends Observable
     public void setDirection(int direction)
     {
         this.direction = direction;
+    }
+
+    /**
+     * @return X-Position of the hitbox of this MapObject
+     */
+    public int getHitboxX()
+    {
+        return (int) x + hitbox.getxOffs();
+    }
+
+    /**
+     * @return Y-Position of the hitbox of this MapObject
+     */
+    public int getHitboxY()
+    {
+        return (int) y + hitbox.getyOffs();
+    }
+
+    /**
+     * @return Width of the hitbox of this MapObject
+     */
+    public int getHitboxWidth()
+    {
+        return hitbox.getWidth();
+    }
+
+    /**
+     * @return Height of the hitbox of this MapObject
+     */
+    public int getHitboxHeight()
+    {
+        return hitbox.getHeight();
     }
 }

@@ -20,7 +20,7 @@ public class RedChest extends MapObject
      */
     public RedChest(int x, int y)
     {
-        super(x, y, 0, 0.04, Sprite.redChest01);
+        super(x, y, 0, 0.04, Sprite.redChest01, new Hitbox(0, 0, 26, 21));
     }
 
     @Override

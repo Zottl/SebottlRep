@@ -1,5 +1,6 @@
 package model.game.loot;
 
+import model.game.object.Hitbox;
 import model.game.object.MapObject;
 import model.game.sprites.Sprite;
 
@@ -9,8 +10,8 @@ import model.game.sprites.Sprite;
 public abstract class Loot extends MapObject
 {
 
-    public Loot(int x, int y, double animationSpeed, Sprite sprite)
+    public Loot(int x, int y, double animationSpeed, Sprite sprite, Hitbox hitbox)
     {
-        super(x, y, 0.2, animationSpeed, sprite);
+        super(x, y, 0.2, animationSpeed, sprite, hitbox);
     }
 }
