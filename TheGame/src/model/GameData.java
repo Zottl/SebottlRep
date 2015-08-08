@@ -3,43 +3,37 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import view.View;
-import model.game.characters.EnemyNpc;
 import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.maps.GrassMap01;
 import model.game.maps.GrassMap02;
 import model.game.object.Hitbox;
-import model.game.object.Projectile;
 import model.game.spell.Spell;
 import model.game.spell.TestSpell;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
+import view.View;
 
 public class GameData
 {
+    // Instance for Singleton-pattern
+    private static final GameData INSTANCE = new GameData();
 
     private GameMap currentMap;
     public Player player;
-    public EnemyNpc enemy;
-
-    public Spell spell;
-    public Projectile projectile;
 
     /**
      * @param mapID
      *            MapID the game starts with
      */
-    public GameData(int mapID)
+    private GameData()
     {
-        changeMap(mapID);
+        changeMap(1);
 
-        spell = new TestSpell(currentMap);
         List<Spell> spelllist = new ArrayList<Spell>();
-        spelllist.add(spell);
+        spelllist.add(new TestSpell(currentMap));
 
         player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, new Hitbox(0, 0, 16, 16));
-        enemy = new EnemyNpc(100, 100, spelllist, Sprite.enemy01, new Hitbox(0, 0, 16, 16));
     }
 
     /**
@@ -77,8 +71,8 @@ public class GameData
         return player;
     }
 
-    public EnemyNpc getEnemy()
+    public static GameData getInstance()
     {
-        return enemy;
+        return INSTANCE;
     }
 }

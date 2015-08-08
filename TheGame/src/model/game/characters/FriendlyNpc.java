@@ -10,6 +10,6 @@ public class FriendlyNpc extends NonPlayerCharacter
 {
     public FriendlyNpc(int x, int y, List<Spell> spells, Sprite sprite, Hitbox hitbox)
     {
-        super(x, y, spells, sprite, hitbox);
+        super(x, y, spells, sprite, hitbox, null);
     }
 }

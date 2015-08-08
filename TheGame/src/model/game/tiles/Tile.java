@@ -33,7 +33,7 @@ public abstract class Tile extends MapObject
      */
     public Tile(int x, int y, boolean solid, Sprite sprite)
     {
-        super(x, y, 0, 0, sprite, new Hitbox(0, 0, TILESIZE, TILESIZE));
+        super(x, y, 0, 0, sprite, new Hitbox(0, 0, TILESIZE, TILESIZE), null);
         this.x = x;
         this.y = y;
         this.solid = solid;

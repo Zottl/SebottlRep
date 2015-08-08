@@ -9,7 +9,7 @@ public class Coin extends Loot
 
     public Coin(int x, int y)
     {
-        super(x, y, 0.2, Sprite.coin01, new Hitbox(3, 4, 9, 9));
+        super(x, y, 0.2, Sprite.coin01, new Hitbox(3, 4, 9, 9), null);
     }
 
     @Override

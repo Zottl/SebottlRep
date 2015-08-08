@@ -11,7 +11,7 @@ public class Player extends GameCharacter
 
     public Player(int x, int y, List<Spell> spells, Sprite sprite, Hitbox hitbox)
     {
-        super(x, y, 1.5, spells, 0.04, sprite, hitbox);
+        super(x, y, 1.5, spells, 0.04, sprite, hitbox, null);
     }
 
     @Override

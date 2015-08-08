@@ -2,6 +2,7 @@ package model.game.characters;
 
 import java.util.List;
 
+import controller.ai.MapObjectAI;
 import model.game.object.Hitbox;
 import model.game.object.MapObject;
 import model.game.spell.Spell;
@@ -16,9 +17,9 @@ public abstract class GameCharacter extends MapObject
     private List<Spell> spells;
 
     // Constructor
-    public GameCharacter(int x, int y, double speed, List<Spell> spells, double animationSpeed, Sprite sprite, Hitbox hitbox)
+    public GameCharacter(int x, int y, double movementSpeed, List<Spell> spells, double animationSpeed, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
     {
-        super(x, y, speed, animationSpeed, sprite, hitbox);
+        super(x, y, movementSpeed, animationSpeed, sprite, hitbox, ai);
 
         this.spells = spells;
     }

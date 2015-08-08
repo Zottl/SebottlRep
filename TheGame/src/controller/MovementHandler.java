@@ -3,6 +3,7 @@ package controller;
 import model.GameData;
 import model.game.object.MapObject;
 import model.game.sprites.Sprite;
+import controller.ai.MapObjectAI;
 import controller.collision.CollisionHandler;
 import controller.collision.CollisionHandler.CollisionStatus;
 import controller.input.Keyboard;
@@ -49,6 +50,11 @@ public class MovementHandler
         // Move the objects
         for (MapObject mo : data.getMap().getObjects())
         {
+            MapObjectAI ai = mo.getAI();
+            if (ai != null){
+                ai.advance();
+            }
+            
             if (mo.getDirection() == -1)
             {
                 // If the object is currently not moving, then move it towards

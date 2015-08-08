@@ -3,6 +3,7 @@ package model.game.object;
 import java.util.Observable;
 
 import model.game.sprites.Sprite;
+import controller.ai.MapObjectAI;
 import controller.collision.CollisionHandler.CollisionStatus;
 
 /**
@@ -13,9 +14,10 @@ public abstract class MapObject extends Observable
     protected double x; // X-coordinate of the MapObject
     protected double y; // Y-coordinate of the MapObject
 
-    protected double movementSpeed; // Movement speed of the MapObject
-    protected int direction; // Movement direction of the MapObject in degrees
-                             // (or -1 if unmoving)
+    // Movement speed of the MapObject in pixels per update
+    protected double movementSpeed;
+    // Movement direction of the MapObject in degrees (or -1 if unmoving)
+    protected int direction;
 
     // How many steps does the animation advance per update
     protected double animationSpeed;
@@ -25,6 +27,9 @@ public abstract class MapObject extends Observable
 
     protected Sprite sprite; // Sprite of the MapObject
     protected Hitbox hitbox; // Hitbox of the MapObject
+
+    // The AI that controls the behavior of this MapObject
+    protected MapObjectAI ai;
 
     /**
      * Abstract class for objects, that are placed on maps.
@@ -42,7 +47,7 @@ public abstract class MapObject extends Observable
      * @param hitbox
      *            Hitbox of the MapObject
      */
-    public MapObject(int x, int y, double movementSpeed, double animationSpeed, Sprite sprite, Hitbox hitbox)
+    public MapObject(int x, int y, double movementSpeed, double animationSpeed, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
     {
         // Let the object be at the center of the pixel it is standing on
         this.x = x + 0.5;
@@ -53,6 +58,9 @@ public abstract class MapObject extends Observable
         this.animationState = 0;
         this.sprite = sprite;
         this.hitbox = hitbox;
+        this.ai = ai;
+
+        if (ai != null) ai.registerTarget(this);
     }
 
     /**
@@ -137,6 +145,15 @@ public abstract class MapObject extends Observable
     }
 
     /**
+     * @param sprite
+     *            Sprite of the MapObject
+     */
+    public void setSprite(Sprite sprite)
+    {
+        this.sprite = sprite;
+    }
+
+    /**
      * @return The {@link CollisionStatus} associated with this MapObject
      */
     public CollisionStatus getCollisionStatus()
@@ -145,11 +162,20 @@ public abstract class MapObject extends Observable
     }
 
     /**
-     * return Movement speed of the MapObject in pixels per update
+     * @return Movement speed of the MapObject in pixels per update
      */
     public double getMovementSpeed()
     {
         return movementSpeed;
+    }
+
+    /**
+     * @param movementSpeed
+     *            Movement speed of the MapObject in pixels per update
+     */
+    public void setMovementSpeed(double movementSpeed)
+    {
+        this.movementSpeed = movementSpeed;
     }
 
     /**
@@ -200,5 +226,13 @@ public abstract class MapObject extends Observable
     public int getHitboxHeight()
     {
         return hitbox.getHeight();
+    }
+
+    /**
+     * @return The AI that controls the behavior of this MapObject
+     */
+    public MapObjectAI getAI()
+    {
+        return ai;
     }
 }

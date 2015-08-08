@@ -11,7 +11,11 @@ import controller.input.Mouse;
 
 public class GameController implements Runnable
 {
-
+    /**
+     * Game updates per second
+     */
+    public static final int UPS = 60;
+    
     boolean running;
 
     private GameData gameData;

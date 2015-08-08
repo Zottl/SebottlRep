@@ -1,8 +1,6 @@
 package view;
 
 import model.GameData;
-import model.game.characters.EnemyNpc;
-import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.object.MapObject;
 import model.game.sprites.Sprite;
@@ -14,8 +12,6 @@ import model.game.tiles.Tile;
 public class GameScreen
 {
     private GameData data;
-    private Player player;
-    private EnemyNpc enemy;
 
     private int[] pixels;
 
@@ -37,13 +33,7 @@ public class GameScreen
      */
     public void render(int xOffset, int yOffset)
     {
-        player = data.getPlayer();
-        enemy = data.getEnemy();
-
         this.renderMap(data.getMap(), xOffset, yOffset);
-
-        // render first enemy
-        this.renderSprite(enemy.getSprite(), (int) enemy.getX(), (int) enemy.getY(), xOffset, yOffset);
     }
 
     /**
@@ -127,7 +117,7 @@ public class GameScreen
              * Because the view width is not a multiple of the tile size, we
              * need to be careful not to select a pixel that is outside of the
              * view (and therefore maybe outside of the map) while also making
-             * sure to cover the whole map. Because of this, we check the x
+             * sure to cover the whole screen. Because of this, we check the x
              * coordinate width-1 and the y coordinate height-1 manually (the
              * pixels at the lower and right borders).
              */

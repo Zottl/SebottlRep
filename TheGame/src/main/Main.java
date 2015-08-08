@@ -12,7 +12,7 @@ public class Main
         setOpenGL(true);
         enableTraceOutput(false);
 
-        GameData gameData = new GameData(1);
+        GameData gameData = GameData.getInstance();
         
         // Start the View on the Event-Dispatch Thread
         SwingUtilities.invokeLater(new Runnable()
