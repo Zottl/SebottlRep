@@ -2,6 +2,7 @@ package model.game.characters;
 
 import java.util.List;
 
+import controller.CollisionHandler.CollisionStatus;
 import controller.ai.EnemyAI;
 import model.game.object.Hitbox;
 import model.game.spell.Spell;
@@ -12,5 +13,12 @@ public class EnemyNpc extends NonPlayerCharacter
     public EnemyNpc(int x, int y, List<Spell> spells, Sprite sprite, Hitbox hitbox)
     {
         super(x, y, spells, sprite, hitbox, new EnemyAI());
+        hitpoints = 50;
+    }
+
+    @Override
+    public CollisionStatus getCollisionStatus()
+    {
+        return CollisionStatus.ENEMY_BODY;
     }
 }

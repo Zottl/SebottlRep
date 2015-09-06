@@ -196,7 +196,7 @@ public abstract class GameMap extends Observable
     }
 
     /**
-     * @return A list of the MapObjects that are placed on this GameMap.
+     * @return The list of the MapObjects that are placed on this GameMap.
      */
     public List<MapObject> getObjects()
     {
@@ -214,4 +214,6 @@ public abstract class GameMap extends Observable
             this.removed = removed;
         }
     }
+    
+    
 }

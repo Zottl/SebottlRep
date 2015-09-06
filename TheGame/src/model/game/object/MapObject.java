@@ -3,8 +3,8 @@ package model.game.object;
 import java.util.Observable;
 
 import model.game.sprites.Sprite;
+import controller.CollisionHandler.CollisionStatus;
 import controller.ai.MapObjectAI;
-import controller.collision.CollisionHandler.CollisionStatus;
 
 /**
  * Abstract class for objects, that are placed on maps.
@@ -57,10 +57,12 @@ public abstract class MapObject extends Observable
         this.animationSpeed = animationSpeed;
         this.animationState = 0;
         this.sprite = sprite;
-        this.hitbox = hitbox;
-        this.ai = ai;
 
-        if (ai != null) ai.registerTarget(this);
+        this.hitbox = hitbox;
+        hitbox.setParent(this);
+
+        this.ai = ai;
+        if (ai != null) ai.registerParent(this);
     }
 
     /**
@@ -83,9 +85,11 @@ public abstract class MapObject extends Observable
      */
     public void moveTo(double xPos, double yPos)
     {
+        setChanged();
         notifyObservers(false);
         x = xPos;
         y = yPos;
+        setChanged();
         notifyObservers(true);
     }
 
@@ -102,6 +106,9 @@ public abstract class MapObject extends Observable
     public boolean containedInHitbox(int x, int y)
     {
         return hitbox.contains(x - this.x, y - this.y);
+
+        // TASK Made this Method on a whim and didn't use it. Can probably be
+        // removed.
     }
 
     /**
@@ -201,7 +208,7 @@ public abstract class MapObject extends Observable
      */
     public int getHitboxX()
     {
-        return (int) x + hitbox.getxOffs();
+        return (int) x + hitbox.getXOffs();
     }
 
     /**
@@ -209,7 +216,7 @@ public abstract class MapObject extends Observable
      */
     public int getHitboxY()
     {
-        return (int) y + hitbox.getyOffs();
+        return (int) y + hitbox.getYOffs();
     }
 
     /**

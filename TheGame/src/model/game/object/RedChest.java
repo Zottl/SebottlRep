@@ -1,7 +1,7 @@
 package model.game.object;
 
 import model.game.sprites.Sprite;
-import controller.collision.CollisionHandler.CollisionStatus;
+import controller.CollisionHandler.CollisionStatus;
 
 /**
  * A Chest that can be placed on a GameMap (red)

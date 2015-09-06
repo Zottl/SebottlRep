@@ -5,7 +5,6 @@ import model.game.characters.Player;
 import model.game.object.MapObject;
 import model.game.tiles.Tile;
 import view.View;
-import controller.collision.CollisionHandler;
 import controller.input.Keyboard;
 import controller.input.Mouse;
 
@@ -15,7 +14,7 @@ public class GameController implements Runnable
      * Game updates per second
      */
     public static final int UPS = 60;
-    
+
     boolean running;
 
     private GameData gameData;
@@ -24,20 +23,16 @@ public class GameController implements Runnable
     private Keyboard keyboard;
     private Mouse mouse;
     private MovementHandler movHandler;
-    private Player player;
 
     public int xScreenOffset;
     public int yScreenOffset;
 
     boolean mouseClicked;
 
-    public GameController(GameData gameData, View view)
+    public GameController(View view)
     {
-        this.gameData = gameData;
+        this.gameData = GameData.getInstance();
         this.view = view;
-
-        player = gameData.player;
-        gameData.getMap().addMapObject(player);
 
         keyboard = new Keyboard();
         view.addKeyListener(keyboard);
@@ -46,10 +41,13 @@ public class GameController implements Runnable
         view.addMouseListener(mouse);
         view.addMouseMotionListener(mouse);
 
+        Player player = gameData.createPlayer(keyboard, mouse);
+        gameData.getMap().addMapObject(player);
+
         CollisionHandler colHandler = new CollisionHandler();
         colHandler.loadMapCollision(gameData.getMap());
 
-        movHandler = new MovementHandler(gameData, colHandler, keyboard);
+        movHandler = new MovementHandler(colHandler);
     }
 
     public void run()
@@ -108,6 +106,7 @@ public class GameController implements Runnable
 
         movHandler.moveObjects();
 
+        Player player = gameData.getPlayer();
         this.centerScreen((int) player.getX() + Tile.TILESIZE / 2, (int) player.getY() + Tile.TILESIZE / 2);
 
         // Animate the MapObjects
@@ -126,7 +125,7 @@ public class GameController implements Runnable
         {
             mouseClicked = true;
 
-            player.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
+            gameData.getPlayer().shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
         }
 
         if (mouse.getButton() == -1)

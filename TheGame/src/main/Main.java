@@ -22,7 +22,7 @@ public class Main
                 View view = new View(gameData);
 
                 // After the view is ready, start the Control-Thread
-                GameController gameController = new GameController(gameData, view);
+                GameController gameController = new GameController(view);
                 gameController.start();
             }
         });

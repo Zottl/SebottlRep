@@ -1,4 +1,4 @@
-package controller.collision;
+package controller;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -23,13 +23,13 @@ public class CollisionHandler implements Observer
      */
     public enum CollisionStatus
     {
-        EMPTY, SOLID, HURT_PLAYER, HURT_ENEMY, HEAL_PLAYER, HEAL_ENEMY, OOB
+        EMPTY, SOLID, HURT_PLAYER, HURT_ENEMY, HEAL_PLAYER, HEAL_ENEMY, OOB, ENEMY_BODY, PLAYER_BODY
     };
 
-    private CollisionStatus[][] tileLayer;
     private ListOfMapObjects[][] objectLayer;
-    private int width;
-    private int height;
+
+    // Width and height of the currently loaded map
+    private int mapWidth, mapHeight;
 
     /**
      * Class to manage the collision detection in the game. A map needs to be
@@ -37,6 +37,41 @@ public class CollisionHandler implements Observer
      */
     public CollisionHandler()
     {
+        this.mapWidth = 0;
+        this.mapHeight = 0;
+    }
+
+    /**
+     * Prepare the collision status data according to the given map
+     * 
+     * @param map
+     *            {@link GameMap} to load
+     */
+    public void loadMapCollision(GameMap map)
+    {
+        mapWidth = map.getWidth();
+        mapHeight = map.getHeight();
+
+        map.addObserver(this);
+
+        objectLayer = new ListOfMapObjects[mapWidth][mapHeight];
+
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                objectLayer[x][y] = new ListOfMapObjects();
+
+                Tile currentTile = map.getTile(x, y);
+                objectLayer[x][y].add(currentTile);
+            }
+        }
+
+        for (MapObject mo : map.getObjects())
+        {
+            addObject(mo);
+            mo.addObserver(this);
+        }
     }
 
     /**
@@ -53,20 +88,15 @@ public class CollisionHandler implements Observer
      */
     public boolean checkCollision(CollisionStatus status, int x, int y)
     {
-        if (x < 0 || y < 0 || x >= width || y >= height)
+        if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
         {
             // Here the position is out of bounds
             return status == CollisionStatus.OOB;
         }
 
-        if (tileLayer[x][y] == status)
+        for (MapObject mo : objectLayer[x][y])
         {
-            return true;
-        }
-
-        for (ObjectLayerEntry ole : objectLayer[x][y])
-        {
-            if (ole.cs == status)
+            if (mo.getCollisionStatus() == status)
             {
                 return true;
             }
@@ -170,18 +200,44 @@ public class CollisionHandler implements Observer
      * @param status
      *            Status to check for (e.g. {@code CollisionStatus.SOLID})
      * @param x
-     *            X coordinate of the upper left corner of the rectangle
+     *            X coordinate of the position
      * @param y
-     *            Y coordinate of the upper left corner of the rectangle
+     *            Y coordinate of the position
      * @return A Set of MapObjects that are responsible for the status of this
      *         position.
      */
     public Set<MapObject> getCollidingObjects(CollisionStatus status, int x, int y)
     {
         Set<MapObject> moSet = new HashSet<MapObject>();
-        for (ObjectLayerEntry ole : objectLayer[x][y])
+        for (MapObject mo : objectLayer[x][y])
         {
-            if (ole.cs == status) moSet.add(ole.mo);
+            if (mo.getCollisionStatus() == status) moSet.add(mo);
+        }
+
+        return moSet;
+    }
+
+    /**
+     * Return the Set of MapObjects on this position.
+     * 
+     * @param x
+     *            X coordinate of the position
+     * @param y
+     *            Y coordinate of the position
+     * @return A Set of MapObjects on the given position
+     */
+    public Set<MapObject> getCollidingObjects(int x, int y)
+    {
+        Set<MapObject> moSet = new HashSet<MapObject>();
+
+        if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
+        {
+            return moSet;
+        }
+
+        for (MapObject mo : objectLayer[x][y])
+        {
+            moSet.add(mo);
         }
 
         return moSet;
@@ -219,41 +275,31 @@ public class CollisionHandler implements Observer
         return moSet;
     }
 
-    public void handleColisions()
-    {
-
-    }
-
     /**
-     * Prepare the collision status data according to the given map
+     * Return the Set of MapObjects inside this rectangle
      * 
-     * @param map
-     *            {@link GameMap} to load
+     * @param x
+     *            X coordinate of the upper left corner of the rectangle
+     * @param y
+     *            Y coordinate of the upper left corner of the rectangle
+     * @param width
+     *            Width of the rectangle
+     * @param height
+     *            Height of the rectangle
+     * @return A Set of MapObjects inside the given rectangle
      */
-    public void loadMapCollision(GameMap map)
+    public Set<MapObject> getCollidingObjectsRectangle(int x, int y, int width, int height)
     {
-        width = map.getWidth();
-        height = map.getHeight();
-
-        map.addObserver(this);
-
-        tileLayer = new CollisionStatus[width][height];
-        objectLayer = new ListOfMapObjects[width][height];
-
-        for (int x = 0; x < width; x++)
+        Set<MapObject> moSet = new HashSet<MapObject>();
+        for (int rx = x; rx < x + width; rx++)
         {
-            for (int y = 0; y < height; y++)
+            for (int ry = y; ry < y + height; ry++)
             {
-                Tile currentTile = map.getTile(x, y);
-                tileLayer[x][y] = currentTile.containedInHitbox(x, y) ? currentTile.getCollisionStatus() : CollisionStatus.EMPTY;
-                objectLayer[x][y] = new ListOfMapObjects();
+                moSet.addAll(getCollidingObjects(rx, ry));
             }
         }
 
-        for (MapObject mo : map.getObjects())
-        {
-            addObject(mo);
-        }
+        return moSet;
     }
 
     @Override
@@ -270,10 +316,12 @@ public class CollisionHandler implements Observer
             if (event.removed)
             {
                 removeObject(event.mapObject);
+                event.mapObject.deleteObserver(this);
             }
             else
             {
                 addObject(event.mapObject);
+                event.mapObject.addObserver(this);
             }
         }
         else if (o instanceof MapObject)
@@ -294,9 +342,9 @@ public class CollisionHandler implements Observer
              */
 
             MapObject mo = (MapObject) o;
-            boolean remove = (boolean) arg;
+            boolean moveCompleted = (boolean) arg;
 
-            if (remove)
+            if (!moveCompleted)
             {
                 removeObject(mo);
             }
@@ -320,13 +368,17 @@ public class CollisionHandler implements Observer
         int moWidth = mo.getHitboxWidth();
         int moHeight = mo.getHitboxHeight();
 
-        mo.addObserver(this);
-
         for (int x = 0; x < moWidth; x++)
         {
             for (int y = 0; y < moHeight; y++)
             {
-                objectLayer[x + moX][y + moY].add(new ObjectLayerEntry(mo));
+                int posX = moX + x;
+                int posY = moY + y;
+
+                if (posX >= 0 && posX < mapWidth && posY >= 0 && posY < mapHeight)
+                {
+                    objectLayer[posX][posY].add(mo);
+                }
             }
         }
     }
@@ -344,15 +396,19 @@ public class CollisionHandler implements Observer
         int moWidth = mo.getHitboxWidth();
         int moHeight = mo.getHitboxHeight();
 
-        mo.deleteObserver(this);
-
         for (int x = 0; x < moWidth; x++)
         {
             for (int y = 0; y < moHeight; y++)
             {
-                if (!objectLayer[x + moX][y + moY].remove(mo))
+                int posX = moX + x;
+                int posY = moY + y;
+
+                if (posX >= 0 && posX < mapWidth && posY >= 0 && posY < mapHeight)
                 {
-                    System.err.println("[WARNING] CollisionHandler: Bad remove in object layer!");
+                    if (!objectLayer[posX][posY].remove(mo))
+                    {
+                        System.err.println("[WARNING] CollisionHandler: Bad remove in object layer!");
+                    }
                 }
             }
         }
@@ -362,7 +418,7 @@ public class CollisionHandler implements Observer
      * Class for LinkedLists of MapObjects. Needed because Java does not allow
      * generic types in Arrays. (TASK Find a more elegant solution)
      */
-    private class ListOfMapObjects extends LinkedList<ObjectLayerEntry>
+    private class ListOfMapObjects extends LinkedList<MapObject>
     {
         private static final long serialVersionUID = 1L;
     }

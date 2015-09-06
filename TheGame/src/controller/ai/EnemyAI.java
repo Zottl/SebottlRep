@@ -1,14 +1,34 @@
 package controller.ai;
 
+import model.game.characters.EnemyNpc;
+import model.game.object.MapObject;
+import model.game.sprites.Sprite;
+import controller.CollisionHandler.CollisionStatus;
 import controller.GameController;
 
 public class EnemyAI extends MapObjectAI
 {
+    private EnemyNpc parent;
     private int timer;
+
+    private final int HURTSTATE = 1000;
+
+    private Sprite hurtSprite;
 
     public EnemyAI()
     {
         super();
+
+        hurtSprite = new Sprite(Sprite.enemy01);
+
+        // Transform all visible pixels to red for the hurtSprite
+        for (int i = 0; i < hurtSprite.HEIGHT * hurtSprite.WIDTH; i++)
+        {
+            if ((hurtSprite.getPixel(i) & 0xff000000) != 0)
+            {
+                hurtSprite.setPixel(i, 0xFFDD0000);
+            }
+        }
     }
 
     @Override
@@ -36,20 +56,63 @@ public class EnemyAI extends MapObjectAI
                 timer = (int) ((Math.random() + 0.5) * GameController.UPS);
                 state = 3;
                 // Choose a random direction to wander to
-                target.setDirection((int) (Math.random() * 360));
+                parent.setDirection((int) (Math.random() * 360));
                 break;
             case 3: // Wander time
                 if (timer <= 0)
                 {
                     state = 0;
-                    target.setDirection(-1);
+                    parent.setDirection(-1);
                 }
                 else
                 {
                     timer--;
                 }
                 break;
+            case HURTSTATE:
+                // 3 second stun animation
+                timer = 3 * GameController.UPS;
+                parent.setDirection(-1);
+                state = HURTSTATE + 1;
+                System.out.println("[EnemyAI]: [Debug] Enemy health remaining: " + parent.getHitpoints());
+                break;
+            case HURTSTATE + 1:
+                if (timer <= 0)
+                {
+                    state = 0;
+                    parent.setSprite(Sprite.enemy01);
+                }
+                else
+                {
+                    timer--;
+                    if ((timer % 10 == 0) && (timer / 10) % 2 == 0)
+                    {
+                        parent.setSprite(hurtSprite);
+                    }
+                    else if ((timer % 10 == 0) && (timer / 10) % 2 == 1)
+                    {
+                        parent.setSprite(Sprite.enemy01);
+                    }
+                }
+                break;
         }
     }
 
+    @Override
+    public void collisionWith(CollisionStatus cs)
+    {
+        if (cs == CollisionStatus.HURT_ENEMY && state != HURTSTATE && state != HURTSTATE + 1)
+        {
+            state = HURTSTATE;
+            parent.setHitpoints(parent.getHitpoints() - 5);
+        }
+    }
+
+    @Override
+    public void registerParent(MapObject mo)
+    {
+        super.registerParent(mo);
+
+        this.parent = (EnemyNpc) super.parent;
+    }
 }

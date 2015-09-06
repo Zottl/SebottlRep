@@ -13,6 +13,8 @@ import model.game.spell.TestSpell;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 import view.View;
+import controller.input.Keyboard;
+import controller.input.Mouse;
 
 public class GameData
 {
@@ -20,7 +22,7 @@ public class GameData
     private static final GameData INSTANCE = new GameData();
 
     private GameMap currentMap;
-    public Player player;
+    private Player player;
 
     /**
      * @param mapID
@@ -29,11 +31,6 @@ public class GameData
     private GameData()
     {
         changeMap(1);
-
-        List<Spell> spelllist = new ArrayList<Spell>();
-        spelllist.add(new TestSpell(currentMap));
-
-        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, new Hitbox(0, 0, 16, 16));
     }
 
     /**
@@ -56,6 +53,32 @@ public class GameData
     }
 
     /**
+     * Creates the player object. Can only be called once. (If a player object
+     * already exists, this method will fail)
+     * 
+     * @param kb
+     *            The keyboard object to control the player object
+     * @param ms
+     *            The Mouse object to control the player object
+     * @return The player object that was created
+     */
+    public Player createPlayer(Keyboard kb, Mouse ms)
+    {
+        if (player != null)
+        {
+            System.err.println("[GameData] Someone tried to create second player object!");
+            return null;
+        }
+
+        List<Spell> spelllist = new ArrayList<Spell>();
+        spelllist.add(new TestSpell(currentMap));
+
+        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, new Hitbox(0, 0, 16, 16), kb,
+                ms);
+        return player;
+    }
+
+    /**
      * @return The map that is currently loaded
      */
     public GameMap getMap()
@@ -71,6 +94,9 @@ public class GameData
         return player;
     }
 
+    /**
+     * @return The instance of the game data (see Singleton-pattern)
+     */
     public static GameData getInstance()
     {
         return INSTANCE;

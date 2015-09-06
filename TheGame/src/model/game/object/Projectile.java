@@ -1,12 +1,14 @@
 package model.game.object;
 
+import controller.CollisionHandler.CollisionStatus;
+import controller.ai.ProjectileAI;
 import model.game.sprites.Sprite;
 
 public class Projectile extends MapObject
 {
     public Projectile(double xOrigin, double yOrigin, int xTarget, int yTarget, double moveSpeed, double animationSpeed, Sprite sprite)
     {
-        super((int) xOrigin, (int) yOrigin, moveSpeed, animationSpeed, sprite, new Hitbox(0, 0, 16, 16), null);
+        super((int) xOrigin, (int) yOrigin, moveSpeed, animationSpeed, sprite, new Hitbox(0, 0, 16, 16), new ProjectileAI());
 
         // Calculate the vector from the center of this projectile to the target
         // position
@@ -47,5 +49,11 @@ public class Projectile extends MapObject
         // collide with them (exploding is handled separately in the
         // CollisionHandler)
         return true;
+    }
+
+    @Override
+    public CollisionStatus getCollisionStatus()
+    {
+        return CollisionStatus.HURT_ENEMY;
     }
 }

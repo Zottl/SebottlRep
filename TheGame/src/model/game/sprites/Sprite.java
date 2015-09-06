@@ -25,21 +25,21 @@ public class Sprite
     public static final Sprite grass03 = new Sprite(Spritesheet.floorSpritesheet, 48, 0, 16, 16);
     public static final Sprite grass04 = new Sprite(Spritesheet.floorSpritesheet, 64, 0, 16, 16);
     public static final Sprite dirt01 = new Sprite(Spritesheet.floorSpritesheet, 16, 0, 16, 16);
-    
+
     // wall sprites
     public static final Sprite wall01 = new Sprite(Spritesheet.wallSpritesheet, 0, 0, 16, 16);
-    
+
     // character sprites
     public static final Sprite player01 = new Sprite(Spritesheet.characterSpritesheet, 0, 0, 16, 16);
     public static final Sprite enemy01 = new Sprite(Spritesheet.characterSpritesheet, 16, 0, 16, 16);
-    
+
     // object sprites
     public static final Sprite redChest01 = new Sprite(Spritesheet.objectSpritesheet, 0, 0, 32, 32);
     public static final Sprite redChest02 = new Sprite(Spritesheet.objectSpritesheet, 32, 0, 32, 32);
     public static final Sprite redChest03 = new Sprite(Spritesheet.objectSpritesheet, 64, 0, 32, 32);
     public static final Sprite redChest04 = new Sprite(Spritesheet.objectSpritesheet, 96, 0, 32, 32);
     public static final Sprite redChest05 = new Sprite(Spritesheet.objectSpritesheet, 128, 0, 32, 32);
-    
+
     // loot sprites
     public static final Sprite coin01 = new Sprite(Spritesheet.lootSpritesheet, 0, 0, 16, 16);
     public static final Sprite coinSparkle1 = new Sprite(Spritesheet.lootSpritesheet, 16, 0, 16, 16);
@@ -52,12 +52,26 @@ public class Sprite
     public static final Sprite coinSpin1 = new Sprite(Spritesheet.lootSpritesheet, 128, 0, 16, 16);
     public static final Sprite coinSpin2 = new Sprite(Spritesheet.lootSpritesheet, 144, 0, 16, 16);
     public static final Sprite coinSpin3 = new Sprite(Spritesheet.lootSpritesheet, 160, 0, 16, 16);
-    
+
     // spell sprites
     public static final Sprite testSpell01 = new Sprite(Spritesheet.spellSpritesheet, 0, 0, 16, 16);
     public static final Sprite testSpell02 = new Sprite(Spritesheet.spellSpritesheet, 16, 0, 16, 16);
     public static final Sprite testSpell03 = new Sprite(Spritesheet.spellSpritesheet, 32, 0, 16, 16);
 
+    /**
+     * Create a new Sprite from the given Spritesheet
+     * 
+     * @param sheet
+     *            The Spritesheet this Sprite is taken from
+     * @param xOffset
+     *            The horizontal offset on the Spritesheet
+     * @param yOffset
+     *            The vertical offset on the Spritesheet
+     * @param width
+     *            The width of the Sprite
+     * @param height
+     *            The height of the Sprite
+     */
     public Sprite(Spritesheet sheet, int xOffset, int yOffset, int width, int height)
     {
         this.sheet = sheet;
@@ -67,6 +81,24 @@ public class Sprite
         this.HEIGHT = height;
 
         pixels = new int[WIDTH * HEIGHT];
+
+        load();
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param s
+     *            Sprite to copy
+     */
+    public Sprite(Sprite s)
+    {
+        this.sheet = s.getSheet();
+        this.xOffset = s.getXOffset();
+        this.yOffset = s.getYOffset();
+        this.WIDTH = s.WIDTH;
+        this.HEIGHT = s.HEIGHT;
+        this.pixels = s.getPixels().clone();
 
         load();
     }
@@ -94,5 +126,36 @@ public class Sprite
     public int getPixel(int i)
     {
         return pixels[i];
+    }
+
+    /**
+     * @param i
+     *            Index of the pixel
+     * @param value
+     *            New value of the pixel
+     */
+    public void setPixel(int i, int value)
+    {
+        pixels[i] = value;
+    }
+
+    Spritesheet getSheet()
+    {
+        return sheet;
+    }
+
+    int getXOffset()
+    {
+        return xOffset;
+    }
+
+    int getYOffset()
+    {
+        return yOffset;
+    }
+
+    int[] getPixels()
+    {
+        return pixels;
     }
 }

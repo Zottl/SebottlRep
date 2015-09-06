@@ -3,7 +3,7 @@ package model.game.tiles;
 import model.game.object.Hitbox;
 import model.game.object.MapObject;
 import model.game.sprites.Sprite;
-import controller.collision.CollisionHandler.CollisionStatus;
+import controller.CollisionHandler.CollisionStatus;
 
 /**
  * 
@@ -59,6 +59,6 @@ public abstract class Tile extends MapObject
         if (solid)
             return CollisionStatus.SOLID;
         else
-            return super.getCollisionStatus();
+            return CollisionStatus.EMPTY;
     }
 }

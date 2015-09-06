@@ -2,11 +2,8 @@ package controller;
 
 import model.GameData;
 import model.game.object.MapObject;
-import model.game.sprites.Sprite;
+import controller.CollisionHandler.CollisionStatus;
 import controller.ai.MapObjectAI;
-import controller.collision.CollisionHandler;
-import controller.collision.CollisionHandler.CollisionStatus;
-import controller.input.Keyboard;
 
 /**
  * Handles the movement of all MapObjects
@@ -15,28 +12,24 @@ public class MovementHandler
 {
     private GameData data;
     private CollisionHandler ch;
-    private Keyboard keyboad;
 
     /**
      * The set of collision statuses that are impassable for non-ghost objects
      */
-    private CollisionStatus[] impassable = { CollisionStatus.SOLID, CollisionStatus.OOB };
+    private final CollisionStatus[] IMPASSABLE = { CollisionStatus.SOLID, CollisionStatus.OOB };
 
     /**
      * Handles the movement of all MapObjects
      * 
-     * @param data
-     *            The game data
      * @param ch
      *            The collision handler
      * @param keyboard
      *            The keyboard
      */
-    public MovementHandler(GameData data, CollisionHandler ch, Keyboard keyboard)
+    public MovementHandler(CollisionHandler ch)
     {
-        this.data = data;
+        this.data = GameData.getInstance();
         this.ch = ch;
-        this.keyboad = keyboard;
     }
 
     /**
@@ -44,17 +37,15 @@ public class MovementHandler
      */
     public void moveObjects()
     {
-        // Adjust the direction according to AI and User-Inputs
-        setPlayerDirection();
-
         // Move the objects
         for (MapObject mo : data.getMap().getObjects())
         {
             MapObjectAI ai = mo.getAI();
-            if (ai != null){
+            if (ai != null)
+            {
                 ai.advance();
             }
-            
+
             if (mo.getDirection() == -1)
             {
                 // If the object is currently not moving, then move it towards
@@ -64,41 +55,33 @@ public class MovementHandler
             else
             {
                 moveObject(mo);
+
+                // Fire collision events
+                int newX = mo.getHitboxX();
+                int newY = mo.getHitboxY();
+                int width = mo.getHitboxWidth();
+                int height = mo.getHitboxHeight();
+
+                // Get all relevant CollisionStatuses
+                if (ai != null)
+                {
+                    for (CollisionStatus cs : ai.getReleventCollisionStatuses())
+                    {
+                        if (ch.checkCollisionRectangle(cs, newX, newY, width, height))
+                        {
+                            ai.collisionWith(cs);
+                        }
+                    }
+                }
+
+                // Get all colliding MapObjects to 
+                for (MapObject colMO : ch.getCollidingObjectsRectangle(newX, newY, width, height))
+                {
+                    MapObjectAI colAI = colMO.getAI();
+                    if (colAI != null) colAI.collisionWith(mo.getCollisionStatus());
+                }
             }
         }
-    }
-
-    private void setPlayerDirection()
-    {
-        int dir;
-        if (keyboad.up && !keyboad.down)
-        {
-            if (keyboad.right && !keyboad.left)
-                dir = 45;
-            else if (!keyboad.right && keyboad.left)
-                dir = 135;
-            else
-                dir = 90;
-        }
-        else if (!keyboad.up && keyboad.down)
-        {
-            if (keyboad.right && !keyboad.left)
-                dir = 315;
-            else if (!keyboad.right && keyboad.left)
-                dir = 225;
-            else
-                dir = 270;
-        }
-        else
-        {
-            if (keyboad.right && !keyboad.left)
-                dir = 0;
-            else if (!keyboad.right && keyboad.left)
-                dir = 180;
-            else
-                dir = -1;
-        }
-        data.player.setDirection(dir);
     }
 
     /**
@@ -170,11 +153,10 @@ public class MovementHandler
         double xTravel = calcXTravel(direction, distance);
         double yTravel = calcYTravel(direction, distance);
 
-        Sprite sprite = mo.getSprite();
-        int width = sprite.WIDTH;
-        int height = sprite.HEIGHT;
+        int width = mo.getHitboxWidth();
+        int height = mo.getHitboxHeight();
 
-        if (!mo.isGhost() && ch.checkCollisionRectangle(impassable, (int) (x + xTravel), (int) (y + yTravel), width, height))
+        if (!mo.isGhost() && ch.checkCollisionRectangle(IMPASSABLE, (int) (x + xTravel), (int) (y + yTravel), width, height))
         {
             /*
              * A collision occurred! Try to go as far horizontally/vertically as
@@ -185,7 +167,7 @@ public class MovementHandler
             int xDir = calcXDir(direction);
             int yDir = calcYDir(direction);
 
-            if (ch.checkCollisionRectangle(impassable, (int) (x + distance * xDir), (int) y, width, height))
+            if (ch.checkCollisionRectangle(IMPASSABLE, (int) (x + distance * xDir), (int) y, width, height))
             {
                 /*
                  * The horizontal movement was the problem! Go horizontally as
@@ -247,7 +229,7 @@ public class MovementHandler
         for (int d = 0; d < maxDist; d++)
         {
             double xTravel = (maxDist - d) * dir;
-            if (!ch.checkCollisionRectangle(impassable, (int) (x + xTravel), (int) y, width, height))
+            if (!ch.checkCollisionRectangle(IMPASSABLE, (int) (x + xTravel), (int) y, width, height))
             {
                 return xTravel;
             }
@@ -280,7 +262,7 @@ public class MovementHandler
         for (int d = 0; d < maxDist; d++)
         {
             double yTravel = (maxDist - d) * dir;
-            if (!ch.checkCollisionRectangle(impassable, (int) x, (int) (y + yTravel), width, height))
+            if (!ch.checkCollisionRectangle(IMPASSABLE, (int) x, (int) (y + yTravel), width, height))
             {
                 return yTravel;
             }

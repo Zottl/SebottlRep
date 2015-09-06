@@ -14,7 +14,9 @@ import model.game.sprites.Sprite;
 public abstract class GameCharacter extends MapObject
 {
     // list of Spells for this character
-    private List<Spell> spells;
+    protected List<Spell> spells;
+
+    protected int hitpoints;
 
     // Constructor
     public GameCharacter(int x, int y, double movementSpeed, List<Spell> spells, double animationSpeed, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
@@ -52,5 +54,15 @@ public abstract class GameCharacter extends MapObject
     public void setSpeed(double speed)
     {
         this.movementSpeed = speed;
+    }
+
+    public int getHitpoints()
+    {
+        return hitpoints;
+    }
+
+    public void setHitpoints(int hitpoints)
+    {
+        this.hitpoints = hitpoints;
     }
 }
