@@ -27,8 +27,6 @@ public class GameController implements Runnable
     public int xScreenOffset;
     public int yScreenOffset;
 
-    boolean mouseClicked;
-
     public GameController(View view)
     {
         this.gameData = GameData.getInstance();
@@ -102,36 +100,19 @@ public class GameController implements Runnable
         // Handle user input
         keyboard.update();
         mouse.update(xScreenOffset, yScreenOffset);
-        this.userMouseInput();
 
-        movHandler.moveObjects();
-
-        Player player = gameData.getPlayer();
-        this.centerScreen((int) player.getX() + Tile.TILESIZE / 2, (int) player.getY() + Tile.TILESIZE / 2);
-
-        // Animate the MapObjects
+        // Inform the AIs of the update
         for (MapObject mo : gameData.getMap().getObjects())
         {
-            mo.advanceAnimation();
-        }
-    }
-
-    /**
-     * Handles user mouse input
-     */
-    private void userMouseInput()
-    {
-        if (mouse.getButton() == 1 && !mouseClicked)
-        {
-            mouseClicked = true;
-
-            gameData.getPlayer().shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
+            mo.getAI().advance();
         }
 
-        if (mouse.getButton() == -1)
-        {
-            mouseClicked = false;
-        }
+        // Move the map objects
+        movHandler.moveObjects();
+
+        // Refresh the screen position
+        Player player = gameData.getPlayer();
+        this.centerScreen((int) player.getX() + Tile.TILESIZE / 2, (int) player.getY() + Tile.TILESIZE / 2);
     }
 
     public void start()
@@ -162,10 +143,9 @@ public class GameController implements Runnable
      * Center the screen at a certain coordinate
      * 
      * @param x
-     *            x coordinate to center
-     * 
+     *            X coordinate to center the screen on
      * @param y
-     *            y coordinate to center
+     *            Y coordinate to center the screen on
      */
     public void centerScreen(int x, int y)
     {

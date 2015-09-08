@@ -15,9 +15,9 @@ public class EnemyAI extends MapObjectAI
 
     private Sprite hurtSprite;
 
-    public EnemyAI()
+    public EnemyAI(double animationSpeed)
     {
-        super();
+        super(animationSpeed);
 
         hurtSprite = new Sprite(Sprite.enemy01);
 

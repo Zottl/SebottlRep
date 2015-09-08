@@ -71,7 +71,7 @@ public class GameData
         }
 
         List<Spell> spelllist = new ArrayList<Spell>();
-        spelllist.add(new TestSpell(currentMap));
+        spelllist.add(new TestSpell());
 
         player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, new Hitbox(0, 0, 16, 16), kb,
                 ms);

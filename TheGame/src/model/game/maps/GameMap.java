@@ -193,6 +193,10 @@ public abstract class GameMap extends Observable
             setChanged();
             notifyObservers(new MapChangedEvent(mo, true));
         }
+        else
+        {
+            System.err.println("[GameMap]: Removal of a MapObject has failed!");
+        }
     }
 
     /**
@@ -214,6 +218,5 @@ public abstract class GameMap extends Observable
             this.removed = removed;
         }
     }
-    
-    
+
 }

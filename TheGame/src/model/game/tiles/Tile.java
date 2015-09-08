@@ -33,18 +33,11 @@ public abstract class Tile extends MapObject
      */
     public Tile(int x, int y, boolean solid, Sprite sprite)
     {
-        super(x, y, 0, 0, sprite, new Hitbox(0, 0, TILESIZE, TILESIZE), null);
+        super(x, y, 0, sprite, new Hitbox(0, 0, TILESIZE, TILESIZE), null);
         this.x = x;
         this.y = y;
         this.solid = solid;
         this.sprite = sprite;
-    }
-
-    @Override
-    public void advanceAnimation()
-    {
-        // Tiles usually don't have an animation
-        return;
     }
 
     @Override

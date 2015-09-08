@@ -19,9 +19,9 @@ public abstract class GameCharacter extends MapObject
     protected int hitpoints;
 
     // Constructor
-    public GameCharacter(int x, int y, double movementSpeed, List<Spell> spells, double animationSpeed, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
+    public GameCharacter(int x, int y, double movementSpeed, List<Spell> spells, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
     {
-        super(x, y, movementSpeed, animationSpeed, sprite, hitbox, ai);
+        super(x, y, movementSpeed, sprite, hitbox, ai);
 
         this.spells = spells;
     }

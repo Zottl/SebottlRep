@@ -16,14 +16,9 @@ public abstract class MapObject extends Observable
 
     // Movement speed of the MapObject in pixels per update
     protected double movementSpeed;
+
     // Movement direction of the MapObject in degrees (or -1 if unmoving)
     protected int direction;
-
-    // How many steps does the animation advance per update
-    protected double animationSpeed;
-
-    // Shows which part of the animation is shown right now
-    protected double animationState;
 
     protected Sprite sprite; // Sprite of the MapObject
     protected Hitbox hitbox; // Hitbox of the MapObject
@@ -40,22 +35,19 @@ public abstract class MapObject extends Observable
      *            Y-coordinate of the MapObject
      * @param movementSpeed
      *            Movement speed of the MapObject
-     * @param animationSpeed
-     *            Animation speed of the MapObject
      * @param sprite
      *            Sprite of the MapObject
      * @param hitbox
      *            Hitbox of the MapObject
      */
-    public MapObject(int x, int y, double movementSpeed, double animationSpeed, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
+    public MapObject(int x, int y, double movementSpeed, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
     {
         // Let the object be at the center of the pixel it is standing on
+        // (therefore add half a pixel)
         this.x = x + 0.5;
         this.y = y + 0.5;
         this.movementSpeed = movementSpeed;
         this.direction = -1;
-        this.animationSpeed = animationSpeed;
-        this.animationState = 0;
         this.sprite = sprite;
 
         this.hitbox = hitbox;
@@ -64,11 +56,6 @@ public abstract class MapObject extends Observable
         this.ai = ai;
         if (ai != null) ai.registerParent(this);
     }
-
-    /**
-     * Go to the next Sprite in the animation of this MapObject
-     */
-    public abstract void advanceAnimation();
 
     /**
      * @return {@code true} if the object can be inside solid objects
@@ -91,24 +78,6 @@ public abstract class MapObject extends Observable
         y = yPos;
         setChanged();
         notifyObservers(true);
-    }
-
-    /**
-     * Checks if the position is inside the hitbox of this MapObject
-     * 
-     * @param x
-     *            X coordinate of the position
-     * @param y
-     *            Y coordinate of the position
-     * @return {@code true} if the position is contained in the hitbox of this
-     *         MapObject
-     */
-    public boolean containedInHitbox(int x, int y)
-    {
-        return hitbox.contains(x - this.x, y - this.y);
-
-        // TASK Made this Method on a whim and didn't use it. Can probably be
-        // removed.
     }
 
     /**

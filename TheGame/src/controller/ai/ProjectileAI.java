@@ -1,22 +1,43 @@
 package controller.ai;
 
+import model.GameData;
 import model.game.object.MapObject;
-import model.game.object.Projectile;
+import model.game.sprites.Sprite;
 import controller.CollisionHandler.CollisionStatus;
 
 public class ProjectileAI extends MapObjectAI
 {
-    private Projectile parent;
-
-    public ProjectileAI()
+    public ProjectileAI(double animationSpeed)
     {
-        super();
+        super(animationSpeed);
     }
 
     @Override
     public void advance()
     {
-        // TODO animation
+        animate();
+    }
+
+    @Override
+    protected void animate()
+    {
+        animationState += animationSpeed;
+        int stateNumber = (int) animationState;
+        switch (stateNumber)
+        {
+            case 1:
+                parent.setSprite(Sprite.testSpell02);
+                break;
+            case 2:
+                parent.setSprite(Sprite.testSpell03);
+                break;
+            case 3:
+                parent.setSprite(Sprite.testSpell02);
+                break;
+            case 4:
+                parent.setSprite(Sprite.testSpell01);
+                animationState = 0;
+        }
     }
 
     @Override
@@ -24,7 +45,7 @@ public class ProjectileAI extends MapObjectAI
     {
         if (cs == CollisionStatus.OOB || cs == CollisionStatus.SOLID || cs == CollisionStatus.ENEMY_BODY)
         {
-            data.getMap().removeMapObject(parent);
+            GameData.getInstance().getMap().removeMapObject(parent);
         }
     }
 
@@ -32,12 +53,10 @@ public class ProjectileAI extends MapObjectAI
     public void registerParent(MapObject mo)
     {
         super.registerParent(mo);
-
-        this.parent = (Projectile) super.parent;
     }
 
     @Override
-    public CollisionStatus[] getReleventCollisionStatuses()
+    public CollisionStatus[] getRelevantCollisionStatuses()
     {
         CollisionStatus[] css = { CollisionStatus.OOB, CollisionStatus.SOLID, CollisionStatus.ENEMY_BODY };
         return css;

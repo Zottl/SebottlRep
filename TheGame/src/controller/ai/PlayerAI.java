@@ -1,29 +1,85 @@
 package controller.ai;
 
+import model.game.characters.Player;
+import model.game.object.MapObject;
+import controller.CollisionHandler.CollisionStatus;
 import controller.input.Keyboard;
 import controller.input.Mouse;
 
 public class PlayerAI extends MapObjectAI
 {
+    private Player parent;
+
     private Keyboard keyboard;
     private Mouse mouse;
 
-    public PlayerAI(Keyboard keyboard, Mouse mouse)
+    private boolean mouseClicked;
+
+    public PlayerAI(double animationSpeed, Keyboard keyboard, Mouse mouse)
     {
-        super();
+        super(animationSpeed);
         this.keyboard = keyboard;
         this.mouse = mouse;
     }
 
     @Override
-    public void advance()
+    public void registerParent(MapObject mo)
     {
-        setPlayerDirection();
+        super.registerParent(mo);
 
-        // TODO more sprite stuff
+        this.parent = (Player) super.parent;
     }
 
-    private void setPlayerDirection()
+    @Override
+    public void advance()
+    {
+        animate();
+
+        handleKeyboardInput();
+        handleMouseInput();
+    }
+
+    @Override
+    protected void animate()
+    {
+        // TODO
+    }
+
+    @Override
+    public void collisionWith(CollisionStatus cs)
+    {
+        // TODO
+    }
+
+    @Override
+    public CollisionStatus[] getRelevantCollisionStatuses()
+    {
+        // TODO
+        return super.getRelevantCollisionStatuses();
+    }
+
+    /**
+     * Handles user mouse input (shooting spells currently)
+     */
+    private void handleMouseInput()
+    {
+        if (mouse.getButton() == 1 && !mouseClicked)
+        {
+            mouseClicked = true;
+
+            parent.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
+        }
+
+        if (mouse.getButton() == -1)
+        {
+            mouseClicked = false;
+        }
+    }
+
+    /**
+     * Handles user keyboard input (moving the player currently)
+     */
+    private void handleKeyboardInput()
     {
         int dir;
         if (keyboard.up && !keyboard.down)

@@ -65,7 +65,7 @@ public class MovementHandler
                 // Get all relevant CollisionStatuses
                 if (ai != null)
                 {
-                    for (CollisionStatus cs : ai.getReleventCollisionStatuses())
+                    for (CollisionStatus cs : ai.getRelevantCollisionStatuses())
                     {
                         if (ch.checkCollisionRectangle(cs, newX, newY, width, height))
                         {
@@ -74,7 +74,7 @@ public class MovementHandler
                     }
                 }
 
-                // Get all colliding MapObjects to 
+                // Get all colliding MapObjects to
                 for (MapObject colMO : ch.getCollidingObjectsRectangle(newX, newY, width, height))
                 {
                     MapObjectAI colAI = colMO.getAI();

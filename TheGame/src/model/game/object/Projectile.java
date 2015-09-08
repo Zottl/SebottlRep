@@ -6,9 +6,9 @@ import model.game.sprites.Sprite;
 
 public class Projectile extends MapObject
 {
-    public Projectile(double xOrigin, double yOrigin, int xTarget, int yTarget, double moveSpeed, double animationSpeed, Sprite sprite)
+    public Projectile(double xOrigin, double yOrigin, int xTarget, int yTarget, double moveSpeed, Sprite sprite)
     {
-        super((int) xOrigin, (int) yOrigin, moveSpeed, animationSpeed, sprite, new Hitbox(0, 0, 16, 16), new ProjectileAI());
+        super((int) xOrigin, (int) yOrigin, moveSpeed, sprite, new Hitbox(0, 0, 16, 16), new ProjectileAI(0.04));
 
         // Calculate the vector from the center of this projectile to the target
         // position
@@ -21,33 +21,10 @@ public class Projectile extends MapObject
     }
 
     @Override
-    public void advanceAnimation()
-    {
-        animationState += animationSpeed;
-        int stateNumber = (int) animationState;
-        switch (stateNumber)
-        {
-            case 1:
-                sprite = Sprite.testSpell02;
-                break;
-            case 2:
-                sprite = Sprite.testSpell03;
-                break;
-            case 3:
-                sprite = Sprite.testSpell02;
-                break;
-            case 4:
-                sprite = Sprite.testSpell01;
-                animationState = 0;
-        }
-    }
-
-    @Override
     public boolean isGhost()
     {
         // Projectiles explode or pass through solid objects, rather than
-        // collide with them (exploding is handled separately in the
-        // CollisionHandler)
+        // collide with them (exploding is handled separately in the AI)
         return true;
     }
 

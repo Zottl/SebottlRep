@@ -1,22 +1,24 @@
 package controller.ai;
 
-import controller.CollisionHandler.CollisionStatus;
-import model.GameData;
 import model.game.object.MapObject;
+import controller.CollisionHandler.CollisionStatus;
 
 /**
  * Class to control the behavior of MapObjects
  */
 public abstract class MapObjectAI
 {
-    protected GameData data;
     protected MapObject parent;
     protected int state;
 
-    public MapObjectAI()
+    protected double animationState;
+    protected double animationSpeed;
+
+    public MapObjectAI(double animationSpeed)
     {
-        this.data = GameData.getInstance();
         this.state = 0;
+        this.animationState = 0;
+        this.animationSpeed = animationSpeed;
     }
 
     /**
@@ -40,6 +42,14 @@ public abstract class MapObjectAI
     }
 
     /**
+     * Changes the sprite of the parent object for the animation process
+     */
+    protected void animate()
+    {
+        return;
+    }
+
+    /**
      * The AI reaction whenever the parent collides with an Object of a certain
      * CollisionStatus
      * 
@@ -57,7 +67,7 @@ public abstract class MapObjectAI
      *         statuses shouldn't even be checked, since in case of a collision,
      *         the AI will not do anything anyway.
      */
-    public CollisionStatus[] getReleventCollisionStatuses()
+    public CollisionStatus[] getRelevantCollisionStatuses()
     {
         return new CollisionStatus[0];
     }
