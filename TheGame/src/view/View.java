@@ -17,8 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import model.GameData;
-
 public class View
 {
     // window size variables
@@ -36,9 +34,9 @@ public class View
     // accessing image // converting image object into an array of integers
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
-    public View(GameData data)
+    public View()
     {
-        gs = new GameScreen(data);
+        gs = new GameScreen();
 
         // Prepare the frame
         frame = new JFrame();

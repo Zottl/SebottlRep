@@ -12,8 +12,7 @@ public class EnemyNpc extends NonPlayerCharacter
 {
     public EnemyNpc(int x, int y, List<Spell> spells, Sprite sprite, Hitbox hitbox)
     {
-        super(x, y, 0.2, spells, sprite, hitbox, new EnemyAI(0.04));
-        hitpoints = 50;
+        super(x, y, 0.2, 50, spells, sprite, hitbox, new EnemyAI(0.04));
     }
 
     @Override

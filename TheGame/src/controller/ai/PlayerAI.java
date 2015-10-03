@@ -13,6 +13,7 @@ public class PlayerAI extends MapObjectAI
     private Keyboard keyboard;
     private Mouse mouse;
 
+    private int invincibilityFrames;
     private boolean mouseClicked;
 
     public PlayerAI(double animationSpeed, Keyboard keyboard, Mouse mouse)
@@ -37,6 +38,11 @@ public class PlayerAI extends MapObjectAI
 
         handleKeyboardInput();
         handleMouseInput();
+
+        if (invincibilityFrames > 0)
+        {
+            invincibilityFrames--;
+        }
     }
 
     @Override
@@ -48,7 +54,14 @@ public class PlayerAI extends MapObjectAI
     @Override
     public void collisionWith(CollisionStatus cs)
     {
-        // TODO
+        if (cs == CollisionStatus.ENEMY_BODY)
+        {
+            if (invincibilityFrames == 0)
+            {
+                parent.setHitpoints(parent.getHitpoints() - 1);
+                invincibilityFrames = 5;
+            }
+        }
     }
 
     @Override

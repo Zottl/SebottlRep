@@ -58,6 +58,17 @@ public class Sprite
     public static final Sprite testSpell02 = new Sprite(Spritesheet.spellSpritesheet, 16, 0, 16, 16);
     public static final Sprite testSpell03 = new Sprite(Spritesheet.spellSpritesheet, 32, 0, 16, 16);
 
+    // ui sprites
+    public static final Sprite healthFrameLeft = new Sprite(Spritesheet.uiSpritesheet, 0, 0, 32, 32);
+    public static final Sprite healthFrameMid = new Sprite(Spritesheet.uiSpritesheet, 32, 0, 10, 32);
+    public static final Sprite healthFrameRight = new Sprite(Spritesheet.uiSpritesheet, 42, 0, 32, 32);
+    public static final Sprite healthBar01 = new Sprite(Spritesheet.uiSpritesheet, 74, 0, 1, 32);
+    public static final Sprite healthBar02 = new Sprite(Spritesheet.uiSpritesheet, 75, 0, 1, 32);
+    public static final Sprite healthBar03 = new Sprite(Spritesheet.uiSpritesheet, 76, 0, 1, 32);
+    public static final Sprite healthBar04 = new Sprite(Spritesheet.uiSpritesheet, 77, 0, 1, 32);
+    public static final Sprite healthBar05 = new Sprite(Spritesheet.uiSpritesheet, 78, 0, 1, 32);
+    public static final Sprite healthBar06 = new Sprite(Spritesheet.uiSpritesheet, 79, 0, 1, 32);
+
     /**
      * Create a new Sprite from the given Spritesheet
      * 

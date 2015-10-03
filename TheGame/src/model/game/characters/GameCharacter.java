@@ -16,13 +16,16 @@ public abstract class GameCharacter extends MapObject
     // list of Spells for this character
     protected List<Spell> spells;
 
+    protected int maxHitpoints;
     protected int hitpoints;
 
     // Constructor
-    public GameCharacter(int x, int y, double movementSpeed, List<Spell> spells, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
+    public GameCharacter(int x, int y, double movementSpeed, int maxHitpoints, List<Spell> spells, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
     {
         super(x, y, movementSpeed, sprite, hitbox, ai);
 
+        this.hitpoints = maxHitpoints;
+        this.maxHitpoints = maxHitpoints;
         this.spells = spells;
     }
 
@@ -64,5 +67,15 @@ public abstract class GameCharacter extends MapObject
     public void setHitpoints(int hitpoints)
     {
         this.hitpoints = hitpoints;
+    }
+
+    public int getMaxHitpoints()
+    {
+        return maxHitpoints;
+    }
+
+    public void setMaxHitpoints(int maxHitpoints)
+    {
+        this.maxHitpoints = maxHitpoints;
     }
 }

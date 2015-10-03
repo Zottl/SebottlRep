@@ -15,7 +15,7 @@ public class Player extends GameCharacter
 
     public Player(int x, int y, List<Spell> spells, Sprite sprite, Hitbox hitbox, Keyboard kb, Mouse ms)
     {
-        super(x, y, 1.5, spells, sprite, hitbox, new PlayerAI(0.04, kb, ms));
+        super(x, y, 1.5, 80, spells, sprite, hitbox, new PlayerAI(0.04, kb, ms));
     }
 
     @Override
