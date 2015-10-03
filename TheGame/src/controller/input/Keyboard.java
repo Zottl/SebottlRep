@@ -19,6 +19,14 @@ public class Keyboard implements KeyListener
         left = keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
     }
 
+    /**
+     * Reset the pressed buttons
+     */
+    public void reset()
+    {
+        keys = new boolean[800];
+    }
+
     public void keyPressed(KeyEvent e)
     {
         keys[e.getKeyCode()] = true;
@@ -33,5 +41,4 @@ public class Keyboard implements KeyListener
     {
 
     }
-
 }

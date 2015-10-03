@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -24,7 +25,7 @@ public class View
     public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9;
     public static final int SCALE = 3;
-    
+
     private JFrame frame;
     private Canvas canvas;
 
@@ -125,5 +126,10 @@ public class View
     public void setTitle(String title)
     {
         SwingUtilities.invokeLater(() -> frame.setTitle(title));
+    }
+
+    public void addWindowlistener(WindowListener l)
+    {
+        frame.addWindowListener(l);
     }
 }

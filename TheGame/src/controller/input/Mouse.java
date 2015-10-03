@@ -27,6 +27,14 @@ public class Mouse implements MouseListener, MouseMotionListener
         this.yOffset = yOffset;
     }
 
+    /**
+     * Reset the pressed buttons
+     */
+    public void reset()
+    {
+        mouseB = -1;
+    }
+
     public void mousePressed(MouseEvent e)
     {
         mouseB = e.getButton();

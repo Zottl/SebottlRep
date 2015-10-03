@@ -5,6 +5,7 @@ import model.game.characters.Player;
 import model.game.object.MapObject;
 import model.game.tiles.Tile;
 import view.View;
+import controller.input.FocusManager;
 import controller.input.Keyboard;
 import controller.input.Mouse;
 
@@ -22,6 +23,7 @@ public class GameController implements Runnable
     private Thread thread;
     private Keyboard keyboard;
     private Mouse mouse;
+    private FocusManager focusManager;
     private MovementHandler movHandler;
 
     public int xScreenOffset;
@@ -38,6 +40,9 @@ public class GameController implements Runnable
         mouse = new Mouse();
         view.addMouseListener(mouse);
         view.addMouseMotionListener(mouse);
+
+        focusManager = new FocusManager(keyboard, mouse);
+        view.addWindowlistener(focusManager);
 
         Player player = gameData.createPlayer(keyboard, mouse);
         gameData.getMap().addMapObject(player);
