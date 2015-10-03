@@ -9,8 +9,8 @@ import model.game.sprites.Sprite;
 
 public abstract class NonPlayerCharacter extends GameCharacter
 {
-    public NonPlayerCharacter(int x, int y, double movementSpeed, List<Spell> spells, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
+    public NonPlayerCharacter(int x, int y, double movementSpeed, int maxHitpoints, List<Spell> spells, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
     {
-        super(x, y, movementSpeed, spells, sprite, hitbox, ai);
+        super(x, y, movementSpeed, maxHitpoints, spells, sprite, hitbox, ai);
     }
 }

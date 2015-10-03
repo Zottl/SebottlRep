@@ -1,10 +1,7 @@
 package view;
 
 import model.GameData;
-import model.game.maps.GameMap;
-import model.game.object.MapObject;
 import model.game.sprites.Sprite;
-import model.game.tiles.Tile;
 
 /**
  * Class that handles the rendering of the game.
@@ -12,6 +9,8 @@ import model.game.tiles.Tile;
 public class GameScreen
 {
     private GameData data;
+    private MapRenderer mr;
+    private UserInterface ui;
 
     private int[] pixels;
 
@@ -21,11 +20,13 @@ public class GameScreen
      * @param data
      *            Game data that will be rendered.
      */
-    public GameScreen(GameData data)
+    public GameScreen()
     {
         pixels = new int[View.WIDTH * View.SCALE * View.HEIGHT * View.SCALE];
 
-        this.data = data;
+        data = GameData.getInstance();
+        mr = new MapRenderer(this);
+        ui = new UserInterface(this);
     }
 
     /**
@@ -33,7 +34,8 @@ public class GameScreen
      */
     public void render(int xOffset, int yOffset)
     {
-        this.renderMap(data.getMap(), xOffset, yOffset);
+        mr.renderMap(data.getMap(), xOffset, yOffset);
+        ui.renderUI(xOffset, yOffset);
     }
 
     /**
@@ -50,7 +52,7 @@ public class GameScreen
      * @param yOffset
      *            Current y offset of the view
      */
-    private void renderSprite(Sprite sprite, int x, int y, int xOffset, int yOffset)
+    public void renderSprite(Sprite sprite, int x, int y, int xOffset, int yOffset)
     {
         int spriteWidth = sprite.WIDTH;
         int spriteHeight = sprite.HEIGHT;
@@ -88,56 +90,6 @@ public class GameScreen
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Renders the map
-     * 
-     * @param map
-     *            Map to render
-     * @param xOffset
-     *            Current x offset of the view
-     * @param yOffset
-     *            Current y offset of the view
-     */
-    private void renderMap(GameMap map, int xOffset, int yOffset)
-    {
-        int tilesize = Tile.TILESIZE;
-        int width = View.WIDTH;
-        int height = View.HEIGHT;
-
-        int horTileCount = (int) Math.ceil(width / (double) tilesize);
-        int vertTileCount = (int) Math.ceil(height / (double) tilesize);
-
-        // Two loops running over the screen pixels.
-        for (int x = 0; x <= horTileCount; x++)
-        {
-            /*
-             * Because the view width is not a multiple of the tile size, we
-             * need to be careful not to select a pixel that is outside of the
-             * view (and therefore maybe outside of the map) while also making
-             * sure to cover the whole screen. Because of this, we check the x
-             * coordinate width-1 and the y coordinate height-1 manually (the
-             * pixels at the lower and right borders).
-             */
-            int xPos = x < horTileCount ? x * tilesize : width - 1;
-            xPos += xOffset;
-
-            for (int y = 0; y <= vertTileCount; y++)
-            {
-                int yPos = y < vertTileCount ? y * tilesize : height - 1;
-                yPos += yOffset;
-
-                Tile tile = map.getTile(xPos, yPos);
-
-                renderSprite(tile.getSprite(), (int) tile.getX(), (int) tile.getY(), xOffset, yOffset);
-            }
-        }
-
-        for (MapObject mo : map.getObjects())
-        {
-            renderSprite(mo.getSprite(), (int) mo.getX(), (int) mo.getY(), xOffset, yOffset);
         }
     }
 
