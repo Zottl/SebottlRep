@@ -18,6 +18,7 @@ public abstract class ProjectileSpell extends Spell
 
     public void cast(int xTarget, int yTarget, GameCharacter character)
     {
+        //TODO: if the cooldown is below a certain point maybe cast it autmatically after cd is over
         // Check if spell is on cooldown
         if (!isCooldown())
         {

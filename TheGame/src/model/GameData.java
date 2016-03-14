@@ -9,7 +9,7 @@ import model.game.maps.GrassMap01;
 import model.game.maps.GrassMap02;
 import model.game.object.Hitbox;
 import model.game.spell.Spell;
-import model.game.spell.TestSpell;
+import model.game.spell.characterSpell.TestSpell;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 import view.View;
