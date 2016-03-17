@@ -14,7 +14,8 @@ public abstract class Spell
 
     public Spell()
     {
-        this.cooldownTime = 1000;
+        // standard cooldown of 500ms
+        this.cooldownTime = 500;
         this.map = GameData.getInstance().getMap();        
     }
 
