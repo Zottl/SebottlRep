@@ -25,12 +25,13 @@ public class EnvironmentUI
     
     private void renderEnemyHealthbars(int xOffset, int yOffset)
     {
+        // TODO: Only show the health bars when enemy is damaged (and some other dependencies)
         for (EnemyNpc enemy : map.getEnemyNpcs())
         {
-            // get the amount of bar segments depending on enemy health
+            // Get the amount of bar segments depending on enemy health
             int barSegments = (int)((double)enemy.getHitpoints() / (double)enemy.getMaxHitpoints() * 14);
             
-            // render the health frame
+            // Render the health frame
             gs.renderSprite(Sprite.enemyHealthFrame, (int)enemy.getX(), (int)enemy.getY() - 10, xOffset, yOffset);
             
             // Render the bar
