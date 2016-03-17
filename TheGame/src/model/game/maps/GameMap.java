@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Scanner;
 
+import model.game.characters.EnemyNpc;
 import model.game.object.MapObject;
 import model.game.tiles.DirtTile;
 import model.game.tiles.Grass01Tile;
@@ -207,6 +208,25 @@ public abstract class GameMap extends Observable
         return new ArrayList<MapObject>(objects);
     }
 
+    /**
+     * @return The list of the EnemyNpcs that are present on this GameMap.
+     */
+
+    public List<EnemyNpc> getEnemyNpcs()
+    {
+        ArrayList<EnemyNpc> enemyNpcs = new ArrayList<EnemyNpc>();
+        
+        for(MapObject object : objects)
+        {
+            if (object instanceof EnemyNpc)
+            {
+                enemyNpcs.add((EnemyNpc) object);
+            }
+        }
+        
+        return enemyNpcs;
+    }
+    
     public class MapChangedEvent
     {
         public MapObject mapObject;
@@ -217,6 +237,5 @@ public abstract class GameMap extends Observable
             this.mapObject = mapObject;
             this.removed = removed;
         }
-    }
-
+    }      
 }

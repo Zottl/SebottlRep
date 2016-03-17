@@ -68,6 +68,10 @@ public class Sprite
     public static final Sprite healthBar04 = new Sprite(Spritesheet.uiSpritesheet, 77, 0, 1, 32);
     public static final Sprite healthBar05 = new Sprite(Spritesheet.uiSpritesheet, 78, 0, 1, 32);
     public static final Sprite healthBar06 = new Sprite(Spritesheet.uiSpritesheet, 79, 0, 1, 32);
+    
+    // environment data sprites
+    public static final Sprite enemyHealthFrame = new Sprite(Spritesheet.environmentUISpritesheet, 0, 6, 16, 4);
+    public static final Sprite enemyHealthBar = new Sprite(Spritesheet.environmentUISpritesheet, 17, 7, 1, 2);
 
     /**
      * Create a new Sprite from the given Spritesheet

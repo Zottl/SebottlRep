@@ -18,5 +18,6 @@ public class GrassMap01 extends GameMap
         this.addMapObject(new Coin(61, 149));
         this.addMapObject(new Coin(55, 120));
         this.addMapObject(new EnemyNpc(100, 100, null, Sprite.enemy01, new Hitbox(0, 0, 16, 16)));
+        this.addMapObject(new EnemyNpc(130, 30, null, Sprite.enemy01, new Hitbox(0, 0, 16, 16)));
     }
 }

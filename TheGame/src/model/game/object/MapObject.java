@@ -39,6 +39,8 @@ public abstract class MapObject extends Observable
      *            Sprite of the MapObject
      * @param hitbox
      *            Hitbox of the MapObject
+     * @param isHostile
+     *            Hostility status of the MapObject
      */
     public MapObject(int x, int y, double movementSpeed, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
     {

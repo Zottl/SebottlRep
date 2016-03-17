@@ -10,6 +10,7 @@ public class GameScreen
 {
     private GameData data;
     private MapRenderer mr;
+    private EnvironmentUI eui;
     private UserInterface ui;
 
     private int[] pixels;
@@ -26,6 +27,7 @@ public class GameScreen
 
         data = GameData.getInstance();
         mr = new MapRenderer(this);
+        eui = new EnvironmentUI(this);
         ui = new UserInterface(this);
     }
 
@@ -35,6 +37,7 @@ public class GameScreen
     public void render(int xOffset, int yOffset)
     {
         mr.renderMap(data.getMap(), xOffset, yOffset);
+        eui.renderEnvironmentUI(xOffset, yOffset);
         ui.renderUI(xOffset, yOffset);
     }
 
