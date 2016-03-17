@@ -27,7 +27,7 @@ public class EnvironmentUI
     {
         for (EnemyNpc enemy : map.getEnemyNpcs())
         {
-            // get the amount on bar segments depending on enemy health
+            // get the amount of bar segments depending on enemy health
             int barSegments = (int)((double)enemy.getHitpoints() / (double)enemy.getMaxHitpoints() * 14);
             
             // render the health frame
