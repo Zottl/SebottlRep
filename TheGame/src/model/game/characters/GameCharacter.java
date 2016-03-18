@@ -18,6 +18,7 @@ public abstract class GameCharacter extends MapObject
 
     protected int maxHitpoints;
     protected int hitpoints;
+    protected long lastTimeDamaged = 0L;
 
     // Constructor
     public GameCharacter(int x, int y, double movementSpeed, int maxHitpoints, List<Spell> spells, Sprite sprite, Hitbox hitbox, MapObjectAI ai)
@@ -77,5 +78,15 @@ public abstract class GameCharacter extends MapObject
     public void setMaxHitpoints(int maxHitpoints)
     {
         this.maxHitpoints = maxHitpoints;
+    }
+    
+    public long getLastTimeDamaged()
+    {
+        return this.lastTimeDamaged;
+    }
+    
+    public void setLastTimeDamaged(long lastTimeDamaged)
+    {
+        this.lastTimeDamaged = lastTimeDamaged;
     }
 }
