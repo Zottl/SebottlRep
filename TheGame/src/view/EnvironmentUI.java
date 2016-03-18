@@ -28,14 +28,14 @@ public class EnvironmentUI
     {
         Player player = data.getPlayer();
         
-        // TODO: healthbar rendering depending on last time dmg received and in combat with player
+        // TODO: render health bar when enemy is in combat with the player(?)
         for (EnemyNpc enemy : map.getEnemyNpcs())
         {
-            // Only render the healthbars of near enemies
-            if (player.getCenterDistance(enemy) > 100) continue;
+            // Only render the healthbars of near enemies and enemies that got damaged in the last 8 seconds
+            if ((System.currentTimeMillis() - enemy.getLastTimeDamaged() > 8000) && player.getCenterDistance(enemy) > 100) continue;
             
-            // Get the amount of bar segments depending on enemy health
-            int barSegments = (int)((double)enemy.getHitpoints() / (double)enemy.getMaxHitpoints() * 14);
+            // Get the amount of bar segments depending on enemy health (max 14 bar segments) 
+            int barSegments = (int)((enemy.getHitpoints() * 14) / enemy.getMaxHitpoints());
             
             // Render the health frame
             gs.renderSprite(Sprite.enemyHealthFrame, (int)enemy.getX(), (int)enemy.getY() - 10, xOffset, yOffset);
