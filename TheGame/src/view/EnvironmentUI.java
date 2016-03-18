@@ -2,6 +2,7 @@ package view;
 
 import model.GameData;
 import model.game.characters.EnemyNpc;
+import model.game.characters.Player;
 import model.game.maps.GameMap;
 import model.game.sprites.Sprite;
 
@@ -14,7 +15,7 @@ public class EnvironmentUI
     public EnvironmentUI(GameScreen gs)
     {
         this.gs = gs;
-        this.data = GameData.getInstance();        
+        this.data = GameData.getInstance();
         this.map = data.getMap();
     }
     
@@ -25,9 +26,14 @@ public class EnvironmentUI
     
     private void renderEnemyHealthbars(int xOffset, int yOffset)
     {
-        // TODO: Only show the health bars when enemy is damaged (and some other dependencies)
+        Player player = data.getPlayer();
+        
+        // TODO: healthbar rendering depending on last time dmg received and in combat with player
         for (EnemyNpc enemy : map.getEnemyNpcs())
         {
+            // Only render the healthbars of near enemies
+            if (player.getCenterDistance(enemy) > 100) continue;
+            
             // Get the amount of bar segments depending on enemy health
             int barSegments = (int)((double)enemy.getHitpoints() / (double)enemy.getMaxHitpoints() * 14);
             
