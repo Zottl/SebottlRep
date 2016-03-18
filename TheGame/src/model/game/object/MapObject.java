@@ -213,4 +213,15 @@ public abstract class MapObject extends Observable
     {
         return ai;
     }
+    
+    /**
+     * @return The center distance to antoher MapObject
+     */
+    public double getCenterDistance(MapObject object)
+    {
+        double xDist = this.getCenterX() - object.getCenterX();
+        double yDist = this.getCenterY() - object.getCenterY();
+        
+        return Math.sqrt(xDist * xDist + yDist * yDist);
+    }
 }
