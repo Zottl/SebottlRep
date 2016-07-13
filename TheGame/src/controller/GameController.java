@@ -26,6 +26,7 @@ public class GameController implements Runnable
     private FocusManager focusManager;
     private MovementHandler movHandler;
 
+    // TODO: maybe make this static in some way?
     public int xScreenOffset;
     public int yScreenOffset;
 

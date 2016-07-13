@@ -2,6 +2,7 @@ package model.game.characters;
 
 import java.util.List;
 
+import controller.ai.GameCharacterAI;
 import controller.ai.MapObjectAI;
 import model.game.object.Hitbox;
 import model.game.object.MapObject;
@@ -15,6 +16,9 @@ public abstract class GameCharacter extends MapObject
 {
     // list of Spells for this character
     protected List<Spell> spells;
+    
+    // ai for this character
+    protected GameCharacterAI ai;
 
     protected int maxHitpoints;
     protected int hitpoints;
@@ -25,6 +29,7 @@ public abstract class GameCharacter extends MapObject
     {
         super(x, y, movementSpeed, sprite, hitbox, ai);
 
+        this.ai = (GameCharacterAI)ai;
         this.hitpoints = maxHitpoints;
         this.maxHitpoints = maxHitpoints;
         this.spells = spells;
@@ -35,6 +40,11 @@ public abstract class GameCharacter extends MapObject
         Spell spell = spells.get(0);
 
         spell.cast(xTarget, yTarget, this);
+    }
+    
+    public void death ()
+    {
+        ai.deathAnimation();
     }
 
     @Override
@@ -60,33 +70,54 @@ public abstract class GameCharacter extends MapObject
         this.movementSpeed = speed;
     }
 
+    /**
+     * @return hitpoints of the character
+     */
     public int getHitpoints()
     {
         return hitpoints;
     }
 
+    /**
+     * @param hitpoints
+     *            hitpoints to be set for the character
+     */
     public void setHitpoints(int hitpoints)
     {
         this.hitpoints = hitpoints;
     }
 
+    /**
+     * @return maxHitpoints of the character
+     */
     public int getMaxHitpoints()
     {
         return maxHitpoints;
     }
 
+    /**
+     * @param maxHitpoints
+     *            maxHitpoints to be set for the character
+     */
     public void setMaxHitpoints(int maxHitpoints)
     {
         this.maxHitpoints = maxHitpoints;
     }
     
+    /**
+     * @return last time the character got damaged
+     */
     public long getLastTimeDamaged()
     {
         return this.lastTimeDamaged;
     }
     
+    /**
+     * @param lastTimeDamaged
+     *            last time the character got damaged
+     */
     public void setLastTimeDamaged(long lastTimeDamaged)
     {
         this.lastTimeDamaged = lastTimeDamaged;
-    }
+    }       
 }

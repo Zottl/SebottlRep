@@ -6,7 +6,7 @@ import controller.CollisionHandler.CollisionStatus;
 import controller.input.Keyboard;
 import controller.input.Mouse;
 
-public class PlayerAI extends MapObjectAI
+public class PlayerAI extends GameCharacterAI
 {
     private Player parent;
 

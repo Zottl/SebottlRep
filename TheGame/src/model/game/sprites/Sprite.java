@@ -68,6 +68,8 @@ public class Sprite
     public static final Sprite healthBar04 = new Sprite(Spritesheet.uiSpritesheet, 77, 0, 1, 32);
     public static final Sprite healthBar05 = new Sprite(Spritesheet.uiSpritesheet, 78, 0, 1, 32);
     public static final Sprite healthBar06 = new Sprite(Spritesheet.uiSpritesheet, 79, 0, 1, 32);
+    public static final Sprite bag = new Sprite(Spritesheet.uiSpritesheet, 80, 0, 16, 16);
+    public static final Sprite hoveredOverlay = new Sprite(Spritesheet.uiSpritesheet, 80, 16, 16, 16);
     
     // environment data sprites
     public static final Sprite enemyHealthFrame = new Sprite(Spritesheet.environmentUISpritesheet, 0, 6, 16, 4);

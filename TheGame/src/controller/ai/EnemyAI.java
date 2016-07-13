@@ -6,12 +6,13 @@ import model.game.sprites.Sprite;
 import controller.CollisionHandler.CollisionStatus;
 import controller.GameController;
 
-public class EnemyAI extends MapObjectAI
+public class EnemyAI extends GameCharacterAI
 {
     private EnemyNpc parent;
     private int timer;
 
     private final int HURTSTATE = 1000;
+    private final int DEATHSTATE = 2000;
 
     private Sprite hurtSprite;
 
@@ -70,8 +71,8 @@ public class EnemyAI extends MapObjectAI
                 }
                 break;
             case HURTSTATE:
-                // 3 second stun animation
-                timer = 3 * GameController.UPS;
+                // 1 second stun animation
+                timer = 1 * GameController.UPS;
                 parent.setDirection(-1);
                 state = HURTSTATE + 1;
                 System.out.println("[EnemyAI]: [Debug] Enemy health remaining: " + parent.getHitpoints());
@@ -98,6 +99,23 @@ public class EnemyAI extends MapObjectAI
         }
     }
 
+    public void deathAnimation()
+    {
+        // also handle map object removal here
+        
+        
+        Sprite deathAnimSprite = new Sprite(Sprite.enemy01);
+
+        // Transform all visible pixels to red for the hurtSprite
+        for (int i = 0; i < deathAnimSprite.HEIGHT * deathAnimSprite.WIDTH; i++)
+        {
+            if ((deathAnimSprite.getPixel(i) & 0xff000000) != 0)
+            {
+                deathAnimSprite.setPixel(i, 0xFF666666);
+            }
+        }
+    }
+    
     @Override
     public void collisionWith(CollisionStatus cs)
     {
@@ -105,7 +123,15 @@ public class EnemyAI extends MapObjectAI
         {
             state = HURTSTATE;
             parent.setHitpoints(parent.getHitpoints() - 5);
-        }
+            parent.setLastTimeDamaged(System.currentTimeMillis());
+            
+            if (parent.getHitpoints() <= 0)
+            {
+                System.out.println("DEAD");
+                state = DEATHSTATE;
+                parent.death();
+            }
+         }
     }
 
     @Override
