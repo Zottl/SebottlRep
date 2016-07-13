@@ -17,6 +17,7 @@ public class UserInterface
     public void renderUI(int xOffset, int yOffset)
     {
         renderHealthBar(xOffset, yOffset);
+        renderBagButton(xOffset, yOffset);
     }
 
     private void renderHealthBar(int xOffset, int yOffset)
@@ -66,5 +67,18 @@ public class UserInterface
             gs.renderSprite(Sprite.healthFrameMid, xOffset + sideWidth + i * midWidth, yOffset, xOffset, yOffset);
         }
         gs.renderSprite(Sprite.healthFrameRight, xOffset + sideWidth + healthSections * midWidth, yOffset, xOffset, yOffset);
+    }
+    
+    private void renderBagButton(int xOffset, int yOffset)
+    {
+        // TODO: - maybe make a super class to check hover state of all rendered elements
+        //       - in this class create a method for hover overlays
+        //       - maybe create a method "renderStaticUIElements" where we render all the stationary ui elements
+        
+        // bag position is bottom right of the screen with a margin of 1
+        int bagPosX = xOffset + View.WIDTH - Sprite.bag.WIDTH - 1;
+        int bagPosY = xOffset + View.HEIGHT - Sprite.bag.HEIGHT - 1;
+        
+        gs.renderSprite(Sprite.bag, bagPosX, bagPosY, xOffset, yOffset);
     }
 }
