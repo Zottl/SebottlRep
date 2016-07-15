@@ -77,7 +77,7 @@ public class UserInterface
         
         // bag position is bottom right of the screen with a margin of 1
         int bagPosX = xOffset + View.WIDTH - Sprite.bag.WIDTH - 1;
-        int bagPosY = xOffset + View.HEIGHT - Sprite.bag.HEIGHT - 1;
+        int bagPosY = yOffset + View.HEIGHT - Sprite.bag.HEIGHT - 1;
         
         gs.renderSprite(Sprite.bag, bagPosX, bagPosY, xOffset, yOffset);
     }
