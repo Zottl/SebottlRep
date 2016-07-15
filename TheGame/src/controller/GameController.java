@@ -27,8 +27,8 @@ public class GameController implements Runnable
     private MovementHandler movHandler;
 
     // TODO: maybe make this static in some way?
-    public int xScreenOffset;
-    public int yScreenOffset;
+    public static int xScreenOffset;
+    public static int yScreenOffset;
 
     public GameController(View view)
     {
@@ -45,7 +45,7 @@ public class GameController implements Runnable
         focusManager = new FocusManager(keyboard, mouse);
         view.addWindowlistener(focusManager);
 
-        Player player = gameData.createPlayer(keyboard, mouse);
+        Player player = gameData.createPlayer();
         gameData.getMap().addMapObject(player);
 
         CollisionHandler colHandler = new CollisionHandler();
@@ -103,10 +103,6 @@ public class GameController implements Runnable
 
     public void update()
     {
-        // Handle user input
-        keyboard.update();
-        mouse.update(xScreenOffset, yScreenOffset);
-
         // Inform the AIs of the update
         for (MapObject mo : gameData.getMap().getObjects())
         {

@@ -13,8 +13,6 @@ import model.game.spell.characterSpell.TestSpell;
 import model.game.sprites.Sprite;
 import model.game.tiles.Tile;
 import view.View;
-import controller.input.Keyboard;
-import controller.input.Mouse;
 
 public class GameData
 {
@@ -56,13 +54,9 @@ public class GameData
      * Creates the player object. Can only be called once. (If a player object
      * already exists, this method will fail)
      * 
-     * @param kb
-     *            The keyboard object to control the player object
-     * @param ms
-     *            The Mouse object to control the player object
      * @return The player object that was created
      */
-    public Player createPlayer(Keyboard kb, Mouse ms)
+    public Player createPlayer()
     {
         if (player != null)
         {
@@ -73,8 +67,7 @@ public class GameData
         List<Spell> spelllist = new ArrayList<Spell>();
         spelllist.add(new TestSpell());
 
-        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, new Hitbox(0, 0, 16, 16), kb,
-                ms);
+        player = new Player(View.WIDTH / 2 - Tile.TILESIZE / 2, View.HEIGHT / 2 - Tile.TILESIZE / 2, spelllist, Sprite.player01, new Hitbox(0, 0, 16, 16));
         return player;
     }
 

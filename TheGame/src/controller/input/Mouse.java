@@ -4,100 +4,68 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import view.View;
 import controller.GameController;
+import view.View;
 
 /**
  * Class for mouse inputs
  */
 public class Mouse implements MouseListener, MouseMotionListener
 {
-    GameController gc;
 
-    private int xOffset;
-    private int yOffset;
-
-    private int mouseX = -1;
-    private int mouseY = -1;
-    private int mouseB = -1;
-
-    public void update(int xOffset, int yOffset)
-    {
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
-    }
+    public static int posX = -1;
+    public static int posY = -1;
+    public static int mouseButton = -1;
 
     /**
      * Reset the pressed buttons
      */
     public void reset()
     {
-        mouseB = -1;
+        mouseButton = -1;
     }
 
     public void mousePressed(MouseEvent e)
     {
-        mouseB = e.getButton();
+        mouseButton = e.getButton();
     }
 
     public void mouseReleased(MouseEvent e)
     {
         // set the mouseButton to -1 to reset the button pressed before
-        mouseB = -1;
+        mouseButton = -1;
     }
 
     public void mouseMoved(MouseEvent e)
     {
         // update mouse Position
-        mouseX = e.getX();
-        mouseY = e.getY();
+        posX = e.getX();
+        posY = e.getY();
     }
 
     /**
-     * @return the x coordinate of the mouse on the map
+     * @param xOffset
+     *          current x offset of the map
      */
-    public int getMouseMapX()
+    public static int getMouseMapX()
     {
-        return mouseX / View.SCALE + xOffset;
+        return posX / View.SCALE + GameController.xScreenOffset;
     }
 
     /**
-     * @return the y coordinate of the mouse on the map
+     * @param yOffset
+     *          current y offset of the map
      */
-    public int getMouseMapY()
+    public static int getMouseMapY()
     {
-        return mouseY / View.SCALE + yOffset;
-    }
-
-    /**
-     * @return x coordinate of the mouse
-     */
-    public int getX()
-    {
-        return mouseX;
-    }
-
-    /**
-     * @return y coordinate of the mouse
-     */
-    public int getY()
-    {
-        return mouseY;
-    }
-
-    /**
-     * @return pressed mouse button
-     */
-    public int getButton()
-    {
-        return mouseB;
+        return posY / View.SCALE + GameController.yScreenOffset;
     }
 
     public void mouseDragged(MouseEvent e)
     {
         // update mouse Position
-        mouseX = e.getX();
-        mouseY = e.getY();
+        posX = e.getX();
+        posY = e.getY();
     }
 
     public void mouseEntered(MouseEvent e)

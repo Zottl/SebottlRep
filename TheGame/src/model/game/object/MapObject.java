@@ -5,6 +5,7 @@ import java.util.Observable;
 import model.game.sprites.Sprite;
 import controller.CollisionHandler.CollisionStatus;
 import controller.ai.MapObjectAI;
+import controller.input.Mouse;
 
 /**
  * Abstract class for objects, that are placed on maps.
@@ -25,6 +26,8 @@ public abstract class MapObject extends Observable
 
     // The AI that controls the behavior of this MapObject
     protected MapObjectAI ai;
+    
+    protected Mouse mouse;
 
     /**
      * Abstract class for objects, that are placed on maps.
@@ -51,7 +54,7 @@ public abstract class MapObject extends Observable
         this.movementSpeed = movementSpeed;
         this.direction = -1;
         this.sprite = sprite;
-
+        
         this.hitbox = hitbox;
         hitbox.setParent(this);
 
@@ -223,5 +226,20 @@ public abstract class MapObject extends Observable
         double yDist = this.getCenterY() - object.getCenterY();
         
         return Math.sqrt(xDist * xDist + yDist * yDist);
+    }
+    
+    /**
+     * @return True if the mouse is hovering over this MapObject
+     */
+    public boolean isHovered()
+    {
+        if ((Mouse.posX >= x || Mouse.posX <= x + sprite.WIDTH)
+                && (Mouse.posY >= y || Mouse.posY <= y + sprite.HEIGHT))
+        {
+            System.out.println("isHovered");
+            return true;
+        }
+        
+        return false;
     }
 }

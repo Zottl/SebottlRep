@@ -1,5 +1,7 @@
 package controller.ai;
 
+import java.awt.event.KeyEvent;
+
 import model.game.characters.Player;
 import model.game.object.MapObject;
 import controller.CollisionHandler.CollisionStatus;
@@ -10,17 +12,12 @@ public class PlayerAI extends GameCharacterAI
 {
     private Player parent;
 
-    private Keyboard keyboard;
-    private Mouse mouse;
-
     private int invincibilityFrames;
     private boolean mouseClicked;
 
-    public PlayerAI(double animationSpeed, Keyboard keyboard, Mouse mouse)
+    public PlayerAI(double animationSpeed)
     {
         super(animationSpeed);
-        this.keyboard = keyboard;
-        this.mouse = mouse;
     }
 
     @Override
@@ -76,14 +73,14 @@ public class PlayerAI extends GameCharacterAI
      */
     private void handleMouseInput()
     {
-        if (mouse.getButton() == 1 && !mouseClicked)
+        if (Mouse.mouseButton == 1 && !mouseClicked)
         {
             mouseClicked = true;
 
-            parent.shoot(mouse.getMouseMapX(), mouse.getMouseMapY());
+            parent.shoot(Mouse.getMouseMapX(), Mouse.getMouseMapY());
         }
 
-        if (mouse.getButton() == -1)
+        if (Mouse.mouseButton == -1)
         {
             mouseClicked = false;
         }
@@ -95,29 +92,29 @@ public class PlayerAI extends GameCharacterAI
     private void handleKeyboardInput()
     {
         int dir;
-        if (keyboard.up && !keyboard.down)
+        if (Keyboard.isKeyPressed(KeyEvent.VK_UP) && !Keyboard.isKeyPressed(KeyEvent.VK_DOWN))
         {
-            if (keyboard.right && !keyboard.left)
+            if (Keyboard.isKeyPressed(KeyEvent.VK_RIGHT) && !Keyboard.isKeyPressed(KeyEvent.VK_LEFT))
                 dir = 45;
-            else if (!keyboard.right && keyboard.left)
+            else if (!Keyboard.isKeyPressed(KeyEvent.VK_RIGHT) && Keyboard.isKeyPressed(KeyEvent.VK_LEFT))
                 dir = 135;
             else
                 dir = 90;
         }
-        else if (!keyboard.up && keyboard.down)
+        else if (!Keyboard.isKeyPressed(KeyEvent.VK_UP) && Keyboard.isKeyPressed(KeyEvent.VK_DOWN))
         {
-            if (keyboard.right && !keyboard.left)
+            if (Keyboard.isKeyPressed(KeyEvent.VK_RIGHT) && !Keyboard.isKeyPressed(KeyEvent.VK_LEFT))
                 dir = 315;
-            else if (!keyboard.right && keyboard.left)
+            else if (!Keyboard.isKeyPressed(KeyEvent.VK_RIGHT) && Keyboard.isKeyPressed(KeyEvent.VK_LEFT))
                 dir = 225;
             else
                 dir = 270;
         }
         else
         {
-            if (keyboard.right && !keyboard.left)
+            if (Keyboard.isKeyPressed(KeyEvent.VK_RIGHT) && !Keyboard.isKeyPressed(KeyEvent.VK_LEFT))
                 dir = 0;
-            else if (!keyboard.right && keyboard.left)
+            else if (!Keyboard.isKeyPressed(KeyEvent.VK_RIGHT) && Keyboard.isKeyPressed(KeyEvent.VK_LEFT))
                 dir = 180;
             else
                 dir = -1;

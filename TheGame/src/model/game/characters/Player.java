@@ -7,15 +7,13 @@ import model.game.spell.Spell;
 import model.game.sprites.Sprite;
 import controller.CollisionHandler.CollisionStatus;
 import controller.ai.PlayerAI;
-import controller.input.Keyboard;
-import controller.input.Mouse;
 
 public class Player extends GameCharacter
 {
 
-    public Player(int x, int y, List<Spell> spells, Sprite sprite, Hitbox hitbox, Keyboard kb, Mouse ms)
+    public Player(int x, int y, List<Spell> spells, Sprite sprite, Hitbox hitbox)
     {
-        super(x, y, 1.5, 80, spells, sprite, hitbox, new PlayerAI(0.04, kb, ms));
+        super(x, y, 1.5, 80, spells, sprite, hitbox, new PlayerAI(0.04));
     }
 
     @Override
