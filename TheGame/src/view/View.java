@@ -30,7 +30,7 @@ public class View
     private GameScreen gs;
 
     // creating image
-    private BufferedImage image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage image = new BufferedImage(WIDTH * SCALE, HEIGHT * SCALE, BufferedImage.TYPE_INT_ARGB);
     // accessing image // converting image object into an array of integers
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 

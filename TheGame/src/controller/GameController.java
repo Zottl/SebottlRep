@@ -4,7 +4,9 @@ import model.GameData;
 import model.game.characters.Player;
 import model.game.object.MapObject;
 import model.game.tiles.Tile;
+import view.UserInterface;
 import view.View;
+import view.ui.UIElement;
 import controller.input.FocusManager;
 import controller.input.Keyboard;
 import controller.input.Mouse;
@@ -20,6 +22,7 @@ public class GameController implements Runnable
 
     private GameData gameData;
     private View view;
+    private UserInterface ui;
     private Thread thread;
     private Keyboard keyboard;
     private Mouse mouse;
@@ -34,6 +37,7 @@ public class GameController implements Runnable
     {
         this.gameData = GameData.getInstance();
         this.view = view;
+        this.ui = view.getGameScreen().getUserInterface();
 
         keyboard = new Keyboard();
         view.addKeyListener(keyboard);
@@ -107,6 +111,12 @@ public class GameController implements Runnable
         for (MapObject mo : gameData.getMap().getObjects())
         {
             mo.getAI().advance();
+        }
+        
+        // update the UI
+        for (UIElement uiEl : ui.getUIElements())
+        {
+            uiEl.update();
         }
 
         // Move the map objects

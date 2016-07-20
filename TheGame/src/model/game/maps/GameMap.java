@@ -211,7 +211,6 @@ public abstract class GameMap extends Observable
     /**
      * @return The list of the EnemyNpcs that are present on this GameMap.
      */
-
     public List<EnemyNpc> getEnemyNpcs()
     {
         ArrayList<EnemyNpc> enemyNpcs = new ArrayList<EnemyNpc>();

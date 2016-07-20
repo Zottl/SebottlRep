@@ -38,7 +38,7 @@ public class GameScreen
     {
         mr.renderMap(data.getMap(), xOffset, yOffset);
         eui.renderEnvironmentUI(xOffset, yOffset);
-        ui.renderUI(xOffset, yOffset);
+        ui.renderUI();
     }
 
     /**
@@ -83,8 +83,9 @@ public class GameScreen
                     if (xPos + ix < scaledViewWidth && yPos + iy < scaledViewHeight && xPos + ix >= 0 && yPos + iy >= 0)
                     {
                         int col = sprite.getPixel(px + py * spriteWidth);
-                        int alph = col & 0xff000000;
+                        int alph = col & 0xFF000000;
 
+                        // TODO: partial transparency is not handled correctly here
                         // do not render transparent
                         if (alph != 0)
                         {
@@ -108,6 +109,14 @@ public class GameScreen
         }
     }
 
+    /**
+     * @return The UserInterface
+     */
+    public UserInterface getUserInterface()
+    {
+        return this.ui;
+    }
+    
     /**
      * @param i
      *            Index of the pixel
