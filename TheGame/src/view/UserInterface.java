@@ -39,8 +39,7 @@ public class UserInterface
         
         for(UIElement element : this.getUIElements())
         {
-            gs.renderSprite(element.sprite, element.screenX + GameController.xScreenOffset, element.screenY + GameController.yScreenOffset, GameController.xScreenOffset, 
-                    GameController.yScreenOffset);
+            gs.renderSprite(element.sprite, element.screenX + GameController.xScreenOffset, element.screenY + GameController.yScreenOffset);
         }
     }
     
@@ -114,17 +113,17 @@ public class UserInterface
                     sprite = Sprite.healthBar06;
                     break;
             }
-            gs.renderSprite(sprite, xOffset + barOffset + i, yOffset, xOffset, yOffset);
+            gs.renderSprite(sprite, xOffset + barOffset + i, yOffset);
         }
 
         // Render the frame
         int healthSections = (maxHealth - 2 * sideHealth) / midHealth;
 
-        gs.renderSprite(Sprite.healthFrameLeft, xOffset, yOffset, xOffset, yOffset);
+        gs.renderSprite(Sprite.healthFrameLeft, xOffset, yOffset);
         for (int i = 0; i < healthSections; i++)
         {
-            gs.renderSprite(Sprite.healthFrameMid, xOffset + sideWidth + i * midWidth, yOffset, xOffset, yOffset);
+            gs.renderSprite(Sprite.healthFrameMid, xOffset + sideWidth + i * midWidth, yOffset);
         }
-        gs.renderSprite(Sprite.healthFrameRight, xOffset + sideWidth + healthSections * midWidth, yOffset, xOffset, yOffset);
+        gs.renderSprite(Sprite.healthFrameRight, xOffset + sideWidth + healthSections * midWidth, yOffset);
     }
 }

@@ -58,7 +58,7 @@ public class View
         frame.setLocationRelativeTo(null);
     }
 
-    public void render(int xOffset, int yOffset)
+    public void render()
     {
         try
         {
@@ -72,8 +72,8 @@ public class View
                     return;
                 }
 
-                gs.clear();
-                gs.render(xOffset, yOffset);
+                gs.clear(); // TODO: commented this out and everything still worked and had a slight fps increase
+                gs.render();
 
                 for (int i = 0; i < pixels.length; i++)
                 {

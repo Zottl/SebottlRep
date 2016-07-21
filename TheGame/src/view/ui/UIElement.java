@@ -15,10 +15,10 @@ public class UIElement
     
     protected boolean hoverStateBefore;
     
-    public UIElement (GameScreen gs, Sprite sprite, int posX, int posY)
+    public UIElement (GameScreen gs, Sprite sprite, int screenX, int screenY)
     {
-        this.screenX = posX;
-        this.screenY = posY;
+        this.screenX = screenX;
+        this.screenY = screenY;
         
         this.gs = gs;
         

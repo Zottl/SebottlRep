@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import model.game.maps.GameMap;
 import model.game.object.MapObject;
 import model.game.tiles.Tile;
@@ -21,16 +22,15 @@ public class MapRenderer
      * 
      * @param map
      *            Map to render
-     * @param xOffset
-     *            Current x offset of the view
-     * @param yOffset
-     *            Current y offset of the view
      */
-    public void renderMap(GameMap map, int xOffset, int yOffset)
+    public void renderMap(GameMap map)
     {
         int tilesize = Tile.TILESIZE;
         int width = View.WIDTH;
         int height = View.HEIGHT;
+        
+        int xOffset = GameController.xScreenOffset;
+        int yOffset = GameController.yScreenOffset;
 
         int horTileCount = (int) Math.ceil(width / (double) tilesize);
         int vertTileCount = (int) Math.ceil(height / (double) tilesize);
@@ -56,13 +56,13 @@ public class MapRenderer
 
                 Tile tile = map.getTile(xPos, yPos);
 
-                gs.renderSprite(tile.getSprite(), (int) tile.getX(), (int) tile.getY(), xOffset, yOffset);
+                gs.renderSprite(tile.getSprite(), (int) tile.getX(), (int) tile.getY());
             }
         }
 
         for (MapObject mo : map.getObjects())
         {
-            gs.renderSprite(mo.getSprite(), (int) mo.getX(), (int) mo.getY(), xOffset, yOffset);
+            gs.renderSprite(mo.getSprite(), (int) mo.getX(), (int) mo.getY());
         }
     }
 }

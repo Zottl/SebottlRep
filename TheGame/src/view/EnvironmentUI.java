@@ -22,12 +22,12 @@ public class EnvironmentUI
         this.map = data.getMap();
     }
     
-    public void renderEnvironmentUI(int xOffset, int yOffset)
+    public void renderEnvironmentUI()
     {
-        renderEnemyHealthbars(xOffset, yOffset);
+        renderEnemyHealthbars();
     }
     
-    private void renderEnemyHealthbars(int xOffset, int yOffset)
+    private void renderEnemyHealthbars()
     {
         Player player = data.getPlayer();
         
@@ -46,12 +46,12 @@ public class EnvironmentUI
             int barSegments = (int)((enemy.getHitpoints() * 14) / enemy.getMaxHitpoints());
             
             // Render the health frame
-            gs.renderSprite(Sprite.enemyHealthFrame, (int)enemy.getX(), (int)enemy.getY() - 10, xOffset, yOffset);
+            gs.renderSprite(Sprite.enemyHealthFrame, (int)enemy.getX(), (int)enemy.getY() - 10);
             
             // Render the bar
             for (int i = 0; i < barSegments; i++)
             {
-                gs.renderSprite(Sprite.enemyHealthBar, (int)enemy.getX() + 1 + i, (int)enemy.getY() - 9, xOffset, yOffset);
+                gs.renderSprite(Sprite.enemyHealthBar, (int)enemy.getX() + 1 + i, (int)enemy.getY() - 9);
             }
         }
     }

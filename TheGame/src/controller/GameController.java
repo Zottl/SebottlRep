@@ -29,7 +29,6 @@ public class GameController implements Runnable
     private FocusManager focusManager;
     private MovementHandler movHandler;
 
-    // TODO: maybe make this static in some way?
     public static int xScreenOffset;
     public static int yScreenOffset;
 
@@ -87,7 +86,7 @@ public class GameController implements Runnable
                 delta--;
             }
 
-            view.render(xScreenOffset, yScreenOffset);
+            view.render();
             frames++;
 
             // gets called every second

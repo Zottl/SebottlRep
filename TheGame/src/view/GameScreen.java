@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import model.GameData;
 import model.game.sprites.Sprite;
 
@@ -34,10 +35,10 @@ public class GameScreen
     /**
      * Method responsible for rendering
      */
-    public void render(int xOffset, int yOffset)
+    public void render()
     {
-        mr.renderMap(data.getMap(), xOffset, yOffset);
-        eui.renderEnvironmentUI(xOffset, yOffset);
+        mr.renderMap(data.getMap());
+        eui.renderEnvironmentUI();
         ui.renderUI();
     }
 
@@ -50,12 +51,8 @@ public class GameScreen
      *            X position of the sprite on the map
      * @param y
      *            Y position of the sprite on the map
-     * @param xOffset
-     *            Current x offset of the view
-     * @param yOffset
-     *            Current y offset of the view
      */
-    public void renderSprite(Sprite sprite, int x, int y, int xOffset, int yOffset)
+    public void renderSprite(Sprite sprite, int x, int y)
     {
         int spriteWidth = sprite.WIDTH;
         int spriteHeight = sprite.HEIGHT;
@@ -68,8 +65,8 @@ public class GameScreen
         {
             for (int py = 0; py < spriteHeight; py++)
             {
-                int xPos = (x + px - xOffset) * scale;
-                int yPos = (y + py - yOffset) * scale;
+                int xPos = (x + px - GameController.xScreenOffset) * scale;
+                int yPos = (y + py - GameController.yScreenOffset) * scale;
 
                 int index = xPos + yPos * scaledViewWidth;
 
