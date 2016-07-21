@@ -1,11 +1,10 @@
 package view;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import view.ui.UIButton;
 import view.ui.UIElement;
+import view.ui.button.BagButton;
 import controller.GameController;
 import model.GameData;
 import model.game.sprites.Sprite;
@@ -25,9 +24,9 @@ public class UserInterface
         
         elements = new ArrayList<UIElement>();
         
-        UIButton testButton = new UIButton(gs, Sprite.bag, View.WIDTH - Sprite.bag.WIDTH - 1, View.HEIGHT - Sprite.bag.HEIGHT - 1, KeyEvent.VK_B);
+        BagButton bagButton = new BagButton(gs);
         
-        elements.add(testButton);
+        elements.add(bagButton);
     }
 
     /**

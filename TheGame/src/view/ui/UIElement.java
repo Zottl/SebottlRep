@@ -13,7 +13,8 @@ public class UIElement
     
     protected GameScreen gs;
     
-    protected boolean hoverStateBefore;
+    private boolean hoverStateBefore;
+    private boolean mouseClicked;
     
     public UIElement (GameScreen gs, Sprite sprite, int screenX, int screenY)
     {
@@ -31,30 +32,50 @@ public class UIElement
     public void update()
     {
         // check if hoverstate has changed and call appropriate event
-        if (!hoverStateBefore && hoverState())
+        if (!hoverStateBefore && isHovering())
         {
             hoverStateBefore = true;
             onMouseEnter();
         }
-        else if (hoverStateBefore && !hoverState())
+        else if (hoverStateBefore && !isHovering())
         {
             hoverStateBefore = false;
             onMouseLeave();
         }
+        
+        if (isHovering()) handleMouseInput();
     }
     
     /**
      * sets the isHovered flag
      */
-    private boolean hoverState()
+    public boolean isHovering()
     {
-        // TODO (ssc): maybe change the "/ View.SCALE" part
+        // TODO (ssc): maybe change the "/ View.SCALE" part. This causes some inaccuracies
         if (Mouse.posX / View.SCALE > screenX && Mouse.posX / View.SCALE < screenX + sprite.HEIGHT
                 && Mouse.posY / View.SCALE > screenY && Mouse.posY / View.SCALE < screenY + sprite.WIDTH)
         {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Handles user mouse input
+     */
+    private void handleMouseInput()
+    {
+        if (Mouse.mouseButton == 1 && !mouseClicked)
+        {
+            mouseClicked = true;
+
+            onClick();
+        }
+
+        if (Mouse.mouseButton == -1)
+        {
+            mouseClicked = false;
+        }
     }
     
     /**
@@ -76,7 +97,7 @@ public class UIElement
     /**
      * click event
      */
-    protected void onClick()
+    public void onClick()
     {
         return;
     }

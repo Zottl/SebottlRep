@@ -5,7 +5,7 @@ import model.game.sprites.Sprite;
 
 public class UIButton extends UIElement
 {
-    private UIElement overlay;
+    protected UIElement overlay;
     
     public UIButton(GameScreen gs, Sprite sprite, int screenX, int screenY, int keyboardButton)
     {
@@ -41,10 +41,9 @@ public class UIButton extends UIElement
     }
 
     @Override
-    protected void onClick()
+    public void onClick()
     {
-        // TODO Auto-generated method stub
-        
+        return;
     }
     
 }

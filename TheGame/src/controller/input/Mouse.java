@@ -29,7 +29,7 @@ public class Mouse implements MouseListener, MouseMotionListener
     {
         mouseButton = e.getButton();
     }
-
+    
     public void mouseReleased(MouseEvent e)
     {
         // set the mouseButton to -1 to reset the button pressed before
